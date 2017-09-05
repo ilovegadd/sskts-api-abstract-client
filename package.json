@@ -1,7 +1,7 @@
 {
-  "name": "@motionpicture/sasaki-api-service",
+  "name": "@motionpicture/sasaki-api-abstract",
   "version": "1.0.0",
-  "description": "Sasaki API Service Library for Javascript",
+  "description": "Sasaki API Abstract Client Library for Javascript",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
   "files": [
