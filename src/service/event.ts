@@ -1,6 +1,5 @@
 import * as factory from '@motionpicture/sskts-factory';
 import { OK } from 'http-status';
-import apiFetch from '../apiFetch';
 
 import { Service } from '../service';
 
@@ -18,9 +17,7 @@ export class EventService extends Service {
          */
         params: factory.event.individualScreeningEvent.ISearchConditions
     ): Promise<factory.event.individualScreeningEvent.IEventWithOffer[]> {
-        return apiFetch({
-            auth: this.options.auth,
-            baseUrl: this.options.endpoint,
+        return this.fetch({
             uri: '/events/individualScreeningEvent',
             method: 'GET',
             qs: params,
@@ -37,9 +34,7 @@ export class EventService extends Service {
          */
         identifier: string;
     }): Promise<factory.event.individualScreeningEvent.IEventWithOffer> {
-        return apiFetch({
-            auth: this.options.auth,
-            baseUrl: this.options.endpoint,
+        return this.fetch({
             uri: `/events/individualScreeningEvent/${params.identifier}`,
             method: 'GET',
             expectedStatusCodes: [OK]

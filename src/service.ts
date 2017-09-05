@@ -1,4 +1,8 @@
+
+import * as querystring from 'querystring';
+
 import { AuthClient } from './auth/authClient';
+import { DefaultTransporter } from './transporters';
 
 /**
  * service constructor options
@@ -15,7 +19,19 @@ export interface IOptions {
     /**
      * OAuth2 client object
      */
-    auth: AuthClient;
+    auth?: AuthClient;
+}
+
+export interface IFetchOptions {
+    uri: string;
+    form?: any;
+    qs?: any;
+    method: string;
+    headers?: {
+        [key: string]: any;
+    };
+    body?: any;
+    expectedStatusCodes: number[];
 }
 
 /**
@@ -28,5 +44,43 @@ export class Service {
 
     constructor(options: IOptions) {
         this.options = options;
+    }
+
+    /**
+     * Create and send request to API
+     */
+    public async fetch(options: IFetchOptions) {
+        const defaultOptions = {
+            headers: {},
+            method: 'GET'
+        };
+        options = { ...defaultOptions, ...options };
+
+        const baseUrl = this.options.endpoint;
+        let url = `${baseUrl}${options.uri}`;
+
+        const querystrings = querystring.stringify(options.qs);
+        url += (querystrings.length > 0) ? `?${querystrings}` : '';
+
+        const headers = {
+            ...{
+                Accept: 'application/json',
+                'Content-Type': 'application/json'
+            },
+            ...options.headers
+        };
+
+        const fetchOptions = {
+            method: options.method,
+            headers: headers,
+            body: JSON.stringify(options.body)
+        };
+
+        // create request (using authClient or otherwise and return request obj)
+        if (this.options.auth !== undefined) {
+            return await this.options.auth.fetch(url, fetchOptions, options.expectedStatusCodes);
+        } else {
+            return await (new DefaultTransporter(options.expectedStatusCodes)).fetch(url, fetchOptions);
+        }
     }
 }

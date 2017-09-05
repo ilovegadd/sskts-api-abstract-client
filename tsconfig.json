@@ -11,7 +11,7 @@
         "forceConsistentCasingInFileNames": true,
         "lib": [
             "dom",
-            "es2015.promise",
+            "es2015",
             "es5"
         ],
         "inlineSourceMap": false,
@@ -45,7 +45,7 @@
         "watch": false
     },
     "include": [
-        "src"
+        "./src"
     ],
     "exclude": [
         "**/*.spec.ts"

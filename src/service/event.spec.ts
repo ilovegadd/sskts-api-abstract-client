@@ -3,21 +3,19 @@
  * @ignore
  */
 
-import { OK } from 'http-status';
-import * as nock from 'nock';
 import * as assert from 'power-assert';
-import * as sasaki from '../../';
+import * as sinon from 'sinon';
+import * as sasaki from '../index';
 
 import { TestAuthClient } from '../auth/testAuthClient';
 
 const API_ENDPOINT = 'https://localhost';
 
-describe('event service', () => {
+describe('searchIndividualScreeningEvent()', () => {
+    let sandbox: sinon.SinonSandbox;
     let events: sasaki.service.Event;
 
     before(() => {
-        nock.cleanAll();
-
         const auth = new TestAuthClient();
         events = new sasaki.service.Event({
             auth: auth,
@@ -26,42 +24,73 @@ describe('event service', () => {
     });
 
     beforeEach(() => {
-        nock.cleanAll();
-        nock.disableNetConnect();
+        sandbox = sinon.sandbox.create();
     });
 
-    it('上映イベント検索の結果が期待通り', async () => {
+    afterEach(() => {
+        sandbox.restore();
+    });
+
+    it('fetch結果が正常であればそのまま取得できるはず', async () => {
         const data: any[] = [];
-        const scope = nock(API_ENDPOINT, {})
-            .get(/^\/events\/individualScreeningEvent\?(.+)/)
-            .reply(OK, { data: data });
+        sandbox.stub(events, 'fetch').returns(Promise.resolve(data));
 
         const result = await events.searchIndividualScreeningEvent({
             day: 'day',
             theater: 'theater'
         });
         assert.deepEqual(result, data);
-
-        scope.done();
     });
 
-    it('identifierで上映イベント取得の結果が期待通り', async () => {
-        const data = {};
-        const scope = nock(API_ENDPOINT, {})
-            .get(/^\/events\/individualScreeningEvent\/[^/]+$/)
-            // .times(2)
-            .reply(OK, { data: data });
+    it('fetch結果が正常でなければエラーになるはず', async () => {
+        const error = new sasaki.transporters.RequestError('invalid requrst');
+        sandbox.stub(events, 'fetch').returns(Promise.reject(error));
+
+        const fetchError = await events.searchIndividualScreeningEvent({
+            day: 'day',
+            theater: 'theater'
+        }).catch((err) => err);
+        assert.deepEqual(fetchError, error);
+    });
+});
+
+describe('findIndividualScreeningEvent()', () => {
+    let sandbox: sinon.SinonSandbox;
+    let events: sasaki.service.Event;
+
+    before(() => {
+        const auth = new TestAuthClient();
+        events = new sasaki.service.Event({
+            auth: auth,
+            endpoint: API_ENDPOINT
+        });
+    });
+
+    beforeEach(() => {
+        sandbox = sinon.sandbox.create();
+    });
+
+    afterEach(() => {
+        sandbox.restore();
+    });
+
+    it('fetch結果が正常であればそのまま取得できるはず', async () => {
+        const data: any[] = [];
+        sandbox.stub(events, 'fetch').returns(Promise.resolve(data));
 
         const result = await events.findIndividualScreeningEvent({
             identifier: 'identifier'
         });
         assert.deepEqual(result, data);
-
-        scope.done();
     });
 
-    after(() => {
-        nock.cleanAll();
-        nock.enableNetConnect();
+    it('fetch結果が正常でなければエラーになるはず', async () => {
+        const error = new sasaki.transporters.RequestError('invalid requrst');
+        sandbox.stub(events, 'fetch').returns(Promise.reject(error));
+
+        const fetchError = await events.findIndividualScreeningEvent({
+            identifier: 'identifier'
+        }).catch((err) => err);
+        assert.deepEqual(fetchError, error);
     });
 });

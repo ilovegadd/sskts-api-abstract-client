@@ -1,7 +1,6 @@
 import * as factory from '@motionpicture/sskts-factory';
 import { CREATED, NO_CONTENT, OK } from 'http-status';
 
-import apiFetch from '../apiFetch';
 import { Service } from '../service';
 
 export type ICreditCard =
@@ -25,9 +24,7 @@ export class PersonService extends Service {
          */
         personId: string;
     }): Promise<factory.person.IContact> {
-        return apiFetch({
-            auth: this.options.auth,
-            baseUrl: this.options.endpoint,
+        return this.fetch({
             uri: `/people/${params.personId}/contacts`,
             method: 'GET',
             qs: {},
@@ -49,9 +46,7 @@ export class PersonService extends Service {
          */
         contacts: factory.person.IContact
     }): Promise<void> {
-        return apiFetch({
-            auth: this.options.auth,
-            baseUrl: this.options.endpoint,
+        return this.fetch({
             uri: `/people/${params.personId}/contacts`,
             method: 'PUT',
             body: params.contacts,
@@ -71,9 +66,7 @@ export class PersonService extends Service {
          */
         personId: string;
     }): Promise<factory.paymentMethod.paymentCard.creditCard.ICheckedCard[]> {
-        return apiFetch({
-            auth: this.options.auth,
-            baseUrl: this.options.endpoint,
+        return this.fetch({
             uri: `/people/${params.personId}/creditCards`,
             method: 'GET',
             qs: {},
@@ -99,9 +92,7 @@ export class PersonService extends Service {
          */
         creditCard: ICreditCard
     }): Promise<factory.paymentMethod.paymentCard.creditCard.ICheckedCard> {
-        return apiFetch({
-            auth: this.options.auth,
-            baseUrl: this.options.endpoint,
+        return this.fetch({
             uri: `/people/${params.personId}/creditCards`,
             method: 'POST',
             body: params.creditCard,
@@ -127,9 +118,7 @@ export class PersonService extends Service {
          */
         cardSeq: string
     }): Promise<void> {
-        return apiFetch({
-            auth: this.options.auth,
-            baseUrl: this.options.endpoint,
+        return this.fetch({
             uri: `/people/${params.personId}/creditCards/${params.cardSeq}`,
             method: 'DELETE',
             expectedStatusCodes: [NO_CONTENT]
@@ -146,9 +135,7 @@ export class PersonService extends Service {
          */
         personId: string;
     }): Promise<factory.ownershipInfo.IOwnershipInfo<IScreenEventReservation>[]> {
-        return apiFetch({
-            auth: this.options.auth,
-            baseUrl: this.options.endpoint,
+        return this.fetch({
             uri: `/people/${params.personId}/ownershipInfos/reservation`,
             method: 'GET',
             qs: {},

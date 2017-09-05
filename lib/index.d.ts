@@ -14,6 +14,13 @@ import { PlaceOrderTransactionService } from './service/transaction/placeOrder';
 import * as transporters from './transporters';
 export import factory = factory;
 export import transporters = transporters;
+/**
+ * auth client abstract class
+ * 認証クライアント抽象クラス
+ * @export
+ * @class
+ * @abstract
+ */
 export declare abstract class Auth extends AuthClient {
 }
 export declare namespace service {

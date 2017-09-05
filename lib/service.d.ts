@@ -14,7 +14,18 @@ export interface IOptions {
     /**
      * OAuth2 client object
      */
-    auth: AuthClient;
+    auth?: AuthClient;
+}
+export interface IFetchOptions {
+    uri: string;
+    form?: any;
+    qs?: any;
+    method: string;
+    headers?: {
+        [key: string]: any;
+    };
+    body?: any;
+    expectedStatusCodes: number[];
 }
 /**
  * base service class
@@ -24,4 +35,8 @@ export interface IOptions {
 export declare class Service {
     options: IOptions;
     constructor(options: IOptions);
+    /**
+     * Create and send request to API
+     */
+    fetch(options: IFetchOptions): Promise<any>;
 }

@@ -6,7 +6,6 @@
 
 import * as factory from '@motionpicture/sskts-factory';
 import { CREATED, NO_CONTENT, OK } from 'http-status';
-import apiFetch from '../../apiFetch';
 
 import { Service } from '../../service';
 
@@ -41,9 +40,7 @@ export class PlaceOrderTransactionService extends Service {
          */
         sellerId: string;
     }): Promise<factory.transaction.placeOrder.ITransaction> {
-        return apiFetch({
-            auth: this.options.auth,
-            baseUrl: this.options.endpoint,
+        return this.fetch({
             uri: '/transactions/placeOrder/start',
             method: 'POST',
             body: {
@@ -72,12 +69,10 @@ export class PlaceOrderTransactionService extends Service {
          */
         offers: factory.offer.ISeatReservationOffer[];
     }): Promise<factory.action.authorize.seatReservation.IAction> {
-        return await apiFetch({
-            baseUrl: this.options.endpoint,
+        return await this.fetch({
             uri: `/transactions/placeOrder/${params.transactionId}/seatReservationAuthorization`,
             method: 'POST',
             expectedStatusCodes: [CREATED],
-            auth: this.options.auth,
             body: {
                 eventIdentifier: params.eventIdentifier,
                 offers: params.offers
@@ -98,12 +93,10 @@ export class PlaceOrderTransactionService extends Service {
          */
         authorizationId: string;
     }): Promise<void> {
-        return await apiFetch({
-            baseUrl: this.options.endpoint,
+        return await this.fetch({
             uri: `/transactions/placeOrder/${params.transactionId}/seatReservationAuthorization/${params.authorizationId}`,
             method: 'DELETE',
-            expectedStatusCodes: [NO_CONTENT],
-            auth: this.options.auth
+            expectedStatusCodes: [NO_CONTENT]
         });
     }
 
@@ -132,12 +125,10 @@ export class PlaceOrderTransactionService extends Service {
          */
         creditCard: ICreditCard;
     }): Promise<IAuthorization> {
-        return await apiFetch({
-            baseUrl: this.options.endpoint,
+        return await this.fetch({
             uri: `/transactions/placeOrder/${params.transactionId}/paymentInfos/creditCard`,
             method: 'POST',
             expectedStatusCodes: [CREATED],
-            auth: this.options.auth,
             body: {
                 orderId: params.orderId,
                 amount: params.amount,
@@ -160,12 +151,10 @@ export class PlaceOrderTransactionService extends Service {
          */
         authorizationId: string;
     }): Promise<void> {
-        return await apiFetch({
-            baseUrl: this.options.endpoint,
+        return await this.fetch({
             uri: `/transactions/placeOrder/${params.transactionId}/paymentInfos/creditCard/${params.authorizationId}`,
             method: 'DELETE',
-            expectedStatusCodes: [NO_CONTENT],
-            auth: this.options.auth
+            expectedStatusCodes: [NO_CONTENT]
         });
     }
 
@@ -182,12 +171,10 @@ export class PlaceOrderTransactionService extends Service {
          */
         mvtk: factory.action.authorize.mvtk.IObject;
     }): Promise<IAuthorization> {
-        return await apiFetch({
-            baseUrl: this.options.endpoint,
+        return await this.fetch({
             uri: `/transactions/placeOrder/${params.transactionId}/discountInfos/mvtk`,
             method: 'POST',
             expectedStatusCodes: [CREATED],
-            auth: this.options.auth,
             body: params.mvtk
         });
     }
@@ -205,12 +192,10 @@ export class PlaceOrderTransactionService extends Service {
          */
         authorizationId: string;
     }): Promise<void> {
-        return await apiFetch({
-            baseUrl: this.options.endpoint,
+        return await this.fetch({
             uri: `/transactions/placeOrder/${params.transactionId}/discountInfos/mvtk/${params.authorizationId}`,
             method: 'DELETE',
-            expectedStatusCodes: [NO_CONTENT],
-            auth: this.options.auth
+            expectedStatusCodes: [NO_CONTENT]
         });
     }
 
@@ -227,12 +212,10 @@ export class PlaceOrderTransactionService extends Service {
          */
         contact: factory.transaction.placeOrder.ICustomerContact;
     }): Promise<void> {
-        await apiFetch({
-            baseUrl: this.options.endpoint,
+        return await this.fetch({
             uri: `/transactions/placeOrder/${params.transactionId}/customerContact`,
             method: 'PUT',
             expectedStatusCodes: [NO_CONTENT],
-            auth: this.options.auth,
             body: params.contact
         });
     }
@@ -246,12 +229,10 @@ export class PlaceOrderTransactionService extends Service {
          */
         transactionId: string;
     }): Promise<factory.order.IOrder> {
-        return await apiFetch({
-            baseUrl: this.options.endpoint,
+        return await this.fetch({
             uri: `/transactions/placeOrder/${params.transactionId}/confirm`,
             method: 'POST',
-            expectedStatusCodes: [CREATED],
-            auth: this.options.auth
+            expectedStatusCodes: [CREATED]
         });
     }
 
@@ -268,12 +249,10 @@ export class PlaceOrderTransactionService extends Service {
          */
         emailNotification: factory.notification.email.IData
     }): Promise<factory.order.IOrder> {
-        return await apiFetch({
-            baseUrl: this.options.endpoint,
+        return await this.fetch({
             uri: `/transactions/placeOrder/${params.transactionId}/tasks/sendEmailNotification`,
             method: 'POST',
             expectedStatusCodes: [NO_CONTENT],
-            auth: this.options.auth,
             body: params.emailNotification
         });
     }

@@ -3,21 +3,19 @@
  * @ignore
  */
 
-import { OK } from 'http-status';
-import * as nock from 'nock';
 import * as assert from 'power-assert';
-import * as sasaki from '../../';
+import * as sinon from 'sinon';
+import * as sasaki from '../index';
 
 import { TestAuthClient } from '../auth/testAuthClient';
 
 const API_ENDPOINT = 'https://localhost';
 
-describe('order service', () => {
+describe('findByOrderInquiryKey()', () => {
+    let sandbox: sinon.SinonSandbox;
     let orders: sasaki.service.Order;
 
     before(() => {
-        nock.cleanAll();
-
         const auth = new TestAuthClient();
         orders = new sasaki.service.Order({
             auth: auth,
@@ -26,15 +24,16 @@ describe('order service', () => {
     });
 
     beforeEach(() => {
-        nock.cleanAll();
-        nock.disableNetConnect();
+        sandbox = sinon.sandbox.create();
     });
 
-    it('注文照会の結果が期待通り', async () => {
+    afterEach(() => {
+        sandbox.restore();
+    });
+
+    it('fetch結果が正常であればそのまま取得できるはず', async () => {
         const data = {};
-        const scope = nock(API_ENDPOINT, {})
-            .post('/orders/findByOrderInquiryKey', {})
-            .reply(OK, { data: data });
+        sandbox.stub(orders, 'fetch').returns(Promise.resolve(data));
 
         const result = await orders.findByOrderInquiryKey({
             theaterCode: 'xxx',
@@ -42,12 +41,5 @@ describe('order service', () => {
             telephone: 'xxx'
         });
         assert.deepEqual(result, data);
-
-        scope.done();
-    });
-
-    after(() => {
-        nock.cleanAll();
-        nock.enableNetConnect();
     });
 });

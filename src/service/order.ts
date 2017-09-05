@@ -6,7 +6,6 @@
 
 import * as factory from '@motionpicture/sskts-factory';
 import { OK } from 'http-status';
-import apiFetch from '../apiFetch';
 
 import { Service } from '../service';
 
@@ -25,9 +24,7 @@ export class OrderService extends Service {
          */
         params: factory.order.IOrderInquiryKey
     ): Promise<factory.order.IOrder> {
-        return apiFetch({
-            auth: this.options.auth,
-            baseUrl: this.options.endpoint,
+        return this.fetch({
             uri: '/orders/findByOrderInquiryKey',
             method: 'POST',
             body: params,

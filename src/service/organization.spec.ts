@@ -3,21 +3,19 @@
  * @ignore
  */
 
-import { OK } from 'http-status';
-import * as nock from 'nock';
 import * as assert from 'power-assert';
-import * as sasaki from '../../';
+import * as sinon from 'sinon';
+import * as sasaki from '../index';
 
 import { TestAuthClient } from '../auth/testAuthClient';
 
 const API_ENDPOINT = 'https://localhost';
 
 describe('organization service', () => {
+    let sandbox: sinon.SinonSandbox;
     let organizations: sasaki.service.Organization;
 
     before(() => {
-        nock.cleanAll();
-
         const auth = new TestAuthClient();
         organizations = new sasaki.service.Organization({
             auth: auth,
@@ -26,41 +24,31 @@ describe('organization service', () => {
     });
 
     beforeEach(() => {
-        nock.cleanAll();
-        nock.disableNetConnect();
+        sandbox = sinon.sandbox.create();
+    });
+
+    afterEach(() => {
+        sandbox.restore();
     });
 
     it('劇場組織検索の結果が期待通り', async () => {
-        const data: any[] = [];
-        const scope = nock(API_ENDPOINT, {})
-            .get(/\/organizations\/movieTheater[^?(.+)]*/)
-            .reply(OK, { data: data });
+        const data = {};
+        sandbox.stub(organizations, 'fetch').returns(Promise.resolve(data));
 
         const result = await organizations.searchMovieTheaters({
         });
         assert.deepEqual(result, data);
-
-        scope.done();
     });
 
     it('枝番号で劇場組織検索の結果が期待通り', async () => {
         const data = {
             branchCode: 'xxx'
         };
-        const scope = nock(API_ENDPOINT, {})
-            .get(`/organizations/movieTheater/${data.branchCode}`)
-            .reply(OK, { data: data });
+        sandbox.stub(organizations, 'fetch').returns(Promise.resolve(data));
 
         const result = await organizations.findMovieTheaterByBranchCode({
             branchCode: data.branchCode
         });
         assert.deepEqual(result, data);
-
-        scope.done();
-    });
-
-    after(() => {
-        nock.cleanAll();
-        nock.enableNetConnect();
     });
 });

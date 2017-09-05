@@ -6,7 +6,6 @@
 
 import * as factory from '@motionpicture/sskts-factory';
 import { OK } from 'http-status';
-import apiFetch from '../apiFetch';
 
 import { Service } from '../service';
 
@@ -25,9 +24,7 @@ export class PlaceService extends Service {
          */
         params?: {}
     ): Promise<factory.place.movieTheater.IPlaceWithoutScreeningRoom[]> {
-        return apiFetch({
-            auth: this.options.auth,
-            baseUrl: this.options.endpoint,
+        return this.fetch({
             uri: '/places/movieTheater',
             method: 'GET',
             qs: params,
@@ -44,9 +41,7 @@ export class PlaceService extends Service {
          */
         branchCode: string;
     }): Promise<factory.place.movieTheater.IPlace> {
-        return apiFetch({
-            auth: this.options.auth,
-            baseUrl: this.options.endpoint,
+        return this.fetch({
             uri: `/places/movieTheater/${params.branchCode}`,
             method: 'GET',
             qs: {},
