@@ -6,20 +6,20 @@
 import { OK } from 'http-status';
 import * as nock from 'nock';
 import * as assert from 'power-assert';
-import * as service from '../../';
+import { EventService } from './event';
 
 import { TestAuthClient } from '../auth/testAuthClient';
 
-const API_ENDPOINT = 'http://localhost:8081';
+const API_ENDPOINT = 'https://localhost';
 
 describe('event service', () => {
-    let events: service.Event;
+    let events: EventService;
 
     before(() => {
         nock.cleanAll();
 
         const auth = new TestAuthClient();
-        events = new service.Event({
+        events = new EventService({
             auth: auth,
             endpoint: API_ENDPOINT
         });

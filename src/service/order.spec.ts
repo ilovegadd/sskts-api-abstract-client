@@ -6,20 +6,20 @@
 import { OK } from 'http-status';
 import * as nock from 'nock';
 import * as assert from 'power-assert';
-import * as service from '../../';
+import { OrderService } from './order';
 
 import { TestAuthClient } from '../auth/testAuthClient';
 
-const API_ENDPOINT = 'http://localhost:8081';
+const API_ENDPOINT = 'https://localhost';
 
 describe('order service', () => {
-    let orders: service.Order;
+    let orders: OrderService;
 
     before(() => {
         nock.cleanAll();
 
         const auth = new TestAuthClient();
-        orders = new service.Order({
+        orders = new OrderService({
             auth: auth,
             endpoint: API_ENDPOINT
         });

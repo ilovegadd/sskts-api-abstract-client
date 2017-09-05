@@ -1,25 +1,25 @@
 /**
- * placeOrder transaction service test
+ * placeOrder transaction sasaki.service test
  * @ignore
  */
 
 import { CREATED, NO_CONTENT, OK } from 'http-status';
 import * as nock from 'nock';
 import * as assert from 'power-assert';
-import * as service from '../../../';
+import { PlaceOrderTransactionService } from './placeOrder';
 
 import { TestAuthClient } from '../../auth/testAuthClient';
 
-const API_ENDPOINT = 'http://localhost:8081';
+const API_ENDPOINT = 'https://localhost';
 
-describe('placeOrder transaction service', () => {
-    let transactions: service.transaction.PlaceOrder;
+describe('placeOrder transaction sasaki.service', () => {
+    let transactions: PlaceOrderTransactionService;
 
     before(() => {
         nock.cleanAll();
 
         const auth = new TestAuthClient();
-        transactions = new service.transaction.PlaceOrder({
+        transactions = new PlaceOrderTransactionService({
             auth: auth,
             endpoint: API_ENDPOINT
         });

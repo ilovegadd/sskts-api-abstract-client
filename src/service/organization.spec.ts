@@ -1,25 +1,25 @@
 /**
- * place service test
+ * organization service test
  * @ignore
  */
 
 import { OK } from 'http-status';
 import * as nock from 'nock';
 import * as assert from 'power-assert';
-import * as service from '../../';
+import { OrganizationService } from './organization';
 
 import { TestAuthClient } from '../auth/testAuthClient';
 
-const API_ENDPOINT = 'http://localhost:8081';
+const API_ENDPOINT = 'https://localhost';
 
-describe('place service', () => {
-    let places: service.Place;
+describe('organization service', () => {
+    let organizations: OrganizationService;
 
     before(() => {
         nock.cleanAll();
 
         const auth = new TestAuthClient();
-        places = new service.Place({
+        organizations = new OrganizationService({
             auth: auth,
             endpoint: API_ENDPOINT
         });
@@ -30,28 +30,28 @@ describe('place service', () => {
         nock.disableNetConnect();
     });
 
-    it('劇場検索の結果が期待通り', async () => {
+    it('劇場組織検索の結果が期待通り', async () => {
         const data: any[] = [];
         const scope = nock(API_ENDPOINT, {})
-            .get(/\/places\/movieTheater[^?(.+)]*/)
+            .get(/\/organizations\/movieTheater[^?(.+)]*/)
             .reply(OK, { data: data });
 
-        const result = await places.searchMovieTheaters({
+        const result = await organizations.searchMovieTheaters({
         });
         assert.deepEqual(result, data);
 
         scope.done();
     });
 
-    it('枝番号で劇場情報取得の結果が期待通り', async () => {
+    it('枝番号で劇場組織検索の結果が期待通り', async () => {
         const data = {
             branchCode: 'xxx'
         };
         const scope = nock(API_ENDPOINT, {})
-            .get(`/places/movieTheater/${data.branchCode}`)
+            .get(`/organizations/movieTheater/${data.branchCode}`)
             .reply(OK, { data: data });
 
-        const result = await places.findMovieTheater({
+        const result = await organizations.findMovieTheaterByBranchCode({
             branchCode: data.branchCode
         });
         assert.deepEqual(result, data);

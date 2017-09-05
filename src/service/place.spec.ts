@@ -1,25 +1,25 @@
 /**
- * organization service test
+ * place service test
  * @ignore
  */
 
 import { OK } from 'http-status';
 import * as nock from 'nock';
 import * as assert from 'power-assert';
-import * as service from '../../';
+import { PlaceService } from './place';
 
 import { TestAuthClient } from '../auth/testAuthClient';
 
-const API_ENDPOINT = 'http://localhost:8081';
+const API_ENDPOINT = 'https://localhost';
 
-describe('organization service', () => {
-    let organizations: service.Organization;
+describe('place service', () => {
+    let places: PlaceService;
 
     before(() => {
         nock.cleanAll();
 
         const auth = new TestAuthClient();
-        organizations = new service.Organization({
+        places = new PlaceService({
             auth: auth,
             endpoint: API_ENDPOINT
         });
@@ -30,28 +30,28 @@ describe('organization service', () => {
         nock.disableNetConnect();
     });
 
-    it('劇場組織検索の結果が期待通り', async () => {
+    it('劇場検索の結果が期待通り', async () => {
         const data: any[] = [];
         const scope = nock(API_ENDPOINT, {})
-            .get(/\/organizations\/movieTheater[^?(.+)]*/)
+            .get(/\/places\/movieTheater[^?(.+)]*/)
             .reply(OK, { data: data });
 
-        const result = await organizations.searchMovieTheaters({
+        const result = await places.searchMovieTheaters({
         });
         assert.deepEqual(result, data);
 
         scope.done();
     });
 
-    it('枝番号で劇場組織検索の結果が期待通り', async () => {
+    it('枝番号で劇場情報取得の結果が期待通り', async () => {
         const data = {
             branchCode: 'xxx'
         };
         const scope = nock(API_ENDPOINT, {})
-            .get(`/organizations/movieTheater/${data.branchCode}`)
+            .get(`/places/movieTheater/${data.branchCode}`)
             .reply(OK, { data: data });
 
-        const result = await organizations.findMovieTheaterByBranchCode({
+        const result = await places.findMovieTheater({
             branchCode: data.branchCode
         });
         assert.deepEqual(result, data);
