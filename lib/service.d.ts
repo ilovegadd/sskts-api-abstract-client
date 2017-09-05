@@ -1,14 +1,9 @@
+import { AuthClient } from './auth/authClient';
 /**
- * AuthClient abstract class
- * 抽象認証クライアント
+ * service constructor options
  * @export
- * @abstract
- * @class
+ * @interface
  */
-export declare abstract class AuthClient {
-    abstract fetch(url: string, options: RequestInit, expectedStatusCodes: number[]): Promise<any>;
-    abstract getAccessToken(): Promise<string>;
-}
 export interface IOptions {
     /**
      * API endpoint

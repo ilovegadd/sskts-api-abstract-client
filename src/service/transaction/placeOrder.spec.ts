@@ -6,20 +6,20 @@
 import { CREATED, NO_CONTENT, OK } from 'http-status';
 import * as nock from 'nock';
 import * as assert from 'power-assert';
-import { PlaceOrderTransactionService } from './placeOrder';
+import * as sasaki from '../../';
 
 import { TestAuthClient } from '../../auth/testAuthClient';
 
 const API_ENDPOINT = 'https://localhost';
 
 describe('placeOrder transaction sasaki.service', () => {
-    let transactions: PlaceOrderTransactionService;
+    let transactions: sasaki.service.transaction.PlaceOrder;
 
     before(() => {
         nock.cleanAll();
 
         const auth = new TestAuthClient();
-        transactions = new PlaceOrderTransactionService({
+        transactions = new sasaki.service.transaction.PlaceOrder({
             auth: auth,
             endpoint: API_ENDPOINT
         });

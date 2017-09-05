@@ -6,20 +6,20 @@
 import { CREATED, NO_CONTENT, OK } from 'http-status';
 import * as nock from 'nock';
 import * as assert from 'power-assert';
-import { PersonService } from './person';
+import * as sasaki from '../../';
 
 import { TestAuthClient } from '../auth/testAuthClient';
 
 const API_ENDPOINT = 'https://localhost';
 
 describe('person service', () => {
-    let people: PersonService;
+    let people: sasaki.service.Person;
 
     before(() => {
         nock.cleanAll();
 
         const auth = new TestAuthClient();
-        people = new PersonService({
+        people = new sasaki.service.Person({
             auth: auth,
             endpoint: API_ENDPOINT
         });

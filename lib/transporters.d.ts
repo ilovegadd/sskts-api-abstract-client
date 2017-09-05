@@ -4,6 +4,8 @@ export interface ITransporter {
 export declare type IBodyResponseCallback = Promise<any>;
 /**
  * RequestError
+ * @export
+ * @class
  */
 export declare class RequestError extends Error {
     code: number;
@@ -11,6 +13,8 @@ export declare class RequestError extends Error {
 }
 /**
  * DefaultTransporter
+ * @export
+ * @class
  */
 export declare class DefaultTransporter {
     /**

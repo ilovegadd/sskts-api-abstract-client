@@ -1,6 +1,5 @@
 /**
  * transporters
- *
  * @ignore
  */
 
@@ -20,6 +19,8 @@ export type IBodyResponseCallback = Promise<any>;
 
 /**
  * RequestError
+ * @export
+ * @class
  */
 export class RequestError extends Error {
     public code: number;
@@ -28,12 +29,14 @@ export class RequestError extends Error {
 
 /**
  * DefaultTransporter
+ * @export
+ * @class
  */
 export class DefaultTransporter {
     /**
      * Default user agent.
      */
-    public static readonly USER_AGENT: string = `sasaki-api-nodejs-client/${pkg.version}`;
+    public static readonly USER_AGENT: string = `sasaki-api-javascript-client/${pkg.version}`;
 
     public expectedStatusCodes: number[];
 

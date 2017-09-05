@@ -3,6 +3,7 @@
  * @ignore
  */
 import * as factory from '@motionpicture/sskts-factory';
+import { AuthClient } from './auth/authClient';
 import { IOptions } from './service';
 import { EventService } from './service/event';
 import { OrderService } from './service/order';
@@ -13,6 +14,8 @@ import { PlaceOrderTransactionService } from './service/transaction/placeOrder';
 import * as transporters from './transporters';
 export import factory = factory;
 export import transporters = transporters;
+export declare abstract class Auth extends AuthClient {
+}
 export declare namespace service {
     /**
      * event service

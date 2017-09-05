@@ -7,6 +7,8 @@
 
 import * as factory from '@motionpicture/sskts-factory';
 
+import { AuthClient } from './auth/authClient';
+
 import { IOptions } from './service';
 import { EventService } from './service/event';
 import { OrderService } from './service/order';
@@ -18,6 +20,8 @@ import * as transporters from './transporters';
 
 export import factory = factory;
 export import transporters = transporters;
+
+export abstract class Auth extends AuthClient { }
 
 export namespace service {
     /**

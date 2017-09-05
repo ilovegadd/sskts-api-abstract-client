@@ -1,4 +1,4 @@
-import { AuthClient } from '../service';
+import { AuthClient } from '../auth/authClient';
 /**
  * test auth client
  * テスト認証クライアント

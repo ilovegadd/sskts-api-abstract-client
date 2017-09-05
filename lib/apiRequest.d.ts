@@ -1,7 +1,7 @@
 /**
  * APIリクエストモジュール
  */
-import { AuthClient } from './service';
+import { AuthClient } from './auth/authClient';
 export interface IParams {
     uri: string;
     baseUrl: string;

@@ -1,4 +1,4 @@
-import { AuthClient } from './service';
+import { AuthClient } from './auth/authClient';
 export interface IOptions {
     baseUrl: string;
     uri: string;

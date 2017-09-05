@@ -4,7 +4,7 @@
 
 import * as querystring from 'querystring';
 
-import { AuthClient } from './service';
+import { AuthClient } from './auth/authClient';
 import { DefaultTransporter } from './transporters';
 
 export interface IOptions {
