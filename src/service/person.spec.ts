@@ -7,7 +7,7 @@ import * as assert from 'power-assert';
 import * as sinon from 'sinon';
 import * as sasaki from '../index';
 
-import { TestAuthClient } from '../auth/testAuthClient';
+import { StubAuthClient } from '../auth/authClient';
 
 const API_ENDPOINT = 'https://localhost';
 
@@ -16,7 +16,7 @@ describe('person service', () => {
     let people: sasaki.service.Person;
 
     before(() => {
-        const auth = new TestAuthClient();
+        const auth = new StubAuthClient();
         people = new sasaki.service.Person({
             auth: auth,
             endpoint: API_ENDPOINT

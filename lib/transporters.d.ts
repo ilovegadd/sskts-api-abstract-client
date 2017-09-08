@@ -1,5 +1,12 @@
-export interface ITransporter {
-    request(options: any, callback?: IBodyResponseCallback): any;
+/**
+ * transporter abstract class
+ * トランスポーター抽象クラス
+ * @export
+ * @class
+ * @abstract
+ */
+export declare abstract class Transporter {
+    abstract fetch(url: string, options: RequestInit): Promise<any>;
 }
 export declare type IBodyResponseCallback = Promise<any>;
 /**
@@ -12,11 +19,22 @@ export declare class RequestError extends Error {
     errors: Error[];
 }
 /**
+ * stub transporter
+ * スタブトランポーター
+ * @export
+ * @class
+ */
+export declare class StubTransporter implements Transporter {
+    body: any;
+    constructor(body: any);
+    fetch(url: string, options: RequestInit): Promise<any>;
+}
+/**
  * DefaultTransporter
  * @export
  * @class
  */
-export declare class DefaultTransporter {
+export declare class DefaultTransporter implements Transporter {
     /**
      * Default user agent.
      */

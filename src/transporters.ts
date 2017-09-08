@@ -1,18 +1,27 @@
+// tslint:disable:max-classes-per-file
+
 /**
  * transporters
  * @ignore
  */
 
 import * as createDebug from 'debug';
-import * as httpStatus from 'http-status';
+import { NO_CONTENT } from 'http-status';
 import * as fetch from 'isomorphic-fetch';
 
 const debug = createDebug('sasaki-api-service:transporters');
 // tslint:disable-next-line
 const pkg = require('../package.json');
 
-export interface ITransporter {
-    request(options: any, callback?: IBodyResponseCallback): any;
+/**
+ * transporter abstract class
+ * トランスポーター抽象クラス
+ * @export
+ * @class
+ * @abstract
+ */
+export abstract class Transporter {
+    public abstract async fetch(url: string, options: RequestInit): Promise<any>;
 }
 
 export type IBodyResponseCallback = Promise<any>;
@@ -28,11 +37,30 @@ export class RequestError extends Error {
 }
 
 /**
+ * stub transporter
+ * スタブトランポーター
+ * @export
+ * @class
+ */
+export class StubTransporter implements Transporter {
+    public body: any;
+    constructor(body: any) {
+        this.body = body;
+    }
+
+    public async fetch(url: string, options: RequestInit) {
+        debug('fetching...', url, options);
+
+        return this.body;
+    }
+}
+
+/**
  * DefaultTransporter
  * @export
  * @class
  */
-export class DefaultTransporter {
+export class DefaultTransporter implements Transporter {
     /**
      * Default user agent.
      */
@@ -65,7 +93,7 @@ export class DefaultTransporter {
     public async fetch(url: string, options: RequestInit) {
         const fetchOptions = DefaultTransporter.CONFIGURE(options);
 
-        debug('fetching...', fetchOptions);
+        debug('fetching...', url, fetchOptions);
 
         return await fetch(url, fetchOptions).then(async (response) => this.wrapCallback(response));
     }
@@ -84,9 +112,9 @@ export class DefaultTransporter {
                 // Only and only application/json responses should
                 // be decoded back to JSON, but there are cases API back-ends
                 // responds without proper content-type.
-                body = await response.json();
+                body = await response.clone().json();
             } catch (error) {
-                body = await response.text();
+                body = await response.clone().text();
             }
 
             if (typeof body === 'object' && body.error !== undefined) {
@@ -99,15 +127,12 @@ export class DefaultTransporter {
                 err.errors = [];
             }
         } else {
-            if (response.status === httpStatus.NO_CONTENT) {
+            if (response.status === NO_CONTENT) {
                 // consider 204
                 return;
             } else {
-                const body = await response.json();
-                if (body !== undefined) {
-                    // consider 200,201,404
-                    return body;
-                }
+                // consider 200,201,404
+                return await response.clone().json();
             }
         }
 

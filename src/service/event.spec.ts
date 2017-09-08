@@ -7,7 +7,7 @@ import * as assert from 'power-assert';
 import * as sinon from 'sinon';
 import * as sasaki from '../index';
 
-import { TestAuthClient } from '../auth/testAuthClient';
+import { StubAuthClient } from '../auth/authClient';
 
 const API_ENDPOINT = 'https://localhost';
 
@@ -16,7 +16,7 @@ describe('searchIndividualScreeningEvent()', () => {
     let events: sasaki.service.Event;
 
     before(() => {
-        const auth = new TestAuthClient();
+        const auth = new StubAuthClient();
         events = new sasaki.service.Event({
             auth: auth,
             endpoint: API_ENDPOINT
@@ -63,7 +63,7 @@ describe('findIndividualScreeningEvent()', () => {
     let events: sasaki.service.Event;
 
     before(() => {
-        const auth = new TestAuthClient();
+        const auth = new StubAuthClient();
         events = new sasaki.service.Event({
             auth: auth,
             endpoint: API_ENDPOINT

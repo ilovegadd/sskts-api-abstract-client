@@ -2,7 +2,7 @@
 import * as querystring from 'querystring';
 
 import { AuthClient } from './auth/authClient';
-import { DefaultTransporter } from './transporters';
+import { DefaultTransporter, Transporter } from './transporters';
 
 /**
  * service constructor options
@@ -20,6 +20,10 @@ export interface IOptions {
      * OAuth2 client object
      */
     auth?: AuthClient;
+    /**
+     * transporter object
+     */
+    transporter?: Transporter;
 }
 
 export interface IFetchOptions {
@@ -80,7 +84,10 @@ export class Service {
         if (this.options.auth !== undefined) {
             return await this.options.auth.fetch(url, fetchOptions, options.expectedStatusCodes);
         } else {
-            return await (new DefaultTransporter(options.expectedStatusCodes)).fetch(url, fetchOptions);
+            const transporter =
+                (this.options.transporter !== undefined) ? this.options.transporter : new DefaultTransporter(options.expectedStatusCodes);
+
+            return await transporter.fetch(url, fetchOptions);
         }
     }
 }

@@ -1,4 +1,5 @@
 import { AuthClient } from './auth/authClient';
+import { Transporter } from './transporters';
 /**
  * service constructor options
  * @export
@@ -15,6 +16,10 @@ export interface IOptions {
      * OAuth2 client object
      */
     auth?: AuthClient;
+    /**
+     * transporter object
+     */
+    transporter?: Transporter;
 }
 export interface IFetchOptions {
     uri: string;
