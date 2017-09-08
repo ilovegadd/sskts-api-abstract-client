@@ -104,9 +104,9 @@ export class DefaultTransporter {
                 return;
             } else {
                 const body = await response.json();
-                if (body !== undefined && body.data !== undefined) {
+                if (body !== undefined) {
                     // consider 200,201,404
-                    return body.data;
+                    return body;
                 }
             }
         }
@@ -177,9 +177,9 @@ export class DefaultTransporter {
 //                     err.errors = res.body.errors;
 //                 }
 //             } else {
-//                 if (res.body !== undefined && res.body.data !== undefined) {
+//                 if (res.body !== undefined) {
 //                     // consider 200,201,404
-//                     return res.body.data;
+//                     return res.body;
 //                 } else {
 //                     // consider 204
 //                     return;
