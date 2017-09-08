@@ -33,22 +33,26 @@ describe('organization service', () => {
 
     it('劇場組織検索の結果が期待通り', async () => {
         const data = {};
-        sandbox.stub(organizations, 'fetch').returns(Promise.resolve(data));
+        sandbox.mock(organizations).expects('fetch').once().returns(Promise.resolve(data));
 
         const result = await organizations.searchMovieTheaters({
         });
+
         assert.deepEqual(result, data);
+        sandbox.verify();
     });
 
     it('枝番号で劇場組織検索の結果が期待通り', async () => {
         const data = {
             branchCode: 'xxx'
         };
-        sandbox.stub(organizations, 'fetch').returns(Promise.resolve(data));
+        sandbox.mock(organizations).expects('fetch').once().returns(Promise.resolve(data));
 
         const result = await organizations.findMovieTheaterByBranchCode({
             branchCode: data.branchCode
         });
+
         assert.deepEqual(result, data);
+        sandbox.verify();
     });
 });

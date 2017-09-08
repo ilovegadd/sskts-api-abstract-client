@@ -33,24 +33,28 @@ describe('searchIndividualScreeningEvent()', () => {
 
     it('fetch結果が正常であればそのまま取得できるはず', async () => {
         const data: any[] = [];
-        sandbox.stub(events, 'fetch').returns(Promise.resolve(data));
+        sandbox.mock(events).expects('fetch').once().returns(Promise.resolve(data));
 
         const result = await events.searchIndividualScreeningEvent({
             day: 'day',
             theater: 'theater'
         });
+
         assert.deepEqual(result, data);
+        sandbox.verify();
     });
 
     it('fetch結果が正常でなければエラーになるはず', async () => {
         const error = new sasaki.transporters.RequestError('invalid requrst');
-        sandbox.stub(events, 'fetch').returns(Promise.reject(error));
+        sandbox.mock(events).expects('fetch').once().returns(Promise.reject(error));
 
         const fetchError = await events.searchIndividualScreeningEvent({
             day: 'day',
             theater: 'theater'
         }).catch((err) => err);
+
         assert.deepEqual(fetchError, error);
+        sandbox.verify();
     });
 });
 
@@ -76,21 +80,25 @@ describe('findIndividualScreeningEvent()', () => {
 
     it('fetch結果が正常であればそのまま取得できるはず', async () => {
         const data: any[] = [];
-        sandbox.stub(events, 'fetch').returns(Promise.resolve(data));
+        sandbox.mock(events).expects('fetch').once().returns(Promise.resolve(data));
 
         const result = await events.findIndividualScreeningEvent({
             identifier: 'identifier'
         });
+
         assert.deepEqual(result, data);
+        sandbox.verify();
     });
 
     it('fetch結果が正常でなければエラーになるはず', async () => {
         const error = new sasaki.transporters.RequestError('invalid requrst');
-        sandbox.stub(events, 'fetch').returns(Promise.reject(error));
+        sandbox.mock(events).expects('fetch').once().returns(Promise.reject(error));
 
         const fetchError = await events.findIndividualScreeningEvent({
             identifier: 'identifier'
         }).catch((err) => err);
+
         assert.deepEqual(fetchError, error);
+        sandbox.verify();
     });
 });

@@ -19,7 +19,7 @@
     "clean": "rimraf ./src/**/*.js ./src/**/*.d.ts ./lib npm-debug.log* ./test/**/*.js ./doc",
     "example": "http-server ./example",
     "doc": "node_modules/.bin/jsdoc -c jsdoc.json",
-    "mocha": "mocha src/**/*.spec.ts",
+    "mocha": "mocha",
     "coverage": "nyc mocha src/**/*.spec.ts",
     "snyk": "snyk auth && snyk test --ignore-policy",
     "pretest": "npm run build",

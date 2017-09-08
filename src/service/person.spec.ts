@@ -33,19 +33,21 @@ describe('person service', () => {
 
     it('連絡先取得の結果が期待通り', async () => {
         const data = {};
-        sandbox.stub(people, 'fetch').returns(Promise.resolve(data));
+        sandbox.mock(people).expects('fetch').once().returns(Promise.resolve(data));
         const personId = 'me';
 
         const result = await people.getContacts({
             personId: personId
         });
+
         assert.deepEqual(result, data);
+        sandbox.verify();
     });
 
     it('連絡先更新の結果が期待通り', async () => {
         const personId = 'me';
         const data = undefined;
-        sandbox.stub(people, 'fetch').returns(Promise.resolve(data));
+        sandbox.mock(people).expects('fetch').once().returns(Promise.resolve(data));
 
         const contacts = {
             givenName: 'xxx',
@@ -58,43 +60,51 @@ describe('person service', () => {
             personId: personId,
             contacts: contacts
         });
+
         assert.deepEqual(result, data);
+        sandbox.verify();
     });
 
     it('クレジットカード検索の結果が期待通り', async () => {
         const personId = 'me';
         const data = {};
-        sandbox.stub(people, 'fetch').returns(Promise.resolve(data));
+        sandbox.mock(people).expects('fetch').once().returns(Promise.resolve(data));
 
         const result = await people.findCreditCards({
             personId: personId
         });
+
         assert.deepEqual(result, data);
+        sandbox.verify();
     });
 
     it('クレジットカード追加の結果が期待通り', async () => {
         const personId = 'me';
         const creditCard = <any>{};
         const data = {};
-        sandbox.stub(people, 'fetch').returns(Promise.resolve(data));
+        sandbox.mock(people).expects('fetch').once().returns(Promise.resolve(data));
 
         const result = await people.addCreditCard({
             personId: personId,
             creditCard: creditCard
         });
+
         assert.deepEqual(result, data);
+        sandbox.verify();
     });
 
     it('クレジットカード削除の結果が期待通り', async () => {
         const personId = 'me';
         const cardSeq = 'xxx';
         const data = undefined;
-        sandbox.stub(people, 'fetch').returns(Promise.resolve(data));
+        sandbox.mock(people).expects('fetch').once().returns(Promise.resolve(data));
 
         const result = await people.deleteCreditCard({
             personId: personId,
             cardSeq: cardSeq
         });
+
         assert.deepEqual(result, undefined);
+        sandbox.verify();
     });
 });
