@@ -131,8 +131,8 @@ export class DefaultTransporter implements Transporter {
                 // consider 204
                 return;
             } else {
-                // consider 200,201,404
-                return await response.clone().json();
+                // consider 200,201
+                return await response.json();
             }
         }
 
