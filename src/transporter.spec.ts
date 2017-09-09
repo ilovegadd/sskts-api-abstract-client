@@ -125,7 +125,6 @@ describe('fetch()', () => {
             .reply(statusCode, body);
 
         const result = await transporter.fetch(`${API_ENDPOINT}/uri`, {}).catch((err) => err);
-        console.error(result);
         assert(result instanceof Error);
         assert.equal((<RequestError>result).code, statusCode);
         assert.equal((<RequestError>result).message, body);
