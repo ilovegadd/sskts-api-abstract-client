@@ -5,6 +5,7 @@
 import * as factory from '@motionpicture/sskts-factory';
 import { AuthClient } from './auth/authClient';
 import { IOptions } from './service';
+import { ActionService } from './service/action';
 import { EventService } from './service/event';
 import { OrderService } from './service/order';
 import { OrganizationService } from './service/organization';
@@ -24,6 +25,12 @@ export import transporters = transporters;
 export declare abstract class Auth extends AuthClient {
 }
 export declare namespace service {
+    /**
+     * action service
+     * @class
+     */
+    class Action extends ActionService {
+    }
     /**
      * event service
      * @class
@@ -57,26 +64,31 @@ export declare namespace service {
     /**
      * event service
      * @param {IOptions} options service configurations
+     * @deprecated
      */
     function event(options: IOptions): EventService;
     /**
      * order service
      * @param {IOptions} options service configurations
+     * @deprecated
      */
     function order(options: IOptions): OrderService;
     /**
      * organization service
      * @param {IOptions} options service configurations
+     * @deprecated
      */
     function organization(options: IOptions): OrganizationService;
     /**
      * person service
      * @param {IOptions} options service configurations
+     * @deprecated
      */
     function person(options: IOptions): PersonService;
     /**
      * place service
      * @param {IOptions} options service configurations
+     * @deprecated
      */
     function place(options: IOptions): PlaceService;
     namespace transaction {
@@ -89,6 +101,7 @@ export declare namespace service {
         /**
          * placeOrder transaction service
          * @param {IOptions} options service configurations
+         * @deprecated
          */
         function placeOrder(options: IOptions): PlaceOrderTransactionService;
     }

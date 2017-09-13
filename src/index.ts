@@ -10,6 +10,7 @@ import * as factory from '@motionpicture/sskts-factory';
 import { AuthClient } from './auth/authClient';
 
 import { IOptions } from './service';
+import { ActionService } from './service/action';
 import { EventService } from './service/event';
 import { OrderService } from './service/order';
 import { OrganizationService } from './service/organization';
@@ -31,6 +32,11 @@ export import transporters = transporters;
 export abstract class Auth extends AuthClient { }
 
 export namespace service {
+    /**
+     * action service
+     * @class
+     */
+    export class Action extends ActionService { }
     /**
      * event service
      * @class
@@ -59,6 +65,7 @@ export namespace service {
     /**
      * event service
      * @param {IOptions} options service configurations
+     * @deprecated
      */
     export function event(options: IOptions) {
         return new EventService(options);
@@ -66,6 +73,7 @@ export namespace service {
     /**
      * order service
      * @param {IOptions} options service configurations
+     * @deprecated
      */
     export function order(options: IOptions) {
         return new OrderService(options);
@@ -73,6 +81,7 @@ export namespace service {
     /**
      * organization service
      * @param {IOptions} options service configurations
+     * @deprecated
      */
     export function organization(options: IOptions) {
         return new OrganizationService(options);
@@ -80,6 +89,7 @@ export namespace service {
     /**
      * person service
      * @param {IOptions} options service configurations
+     * @deprecated
      */
     export function person(options: IOptions) {
         return new PersonService(options);
@@ -87,6 +97,7 @@ export namespace service {
     /**
      * place service
      * @param {IOptions} options service configurations
+     * @deprecated
      */
     export function place(options: IOptions) {
         return new PlaceService(options);
@@ -101,6 +112,7 @@ export namespace service {
         /**
          * placeOrder transaction service
          * @param {IOptions} options service configurations
+         * @deprecated
          */
         export function placeOrder(options: IOptions) {
             return new PlaceOrderTransactionService(options);
