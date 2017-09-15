@@ -156,8 +156,8 @@ export declare class PlaceOrderTransactionService extends Service {
          */
         transactionId: string;
         /**
-         * Eメール通知
+         * Eメールメッセージ属性
          */
-        emailNotification: factory.notification.email.IData;
+        emailMessageAttributes: factory.creativeWork.message.email.IAttributes;
     }): Promise<factory.order.IOrder>;
 }

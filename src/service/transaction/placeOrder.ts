@@ -245,15 +245,15 @@ export class PlaceOrderTransactionService extends Service {
          */
         transactionId: string;
         /**
-         * Eメール通知
+         * Eメールメッセージ属性
          */
-        emailNotification: factory.notification.email.IData
+        emailMessageAttributes: factory.creativeWork.message.email.IAttributes
     }): Promise<factory.order.IOrder> {
         return await this.fetch({
             uri: `/transactions/placeOrder/${params.transactionId}/tasks/sendEmailNotification`,
             method: 'POST',
-            expectedStatusCodes: [NO_CONTENT],
-            body: params.emailNotification
+            expectedStatusCodes: [CREATED],
+            body: params.emailMessageAttributes
         });
     }
 }
