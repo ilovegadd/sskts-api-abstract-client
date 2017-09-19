@@ -155,7 +155,7 @@ describe('placeOrder transaction sasaki.service', () => {
 
         const result = await transactions.sendEmailNotification({
             transactionId: 'transactionId',
-            emailNotification: <any>{}
+            emailMessageAttributes: <any>{}
         });
 
         assert.deepEqual(result, data);
