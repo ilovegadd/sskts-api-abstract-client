@@ -211,7 +211,7 @@ export class PlaceOrderTransactionService extends Service {
          * customer contact info
          */
         contact: factory.transaction.placeOrder.ICustomerContact;
-    }): Promise<void> {
+    }): Promise<factory.transaction.placeOrder.ICustomerContact> {
         return await this.fetch({
             uri: `/transactions/placeOrder/${params.transactionId}/customerContact`,
             method: 'PUT',
