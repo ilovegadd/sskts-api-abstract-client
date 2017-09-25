@@ -64,7 +64,7 @@ describe('placeOrder transaction sasaki.service', () => {
 
         const result = await transactions.cancelSeatReservationAuthorization({
             transactionId: 'transactionId',
-            authorizationId: 'authorizationId'
+            actionId: 'actionId'
         });
 
         assert.deepEqual(result, data);
@@ -93,7 +93,7 @@ describe('placeOrder transaction sasaki.service', () => {
 
         const result = await transactions.cancelCreditCardAuthorization({
             transactionId: 'transactionId',
-            authorizationId: 'authorizationId'
+            actionId: 'actionId'
         });
 
         assert.deepEqual(result, data);
@@ -119,7 +119,7 @@ describe('placeOrder transaction sasaki.service', () => {
 
         const result = await transactions.cancelMvtkAuthorization({
             transactionId: 'transactionId',
-            authorizationId: 'authorizationId'
+            actionId: 'actionId'
         });
 
         assert.deepEqual(result, data);

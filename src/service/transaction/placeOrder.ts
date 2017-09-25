@@ -57,7 +57,7 @@ export class PlaceOrderTransactionService extends Service {
      */
     public async createSeatReservationAuthorization(params: {
         /**
-         * transaction ID
+         * 取引ID
          */
         transactionId: string;
         /**
@@ -70,7 +70,7 @@ export class PlaceOrderTransactionService extends Service {
         offers: factory.offer.ISeatReservationOffer[];
     }): Promise<factory.action.authorize.seatReservation.IAction> {
         return await this.fetch({
-            uri: `/transactions/placeOrder/${params.transactionId}/seatReservationAuthorization`,
+            uri: `/transactions/placeOrder/${params.transactionId}/actions/authorize/seatReservation`,
             method: 'POST',
             expectedStatusCodes: [CREATED],
             body: {
@@ -85,16 +85,16 @@ export class PlaceOrderTransactionService extends Service {
      */
     public async cancelSeatReservationAuthorization(params: {
         /**
-         * transaction ID
+         * 取引ID
          */
         transactionId: string;
         /**
-         * authorization ID
+         * アクションID
          */
-        authorizationId: string;
+        actionId: string;
     }): Promise<void> {
         return await this.fetch({
-            uri: `/transactions/placeOrder/${params.transactionId}/seatReservationAuthorization/${params.authorizationId}`,
+            uri: `/transactions/placeOrder/${params.transactionId}/actions/authorize/seatReservation/${params.actionId}`,
             method: 'DELETE',
             expectedStatusCodes: [NO_CONTENT]
         });
@@ -105,7 +105,7 @@ export class PlaceOrderTransactionService extends Service {
      */
     public async createCreditCardAuthorization(params: {
         /**
-         * transaction ID
+         * 取引ID
          */
         transactionId: string;
         /**
@@ -126,7 +126,7 @@ export class PlaceOrderTransactionService extends Service {
         creditCard: ICreditCard;
     }): Promise<IAuthorization> {
         return await this.fetch({
-            uri: `/transactions/placeOrder/${params.transactionId}/paymentInfos/creditCard`,
+            uri: `/transactions/placeOrder/${params.transactionId}/actions/authorize/creditCard`,
             method: 'POST',
             expectedStatusCodes: [CREATED],
             body: {
@@ -143,16 +143,16 @@ export class PlaceOrderTransactionService extends Service {
      */
     public async cancelCreditCardAuthorization(params: {
         /**
-         * transaction ID
+         * 取引ID
          */
         transactionId: string;
         /**
-         * authorization ID
+         * アクションID
          */
-        authorizationId: string;
+        actionId: string;
     }): Promise<void> {
         return await this.fetch({
-            uri: `/transactions/placeOrder/${params.transactionId}/paymentInfos/creditCard/${params.authorizationId}`,
+            uri: `/transactions/placeOrder/${params.transactionId}/actions/authorize/creditCard/${params.actionId}`,
             method: 'DELETE',
             expectedStatusCodes: [NO_CONTENT]
         });
@@ -163,7 +163,7 @@ export class PlaceOrderTransactionService extends Service {
      */
     public async createMvtkAuthorization(params: {
         /**
-         * transaction ID
+         * 取引ID
          */
         transactionId: string;
         /**
@@ -172,7 +172,7 @@ export class PlaceOrderTransactionService extends Service {
         mvtk: factory.action.authorize.mvtk.IObject;
     }): Promise<IAuthorization> {
         return await this.fetch({
-            uri: `/transactions/placeOrder/${params.transactionId}/discountInfos/mvtk`,
+            uri: `/transactions/placeOrder/${params.transactionId}/actions/authorize/mvtk`,
             method: 'POST',
             expectedStatusCodes: [CREATED],
             body: params.mvtk
@@ -184,16 +184,16 @@ export class PlaceOrderTransactionService extends Service {
      */
     public async cancelMvtkAuthorization(params: {
         /**
-         * transaction ID
+         * 取引ID
          */
         transactionId: string;
         /**
-         * authorization ID
+         * アクションID
          */
-        authorizationId: string;
+        actionId: string;
     }): Promise<void> {
         return await this.fetch({
-            uri: `/transactions/placeOrder/${params.transactionId}/discountInfos/mvtk/${params.authorizationId}`,
+            uri: `/transactions/placeOrder/${params.transactionId}/actions/authorize/mvtk/${params.actionId}`,
             method: 'DELETE',
             expectedStatusCodes: [NO_CONTENT]
         });
@@ -204,7 +204,7 @@ export class PlaceOrderTransactionService extends Service {
      */
     public async setCustomerContact(params: {
         /**
-         * transaction ID
+         * 取引ID
          */
         transactionId: string;
         /**
@@ -225,7 +225,7 @@ export class PlaceOrderTransactionService extends Service {
      */
     public async confirm(params: {
         /**
-         * transaction ID
+         * 取引ID
          */
         transactionId: string;
     }): Promise<factory.order.IOrder> {
@@ -241,7 +241,7 @@ export class PlaceOrderTransactionService extends Service {
      */
     public async sendEmailNotification(params: {
         /**
-         * transaction ID
+         * 取引ID
          */
         transactionId: string;
         /**

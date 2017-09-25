@@ -1,6 +1,6 @@
 {
   "name": "@motionpicture/sskts-api-abstract-client",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "SSKTS API abstract client library for Javascript",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
@@ -26,7 +26,7 @@
     "snyk": "snyk wizard",
     "test": "npm run check && npm run coverage",
     "tslint": "tslint --type-check --project tsconfig.json -c tslint.json --exclude \"**/*.spec.ts\" src/**/*.ts",
-    "preversion": "npm run clean && npm run build && npm test && npm run doc",
+    "preversion": "npm run clean && npm run build && npm test",
     "version": "git add -A",
     "postversion": "git push origin --tags",
     "prepublishOnly": "npm run clean && npm run build && npm test && npm run doc"
