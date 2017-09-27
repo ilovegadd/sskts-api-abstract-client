@@ -24,7 +24,7 @@
         "dateFormat": "ddd MMM Do YYYY",
         "outputSourceFiles": true,
         "outputSourcePath": true,
-        "systemName": "Sasaki API Service Library for Javascript",
+        "systemName": "SSKTS API abstract client library for Javascript",
         "footer": "",
         "navType": "vertical",
         "theme": "cosmo",
