@@ -5,7 +5,6 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ## Unreleased
 ### Added
-- 座席予約承認アクションに対して供給情報を更新するサービスを追加。
 
 ### Changed
 
@@ -17,6 +16,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+
+## v1.2.0 - 2017-10-19
+### Added
+- 座席予約承認アクションに対して供給情報を更新するサービスを追加。
 
 ## v1.1.1 - 2017-09-27
 ### Changed
