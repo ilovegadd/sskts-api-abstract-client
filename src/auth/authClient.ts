@@ -18,6 +18,8 @@ export abstract class AuthClient {
  * @export
  * @class
  */
+// tslint:disable-next-line:no-single-line-block-comment
+/* istanbul ignore next */
 export class StubAuthClient implements AuthClient {
     // tslint:disable-next-line:prefer-function-over-method
     public async fetch(url: string, options: RequestInit, expectedStatusCodes: number[]): Promise<any> {

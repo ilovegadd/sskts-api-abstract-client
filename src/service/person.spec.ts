@@ -33,7 +33,7 @@ describe('person service', () => {
 
     it('連絡先取得の結果が期待通り', async () => {
         const data = {};
-        sandbox.mock(people).expects('fetch').once().returns(Promise.resolve(data));
+        sandbox.mock(people).expects('fetch').once().resolves(data);
         const personId = 'me';
 
         const result = await people.getContacts({
@@ -47,7 +47,7 @@ describe('person service', () => {
     it('連絡先更新の結果が期待通り', async () => {
         const personId = 'me';
         const data = undefined;
-        sandbox.mock(people).expects('fetch').once().returns(Promise.resolve(data));
+        sandbox.mock(people).expects('fetch').once().resolves(data);
 
         const contacts = {
             givenName: 'xxx',
@@ -68,7 +68,7 @@ describe('person service', () => {
     it('クレジットカード検索の結果が期待通り', async () => {
         const personId = 'me';
         const data = {};
-        sandbox.mock(people).expects('fetch').once().returns(Promise.resolve(data));
+        sandbox.mock(people).expects('fetch').once().resolves(data);
 
         const result = await people.findCreditCards({
             personId: personId
@@ -82,7 +82,7 @@ describe('person service', () => {
         const personId = 'me';
         const creditCard = <any>{};
         const data = {};
-        sandbox.mock(people).expects('fetch').once().returns(Promise.resolve(data));
+        sandbox.mock(people).expects('fetch').once().resolves(data);
 
         const result = await people.addCreditCard({
             personId: personId,
@@ -97,7 +97,7 @@ describe('person service', () => {
         const personId = 'me';
         const cardSeq = 'xxx';
         const data = undefined;
-        sandbox.mock(people).expects('fetch').once().returns(Promise.resolve(data));
+        sandbox.mock(people).expects('fetch').once().resolves(data);
 
         const result = await people.deleteCreditCard({
             personId: personId,
@@ -105,6 +105,19 @@ describe('person service', () => {
         });
 
         assert.deepEqual(result, undefined);
+        sandbox.verify();
+    });
+
+    it('クレジットカード削除の結果が期待通り', async () => {
+        const personId = 'me';
+        const data = [{}];
+        sandbox.mock(people).expects('fetch').once().resolves(data);
+
+        const result = await people.searchReservationOwnerships({
+            personId: personId
+        });
+
+        assert.deepEqual(result, data);
         sandbox.verify();
     });
 });

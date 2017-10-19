@@ -33,8 +33,7 @@ describe('searchIndividualScreeningEvent()', () => {
 
     it('fetch結果が正常であればそのまま取得できるはず', async () => {
         const data: any[] = [];
-        sandbox.mock(events).expects('fetch').once().returns(Promise.resolve(data));
-
+        sandbox.mock(events).expects('fetch').once().resolves(data);
         const result = await events.searchIndividualScreeningEvent({
             day: 'day',
             theater: 'theater'
@@ -46,7 +45,7 @@ describe('searchIndividualScreeningEvent()', () => {
 
     it('fetch結果が正常でなければエラーになるはず', async () => {
         const error = new sasaki.transporters.RequestError('invalid requrst');
-        sandbox.mock(events).expects('fetch').once().returns(Promise.reject(error));
+        sandbox.mock(events).expects('fetch').once().rejects(error);
 
         const fetchError = await events.searchIndividualScreeningEvent({
             day: 'day',
@@ -80,7 +79,7 @@ describe('findIndividualScreeningEvent()', () => {
 
     it('fetch結果が正常であればそのまま取得できるはず', async () => {
         const data: any[] = [];
-        sandbox.mock(events).expects('fetch').once().returns(Promise.resolve(data));
+        sandbox.mock(events).expects('fetch').once().resolves(data);
 
         const result = await events.findIndividualScreeningEvent({
             identifier: 'identifier'
@@ -92,7 +91,7 @@ describe('findIndividualScreeningEvent()', () => {
 
     it('fetch結果が正常でなければエラーになるはず', async () => {
         const error = new sasaki.transporters.RequestError('invalid requrst');
-        sandbox.mock(events).expects('fetch').once().returns(Promise.reject(error));
+        sandbox.mock(events).expects('fetch').once().rejects(error);
 
         const fetchError = await events.findIndividualScreeningEvent({
             identifier: 'identifier'

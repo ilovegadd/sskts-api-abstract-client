@@ -126,7 +126,7 @@ export class PersonService extends Service {
     }
 
     /**
-     * search ownerships of reservations
+     * 座席予約の所有権を検索する
      */
     public async searchReservationOwnerships(params: {
         /**

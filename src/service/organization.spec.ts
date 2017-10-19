@@ -33,7 +33,7 @@ describe('organization service', () => {
 
     it('劇場組織検索の結果が期待通り', async () => {
         const data = {};
-        sandbox.mock(organizations).expects('fetch').once().returns(Promise.resolve(data));
+        sandbox.mock(organizations).expects('fetch').once().resolves(data);
 
         const result = await organizations.searchMovieTheaters({
         });
@@ -46,7 +46,7 @@ describe('organization service', () => {
         const data = {
             branchCode: 'xxx'
         };
-        sandbox.mock(organizations).expects('fetch').once().returns(Promise.resolve(data));
+        sandbox.mock(organizations).expects('fetch').once().resolves(data);
 
         const result = await organizations.findMovieTheaterByBranchCode({
             branchCode: data.branchCode
