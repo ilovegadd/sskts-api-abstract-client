@@ -101,6 +101,39 @@ export class PlaceOrderTransactionService extends Service {
     }
 
     /**
+     * 座席予約承認アクションの供給情報を変更する
+     * 完了ステータスの座席仮予約に対して券種変更する際に使用
+     */
+    public async changeSeatReservationOffers(params: {
+        /**
+         * 取引ID
+         */
+        transactionId: string;
+        /**
+         * アクションID
+         */
+        actionId: string;
+        /**
+         * イベント識別子
+         */
+        eventIdentifier: string;
+        /**
+         * 座席販売情報
+         */
+        offers: factory.offer.ISeatReservationOffer[];
+    }): Promise<factory.action.authorize.seatReservation.IAction> {
+        return await this.fetch({
+            uri: `/transactions/placeOrder/${params.transactionId}/actions/authorize/seatReservation/${params.actionId}`,
+            method: 'PATCH',
+            expectedStatusCodes: [OK],
+            body: {
+                eventIdentifier: params.eventIdentifier,
+                offers: params.offers
+            }
+        });
+    }
+
+    /**
      * クレジットカードのオーソリを取得する
      */
     public async createCreditCardAuthorization(params: {

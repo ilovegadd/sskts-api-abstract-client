@@ -33,7 +33,7 @@ describe('placeOrder transaction sasaki.service', () => {
 
     it('取引開始結果が期待通り', async () => {
         const data = {};
-        sandbox.mock(transactions).expects('fetch').once().returns(Promise.resolve(data));
+        sandbox.mock(transactions).expects('fetch').once().resolves(data);
 
         const result = await transactions.start({
             expires: new Date(),
@@ -46,7 +46,7 @@ describe('placeOrder transaction sasaki.service', () => {
 
     it('座席仮予約結果が期待通り', async () => {
         const data = {};
-        sandbox.mock(transactions).expects('fetch').once().returns(Promise.resolve(data));
+        sandbox.mock(transactions).expects('fetch').once().resolves(data);
 
         const result = await transactions.createSeatReservationAuthorization({
             transactionId: 'transactionId',
@@ -60,7 +60,7 @@ describe('placeOrder transaction sasaki.service', () => {
 
     it('座席予約取消結果が期待通り', async () => {
         const data = {};
-        sandbox.mock(transactions).expects('fetch').once().returns(Promise.resolve(data));
+        sandbox.mock(transactions).expects('fetch').once().resolves(data);
 
         const result = await transactions.cancelSeatReservationAuthorization({
             transactionId: 'transactionId',
@@ -71,9 +71,24 @@ describe('placeOrder transaction sasaki.service', () => {
         sandbox.verify();
     });
 
+    it('座席予約変更結果が期待通り', async () => {
+        const data = {};
+        sandbox.mock(transactions).expects('fetch').once().resolves(data);
+
+        const result = await transactions.changeSeatReservationOffers({
+            transactionId: 'transactionId',
+            actionId: 'actionId',
+            eventIdentifier: 'eventIdentifier',
+            offers: [<any>{}]
+        });
+
+        assert.deepEqual(result, data);
+        sandbox.verify();
+    });
+
     it('クレジットカードオーソリ結果が期待通り', async () => {
         const data = {};
-        sandbox.mock(transactions).expects('fetch').once().returns(Promise.resolve(data));
+        sandbox.mock(transactions).expects('fetch').once().resolves(data);
 
         const result = await transactions.createCreditCardAuthorization({
             transactionId: 'transactionId',
@@ -89,7 +104,7 @@ describe('placeOrder transaction sasaki.service', () => {
 
     it('クレジットカードオーソリ取消結果が期待通り', async () => {
         const data = undefined;
-        sandbox.mock(transactions).expects('fetch').once().returns(Promise.resolve(data));
+        sandbox.mock(transactions).expects('fetch').once().resolves(data);
 
         const result = await transactions.cancelCreditCardAuthorization({
             transactionId: 'transactionId',
@@ -102,7 +117,7 @@ describe('placeOrder transaction sasaki.service', () => {
 
     it('ムビチケ追加結果が期待通り', async () => {
         const data = {};
-        sandbox.mock(transactions).expects('fetch').once().returns(Promise.resolve(data));
+        sandbox.mock(transactions).expects('fetch').once().resolves(data);
 
         const result = await transactions.createMvtkAuthorization({
             transactionId: 'transactionId',
@@ -115,7 +130,7 @@ describe('placeOrder transaction sasaki.service', () => {
 
     it('ムビチケ取消結果が期待通り', async () => {
         const data = {};
-        sandbox.mock(transactions).expects('fetch').once().returns(Promise.resolve(data));
+        sandbox.mock(transactions).expects('fetch').once().resolves(data);
 
         const result = await transactions.cancelMvtkAuthorization({
             transactionId: 'transactionId',
@@ -128,7 +143,7 @@ describe('placeOrder transaction sasaki.service', () => {
 
     it('購入者情報登録結果が期待通り', async () => {
         const data = {};
-        sandbox.mock(transactions).expects('fetch').once().returns(Promise.resolve(data));
+        sandbox.mock(transactions).expects('fetch').once().resolves(data);
 
         const result = await transactions.setCustomerContact({
             transactionId: 'transactionId',
@@ -141,7 +156,7 @@ describe('placeOrder transaction sasaki.service', () => {
 
     it('取引確定結果が期待通り', async () => {
         const data = {};
-        sandbox.mock(transactions).expects('fetch').once().returns(Promise.resolve(data));
+        sandbox.mock(transactions).expects('fetch').once().resolves(data);
 
         const result = await transactions.confirm({
             transactionId: 'transactionId'
@@ -151,7 +166,7 @@ describe('placeOrder transaction sasaki.service', () => {
 
     it('メール通知結果が期待通り', async () => {
         const data = {};
-        sandbox.mock(transactions).expects('fetch').once().returns(Promise.resolve(data));
+        sandbox.mock(transactions).expects('fetch').once().resolves(data);
 
         const result = await transactions.sendEmailNotification({
             transactionId: 'transactionId',

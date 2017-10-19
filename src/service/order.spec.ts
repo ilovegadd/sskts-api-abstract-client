@@ -33,7 +33,7 @@ describe('findByOrderInquiryKey()', () => {
 
     it('fetch結果が正常であればそのまま取得できるはず', async () => {
         const data = {};
-        sandbox.mock(orders).expects('fetch').once().returns(Promise.resolve(data));
+        sandbox.mock(orders).expects('fetch').once().resolves(data);
 
         const result = await orders.findByOrderInquiryKey({
             theaterCode: 'xxx',

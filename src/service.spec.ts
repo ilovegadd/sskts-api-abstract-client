@@ -33,7 +33,7 @@ describe('fetch()', () => {
             endpoint: API_ENDPOINT
         });
 
-        sandbox.mock(service.options.auth).expects('fetch').once().returns(Promise.resolve(response));
+        sandbox.mock(service.options.auth).expects('fetch').once().resolves(response);
 
         const result = await service.fetch(<any>{});
 
@@ -74,7 +74,7 @@ describe('fetch()', () => {
         });
 
         sandbox.mock(service.options.auth).expects('fetch').once()
-            .withArgs(sinon.match(new RegExp(`\\?${querystrings}$`))).returns(Promise.resolve(response));
+            .withArgs(sinon.match(new RegExp(`\\?${querystrings}$`))).resolves(response);
 
         const result = await service.fetch(<any>options);
 
