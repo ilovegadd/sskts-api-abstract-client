@@ -67,9 +67,9 @@ export class PlaceOrderTransactionService extends Service {
         /**
          * 座席販売情報
          */
-        offers: factory.offer.ISeatReservationOffer[];
+        offers: factory.offer.seatReservation.IOffer[];
     }): Promise<factory.action.authorize.seatReservation.IAction> {
-        return await this.fetch({
+        return this.fetch({
             uri: `/transactions/placeOrder/${params.transactionId}/actions/authorize/seatReservation`,
             method: 'POST',
             expectedStatusCodes: [CREATED],
@@ -93,7 +93,7 @@ export class PlaceOrderTransactionService extends Service {
          */
         actionId: string;
     }): Promise<void> {
-        return await this.fetch({
+        return this.fetch({
             uri: `/transactions/placeOrder/${params.transactionId}/actions/authorize/seatReservation/${params.actionId}`,
             method: 'DELETE',
             expectedStatusCodes: [NO_CONTENT]
@@ -120,9 +120,9 @@ export class PlaceOrderTransactionService extends Service {
         /**
          * 座席販売情報
          */
-        offers: factory.offer.ISeatReservationOffer[];
+        offers: factory.offer.seatReservation.IOffer[];
     }): Promise<factory.action.authorize.seatReservation.IAction> {
-        return await this.fetch({
+        return this.fetch({
             uri: `/transactions/placeOrder/${params.transactionId}/actions/authorize/seatReservation/${params.actionId}`,
             method: 'PATCH',
             expectedStatusCodes: [OK],
@@ -158,7 +158,7 @@ export class PlaceOrderTransactionService extends Service {
          */
         creditCard: ICreditCard;
     }): Promise<IAuthorization> {
-        return await this.fetch({
+        return this.fetch({
             uri: `/transactions/placeOrder/${params.transactionId}/actions/authorize/creditCard`,
             method: 'POST',
             expectedStatusCodes: [CREATED],
@@ -184,7 +184,7 @@ export class PlaceOrderTransactionService extends Service {
          */
         actionId: string;
     }): Promise<void> {
-        return await this.fetch({
+        return this.fetch({
             uri: `/transactions/placeOrder/${params.transactionId}/actions/authorize/creditCard/${params.actionId}`,
             method: 'DELETE',
             expectedStatusCodes: [NO_CONTENT]
@@ -204,7 +204,7 @@ export class PlaceOrderTransactionService extends Service {
          */
         mvtk: factory.action.authorize.mvtk.IObject;
     }): Promise<IAuthorization> {
-        return await this.fetch({
+        return this.fetch({
             uri: `/transactions/placeOrder/${params.transactionId}/actions/authorize/mvtk`,
             method: 'POST',
             expectedStatusCodes: [CREATED],
@@ -225,7 +225,7 @@ export class PlaceOrderTransactionService extends Service {
          */
         actionId: string;
     }): Promise<void> {
-        return await this.fetch({
+        return this.fetch({
             uri: `/transactions/placeOrder/${params.transactionId}/actions/authorize/mvtk/${params.actionId}`,
             method: 'DELETE',
             expectedStatusCodes: [NO_CONTENT]
@@ -245,7 +245,7 @@ export class PlaceOrderTransactionService extends Service {
          */
         contact: factory.transaction.placeOrder.ICustomerContact;
     }): Promise<factory.transaction.placeOrder.ICustomerContact> {
-        return await this.fetch({
+        return this.fetch({
             uri: `/transactions/placeOrder/${params.transactionId}/customerContact`,
             method: 'PUT',
             expectedStatusCodes: [CREATED],
@@ -262,7 +262,7 @@ export class PlaceOrderTransactionService extends Service {
          */
         transactionId: string;
     }): Promise<factory.order.IOrder> {
-        return await this.fetch({
+        return this.fetch({
             uri: `/transactions/placeOrder/${params.transactionId}/confirm`,
             method: 'POST',
             expectedStatusCodes: [CREATED]
@@ -282,7 +282,7 @@ export class PlaceOrderTransactionService extends Service {
          */
         emailMessageAttributes: factory.creativeWork.message.email.IAttributes
     }): Promise<factory.order.IOrder> {
-        return await this.fetch({
+        return this.fetch({
             uri: `/transactions/placeOrder/${params.transactionId}/tasks/sendEmailNotification`,
             method: 'POST',
             expectedStatusCodes: [CREATED],
