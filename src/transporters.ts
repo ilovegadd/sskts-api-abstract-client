@@ -95,7 +95,7 @@ export class DefaultTransporter implements Transporter {
 
         debug('fetching...', url, fetchOptions);
 
-        return await fetch(url, fetchOptions).then(async (response) => this.wrapCallback(response));
+        return fetch(url, fetchOptions).then(async (response) => this.wrapCallback(response));
     }
 
     /**
@@ -132,7 +132,7 @@ export class DefaultTransporter implements Transporter {
                 return;
             } else {
                 // consider 200,201
-                return await response.json();
+                return response.json();
             }
         }
 

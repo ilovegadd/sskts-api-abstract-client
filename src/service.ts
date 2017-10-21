@@ -82,12 +82,12 @@ export class Service {
 
         // create request (using authClient or otherwise and return request obj)
         if (this.options.auth !== undefined) {
-            return await this.options.auth.fetch(url, fetchOptions, options.expectedStatusCodes);
+            return this.options.auth.fetch(url, fetchOptions, options.expectedStatusCodes);
         } else {
             const transporter =
                 (this.options.transporter !== undefined) ? this.options.transporter : new DefaultTransporter(options.expectedStatusCodes);
 
-            return await transporter.fetch(url, fetchOptions);
+            return transporter.fetch(url, fetchOptions);
         }
     }
 }

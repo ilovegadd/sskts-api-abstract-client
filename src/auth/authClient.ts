@@ -23,7 +23,7 @@ export abstract class AuthClient {
 export class StubAuthClient implements AuthClient {
     // tslint:disable-next-line:prefer-function-over-method
     public async fetch(url: string, options: RequestInit, expectedStatusCodes: number[]): Promise<any> {
-        return await (new DefaultTransporter(expectedStatusCodes)).fetch(url, options);
+        return (new DefaultTransporter(expectedStatusCodes)).fetch(url, options);
     }
     // tslint:disable-next-line:prefer-function-over-method
     public async getAccessToken(): Promise<string> {
