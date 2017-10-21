@@ -7,7 +7,6 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 ### Added
 
 ### Changed
-- 座席予約の供給情報インターフェースを変更。
 
 ### Deprecated
 
@@ -16,8 +15,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 ### Fixed
 
 ### Security
-- [tslint](https://www.npmjs.com/package/tslint)をアップデート。
 
+
+## v2.0.0 - 2017-10-21
+### Changed
+- 座席予約の供給情報インターフェースを変更。
+
+### Security
+- [tslint](https://www.npmjs.com/package/tslint)をアップデート。
 
 ## v1.2.0 - 2017-10-19
 ### Added
