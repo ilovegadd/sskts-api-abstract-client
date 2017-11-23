@@ -7,7 +7,6 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 ### Added
 
 ### Changed
-- install @motionpicture/sskts-factory@2.3.0
 
 ### Deprecated
 
@@ -16,8 +15,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 ### Fixed
 
 ### Security
-- テスト網羅率100%化。
 
+
+## v2.1.0 - 2017-11-23
+### Changed
+- install [@motionpicture/sskts-factory@2.3.0](https://www.npmjs.com/package/@motionpicture/sskts-factory)(イベント検索の検索条件にプロパティ追加)
+
+### Security
+- テスト網羅率100%化。
 
 ## v2.0.0 - 2017-10-21
 ### Changed
