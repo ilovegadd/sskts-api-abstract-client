@@ -1,15 +1,18 @@
+// tslint:disable:no-implicit-dependencies
+
 /**
  * service test
  * @ignore
  */
 
+import { } from 'mocha';
 import * as assert from 'power-assert';
 import * as querystring from 'querystring';
 import * as sinon from 'sinon';
 
 import { StubAuthClient } from './auth/authClient';
 import { Service } from './service';
-import { StubTransporter } from './transporters';
+import { DefaultTransporter, StubTransporter } from './transporters';
 
 const API_ENDPOINT = 'https://example.com';
 
@@ -65,7 +68,6 @@ describe('fetch()', () => {
         };
         const response: any = { key: 'value' };
         const querystrings = querystring.stringify(options.qs);
-        console.error(querystrings);
 
         const auth = new StubAuthClient();
         const service = new Service({
@@ -79,6 +81,18 @@ describe('fetch()', () => {
         const result = await service.fetch(<any>options);
 
         assert.deepEqual(result, response);
+        sandbox.verify();
+    });
+
+    it('authオプションもtransporterオプションも未定義であれば、内部的にDefaultTransporterインスタンスが生成されてfetchメソッドが呼ばれるはず', async () => {
+        const options = {};
+        const service = new Service({
+            endpoint: API_ENDPOINT
+        });
+
+        sandbox.mock(DefaultTransporter.prototype).expects('fetch').once();
+
+        await service.fetch(<any>options);
         sandbox.verify();
     });
 });

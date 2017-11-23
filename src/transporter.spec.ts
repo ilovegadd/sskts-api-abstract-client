@@ -1,3 +1,5 @@
+// tslint:disable:no-implicit-dependencies
+
 /**
  * transporter test
  * @ignore
@@ -14,6 +16,7 @@ import {
     OK,
     UNAUTHORIZED
 } from 'http-status';
+import { } from 'mocha';
 import * as nock from 'nock';
 import * as assert from 'power-assert';
 import * as sinon from 'sinon';
@@ -25,10 +28,6 @@ const API_ENDPOINT = 'https://example.com';
 describe('fetch()', () => {
     let scope: nock.Scope;
     let sandbox: sinon.SinonSandbox;
-
-    before(() => {
-        nock.cleanAll();
-    });
 
     beforeEach(() => {
         sandbox = sinon.sandbox.create();
@@ -130,5 +129,29 @@ describe('fetch()', () => {
         assert.equal((<RequestError>result).message, body);
         sandbox.verify();
         assert(scope.isDone());
+    });
+});
+
+describe('CONFIGURE()', () => {
+    let sandbox: sinon.SinonSandbox;
+
+    beforeEach(() => {
+        sandbox = sinon.sandbox.create();
+    });
+
+    afterEach(() => {
+        sandbox.restore();
+    });
+
+    it('既存のUser-Agentヘッダーにパッケージ情報がなければ、ヘッダーに情報が追加されるはず', async () => {
+        const options = {
+            headers: {
+                'User-Agent': 'useragent'
+            }
+        };
+
+        const result = DefaultTransporter.CONFIGURE(options);
+        assert(result.headers['User-Agent'].indexOf(DefaultTransporter.USER_AGENT) > 0);
+        sandbox.verify();
     });
 });

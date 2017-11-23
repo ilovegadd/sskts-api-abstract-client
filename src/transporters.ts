@@ -78,6 +78,8 @@ export class DefaultTransporter implements Transporter {
     public static CONFIGURE(options: RequestInit): RequestInit {
         // set transporter user agent
         options.headers = (options.headers !== undefined) ? options.headers : {};
+        // tslint:disable-next-line:no-single-line-block-comment
+        /* istanbul ignore else */
         if (!options.headers['User-Agent']) {
             options.headers['User-Agent'] = DefaultTransporter.USER_AGENT;
         } else if (options.headers['User-Agent'].indexOf(DefaultTransporter.USER_AGENT) === -1) {
