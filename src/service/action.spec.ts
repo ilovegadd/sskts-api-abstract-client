@@ -1,7 +1,7 @@
 // tslint:disable:no-implicit-dependencies
 
 /**
- * event service test
+ * action service test
  * @ignore
  */
 
@@ -14,13 +14,13 @@ import { StubAuthClient } from '../auth/authClient';
 
 const API_ENDPOINT = 'https://localhost';
 
-describe('searchIndividualScreeningEvent()', () => {
+describe('printTicket()', () => {
     let sandbox: sinon.SinonSandbox;
-    let events: sasaki.service.Event;
+    let actions: sasaki.service.Action;
 
     before(() => {
         const auth = new StubAuthClient();
-        events = new sasaki.service.Event({
+        actions = new sasaki.service.Action({
             auth: auth,
             endpoint: API_ENDPOINT
         });
@@ -35,38 +35,35 @@ describe('searchIndividualScreeningEvent()', () => {
     });
 
     it('fetch結果が正常であればそのまま取得できるはず', async () => {
-        const data: any[] = [];
-        sandbox.mock(events).expects('fetch').once().resolves(data);
-        const result = await events.searchIndividualScreeningEvent({
-            day: 'day',
-            theater: 'theater'
-        });
+        const params = {};
+        const data: any = {};
 
+        sandbox.mock(actions).expects('fetch').once().resolves(data);
+
+        const result = await actions.printTicket(<any>params);
         assert.deepEqual(result, data);
         sandbox.verify();
     });
 
     it('fetch結果が正常でなければエラーになるはず', async () => {
+        const params = {};
         const error = new sasaki.transporters.RequestError('invalid request');
-        sandbox.mock(events).expects('fetch').once().rejects(error);
 
-        const result = await events.searchIndividualScreeningEvent({
-            day: 'day',
-            theater: 'theater'
-        }).catch((err) => err);
+        sandbox.mock(actions).expects('fetch').once().rejects(error);
 
+        const result = await actions.printTicket(<any>params).catch((err) => err);
         assert.deepEqual(result, error);
         sandbox.verify();
     });
 });
 
-describe('findIndividualScreeningEvent()', () => {
+describe('searchPrintTicket()', () => {
     let sandbox: sinon.SinonSandbox;
-    let events: sasaki.service.Event;
+    let actions: sasaki.service.Action;
 
     before(() => {
         const auth = new StubAuthClient();
-        events = new sasaki.service.Event({
+        actions = new sasaki.service.Action({
             auth: auth,
             endpoint: API_ENDPOINT
         });
@@ -81,25 +78,23 @@ describe('findIndividualScreeningEvent()', () => {
     });
 
     it('fetch結果が正常であればそのまま取得できるはず', async () => {
+        const params = {};
         const data: any[] = [];
-        sandbox.mock(events).expects('fetch').once().resolves(data);
 
-        const result = await events.findIndividualScreeningEvent({
-            identifier: 'identifier'
-        });
+        sandbox.mock(actions).expects('fetch').once().resolves(data);
 
+        const result = await actions.searchPrintTicket(<any>params);
         assert.deepEqual(result, data);
         sandbox.verify();
     });
 
     it('fetch結果が正常でなければエラーになるはず', async () => {
+        const params = {};
         const error = new sasaki.transporters.RequestError('invalid request');
-        sandbox.mock(events).expects('fetch').once().rejects(error);
 
-        const result = await events.findIndividualScreeningEvent({
-            identifier: 'identifier'
-        }).catch((err) => err);
+        sandbox.mock(actions).expects('fetch').once().rejects(error);
 
+        const result = await actions.searchPrintTicket(<any>params).catch((err) => err);
         assert.deepEqual(result, error);
         sandbox.verify();
     });

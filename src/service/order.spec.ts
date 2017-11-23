@@ -1,8 +1,11 @@
+// tslint:disable:no-implicit-dependencies
+
 /**
  * order service test
  * @ignore
  */
 
+import { } from 'mocha';
 import * as assert from 'power-assert';
 import * as sinon from 'sinon';
 import * as sasaki from '../index';
