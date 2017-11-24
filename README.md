@@ -18,7 +18,7 @@
 
 ## Jsdoc
 
-`npm run doc`でjsdocを作成できます。./docに出力されます。
+`npm run doc` outputs docs to ./docs.
 
 ## License
 

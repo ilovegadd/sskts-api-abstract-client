@@ -1,5 +1,4 @@
-
-import * as querystring from 'querystring';
+import * as qs from 'qs';
 
 import { AuthClient } from './auth/authClient';
 import { DefaultTransporter, Transporter } from './transporters';
@@ -63,7 +62,7 @@ export class Service {
         const baseUrl = this.options.endpoint;
         let url = `${baseUrl}${options.uri}`;
 
-        const querystrings = querystring.stringify(options.qs);
+        const querystrings = qs.stringify(options.qs);
         url += (querystrings.length > 0) ? `?${querystrings}` : '';
 
         const headers = {

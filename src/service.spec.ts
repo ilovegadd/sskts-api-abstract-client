@@ -84,6 +84,32 @@ describe('fetch()', () => {
         sandbox.verify();
     });
 
+    it('Date型のクエリパラメータを渡すと、リクエストURLにISO 8601形式文字列が付加されるはず', async () => {
+        const now = new Date();
+        const options = {
+            uri: '/uri',
+            qs: {
+                now: now
+            }
+        };
+        const response: any = { key: 'value' };
+        const querystrings = `now=${encodeURIComponent(now.toISOString())}`;
+
+        const auth = new StubAuthClient();
+        const service = new Service({
+            auth: auth,
+            endpoint: API_ENDPOINT
+        });
+
+        sandbox.mock(service.options.auth).expects('fetch').once()
+            .withArgs(sinon.match(new RegExp(`\\?${querystrings}$`))).resolves(response);
+
+        const result = await service.fetch(<any>options);
+
+        assert.deepEqual(result, response);
+        sandbox.verify();
+    });
+
     it('authオプションもtransporterオプションも未定義であれば、内部的にDefaultTransporterインスタンスが生成されてfetchメソッドが呼ばれるはず', async () => {
         const options = {};
         const service = new Service({
