@@ -13,10 +13,13 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 ### Removed
 
 ### Fixed
-- Date型のクエリーパラメーターがISO 8601フォーマットの文字列としてリクエストに渡されるように対応。
 
 ### Security
 
+
+## v2.1.1 - 2017-11-24
+### Fixed
+- Date型のクエリーパラメーターがISO 8601フォーマットの文字列としてリクエストに渡されるように対応。
 
 ## v2.1.0 - 2017-11-23
 ### Changed
