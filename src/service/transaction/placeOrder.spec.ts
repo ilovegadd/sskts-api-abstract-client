@@ -1,8 +1,11 @@
+// tslint:disable:no-implicit-dependencies
+
 /**
  * placeOrder transaction sasaki.service test
  * @ignore
  */
 
+import { } from 'mocha';
 import * as assert from 'power-assert';
 import * as sinon from 'sinon';
 import * as sasaki from '../../index';
@@ -37,7 +40,8 @@ describe('placeOrder transaction sasaki.service', () => {
 
         const result = await transactions.start({
             expires: new Date(),
-            sellerId: 'sellerId'
+            sellerId: 'sellerId',
+            passportToken: 'passportToken'
         });
 
         assert.deepEqual(result, data);

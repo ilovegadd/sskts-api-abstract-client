@@ -19,7 +19,6 @@
     "build": "tsc",
     "check": "npm run tslint && nsp check",
     "clean": "rimraf ./lib \"npm-debug.log*\" ./doc ./.nyc_output",
-    "example": "http-server ./example",
     "doc": "jsdoc -c jsdoc.json",
     "mocha": "mocha",
     "nyc": "nyc mocha \"src/**/*.spec.ts\"",
