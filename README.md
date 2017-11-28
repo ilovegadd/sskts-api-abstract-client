@@ -12,8 +12,22 @@
 
 ## Table of contents
 
+* [Usage](#usage)
 * [Jsdoc](#jsdoc)
 * [License](#license)
+
+
+## Usage
+
+```shell
+npm install @motionpicture/sskts-api-abstract-client
+```
+
+### Environment variables
+
+| Name    | Required | Value                       | Purpose |
+| ------- | -------- | --------------------------- | ------- |
+| `DEBUG` | false    | sskts-api-abstract-client:* | Debug   |
 
 
 ## Jsdoc

@@ -39,14 +39,19 @@ export class PlaceOrderTransactionService extends Service {
          * 販売者ID
          */
         sellerId: string;
+        /**
+         * WAITER許可証トークン
+         * 指定しなければ、バックエンドで許可証を発行しにいく
+         */
+        passportToken?: string;
     }): Promise<factory.transaction.placeOrder.ITransaction> {
         return this.fetch({
             uri: '/transactions/placeOrder/start',
             method: 'POST',
             body: {
-                // tslint:disable-next-line:no-magic-numbers
-                expires: (params.expires.getTime() / 1000).toFixed(0), // unix timestamp
-                sellerId: params.sellerId
+                expires: params.expires,
+                sellerId: params.sellerId,
+                passportToken: params.passportToken
             },
             expectedStatusCodes: [OK]
         });

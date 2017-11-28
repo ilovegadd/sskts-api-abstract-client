@@ -17,6 +17,11 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 ### Security
 
 
+## v2.1.2 - 2017-11-28
+### Changed
+- install [@motionpicture/sskts-factory@2.3.1](https://www.npmjs.com/package/@motionpicture/sskts-factory)
+- 注文取引開始のパラメーターを調整(許可証トークンを追加 & 取引期限をISO 8601フォーマットで送信するように変更)。
+
 ## v2.1.1 - 2017-11-24
 ### Fixed
 - Date型のクエリーパラメーターがISO 8601フォーマットの文字列としてリクエストに渡されるように対応。

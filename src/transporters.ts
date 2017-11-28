@@ -9,7 +9,7 @@ import * as createDebug from 'debug';
 import { NO_CONTENT } from 'http-status';
 import * as fetch from 'isomorphic-fetch';
 
-const debug = createDebug('sasaki-api-service:transporters');
+const debug = createDebug('sskts-api-abstract-client:transporters');
 // tslint:disable-next-line
 const pkg = require('../package.json');
 
