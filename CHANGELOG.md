@@ -7,7 +7,6 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 ### Added
 
 ### Changed
-- install [@motionpicture/sskts-factory@2.3.1](https://www.npmjs.com/package/@motionpicture/sskts-factory)
 
 ### Deprecated
 
@@ -17,6 +16,10 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Security
 
+
+## v2.1.2 - 2017-11-28
+### Changed
+- install [@motionpicture/sskts-factory@2.3.1](https://www.npmjs.com/package/@motionpicture/sskts-factory)
 
 ## v2.1.1 - 2017-11-24
 ### Fixed
