@@ -1,6 +1,5 @@
 /**
  * 注文取引サービス
- *
  * @namespace service.transaction.placeOrder
  */
 
@@ -9,25 +8,32 @@ import { CREATED, NO_CONTENT, OK } from 'http-status';
 
 import { Service } from '../../service';
 
+/**
+ * クレジットカード承認アクションに必要なクレジットカード情報インターフェース
+ * @interface
+ */
 export type ICreditCard =
     factory.paymentMethod.paymentCard.creditCard.IUncheckedCardRaw |
     factory.paymentMethod.paymentCard.creditCard.IUncheckedCardTokenized |
     factory.paymentMethod.paymentCard.creditCard.IUnauthorizedCardOfMember;
 
-export interface IAuthorization {
+/**
+ * 承認アクションインターフェース
+ * @interface
+ */
+export interface IAuthorizeAction {
     id: string;
-    price: number;
 }
 
 /**
- * placeOrder transaction service
- *
+ * 注文取引サービス
  * @class PlaceOrderTransactionService
  */
 export class PlaceOrderTransactionService extends Service {
     /**
      * 取引を開始する
      * 開始できない場合(混雑中など)、nullが返されます。
+     * @returns {Promise<factory.transaction.placeOrder.ITransaction>} 取引オブジェクト
      */
     public async start(params: {
         /**
@@ -59,6 +65,7 @@ export class PlaceOrderTransactionService extends Service {
 
     /**
      * 取引に座席予約を追加する
+     * @returns {Promise<factory.action.authorize.seatReservation.IAction>} 座席予約承認アクション
      */
     public async createSeatReservationAuthorization(params: {
         /**
@@ -87,6 +94,7 @@ export class PlaceOrderTransactionService extends Service {
 
     /**
      * 座席予約取消
+     * @returns {Promise<void>}
      */
     public async cancelSeatReservationAuthorization(params: {
         /**
@@ -108,6 +116,7 @@ export class PlaceOrderTransactionService extends Service {
     /**
      * 座席予約承認アクションの供給情報を変更する
      * 完了ステータスの座席仮予約に対して券種変更する際に使用
+     * @returns {Promise<factory.action.authorize.seatReservation.IAction>} 座席予約承認アクション
      */
     public async changeSeatReservationOffers(params: {
         /**
@@ -140,6 +149,7 @@ export class PlaceOrderTransactionService extends Service {
 
     /**
      * クレジットカードのオーソリを取得する
+     * @returns {Promise<IAuthorizeAction>} 承認アクション
      */
     public async createCreditCardAuthorization(params: {
         /**
@@ -162,7 +172,7 @@ export class PlaceOrderTransactionService extends Service {
          * クレジットカード情報
          */
         creditCard: ICreditCard;
-    }): Promise<IAuthorization> {
+    }): Promise<IAuthorizeAction> {
         return this.fetch({
             uri: `/transactions/placeOrder/${params.transactionId}/actions/authorize/creditCard`,
             method: 'POST',
@@ -178,6 +188,7 @@ export class PlaceOrderTransactionService extends Service {
 
     /**
      * クレジットカードオーソリ取消
+     * @returns {void}
      */
     public async cancelCreditCardAuthorization(params: {
         /**
@@ -198,6 +209,7 @@ export class PlaceOrderTransactionService extends Service {
 
     /**
      * 決済方法として、ムビチケを追加する
+     * @returns {Promise<IAuthorizeAction>} 承認アクション
      */
     public async createMvtkAuthorization(params: {
         /**
@@ -208,7 +220,7 @@ export class PlaceOrderTransactionService extends Service {
          * ムビチケ情報
          */
         mvtk: factory.action.authorize.mvtk.IObject;
-    }): Promise<IAuthorization> {
+    }): Promise<IAuthorizeAction> {
         return this.fetch({
             uri: `/transactions/placeOrder/${params.transactionId}/actions/authorize/mvtk`,
             method: 'POST',
@@ -219,6 +231,7 @@ export class PlaceOrderTransactionService extends Service {
 
     /**
      * ムビチケ取消
+     * @returns {Promise<void>}
      */
     public async cancelMvtkAuthorization(params: {
         /**
@@ -239,6 +252,7 @@ export class PlaceOrderTransactionService extends Service {
 
     /**
      * register a customer contact
+     * @returns {Promise<factory.transaction.placeOrder.ICustomerContact>} 登録された購入者情報
      */
     public async setCustomerContact(params: {
         /**
@@ -260,6 +274,7 @@ export class PlaceOrderTransactionService extends Service {
 
     /**
      * 取引確定
+     * @returns {Promise<factory.order.IOrder>} 作成された注文
      */
     public async confirm(params: {
         /**
@@ -276,6 +291,7 @@ export class PlaceOrderTransactionService extends Service {
 
     /**
      * 確定した取引に関して、購入者にメール通知を送信する
+     * @returns {Promise<factory.task.sendEmailNotification.ITask>} メール送信タスク
      */
     public async sendEmailNotification(params: {
         /**
@@ -286,7 +302,7 @@ export class PlaceOrderTransactionService extends Service {
          * Eメールメッセージ属性
          */
         emailMessageAttributes: factory.creativeWork.message.email.IAttributes
-    }): Promise<factory.order.IOrder> {
+    }): Promise<factory.task.sendEmailNotification.ITask> {
         return this.fetch({
             uri: `/transactions/placeOrder/${params.transactionId}/tasks/sendEmailNotification`,
             method: 'POST',
