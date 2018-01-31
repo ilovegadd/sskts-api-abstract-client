@@ -126,6 +126,42 @@ export class PersonService extends Service {
     }
 
     /**
+     * 口座照会
+     */
+    public async findAccount(params: {
+        /**
+         * person id
+         * basically specify 'me' to retrieve contacts of login user
+         */
+        personId: string;
+    }): Promise<any> {
+        return this.fetch({
+            uri: `/people/${params.personId}/accounts`,
+            method: 'GET',
+            qs: {},
+            expectedStatusCodes: [OK]
+        });
+    }
+
+    /**
+     * 口座照会
+     */
+    public async searchAccountTradeActions(params: {
+        /**
+         * person id
+         * basically specify 'me' to retrieve contacts of login user
+         */
+        personId: string;
+    }): Promise<any[]> {
+        return this.fetch({
+            uri: `/people/${params.personId}/accounts/actions/trade`,
+            method: 'GET',
+            qs: {},
+            expectedStatusCodes: [OK]
+        });
+    }
+
+    /**
      * 座席予約の所有権を検索する
      */
     public async searchReservationOwnerships(params: {

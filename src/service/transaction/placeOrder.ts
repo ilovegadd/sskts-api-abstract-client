@@ -251,6 +251,30 @@ export class PlaceOrderTransactionService extends Service {
     }
 
     /**
+     * Pecorino口座のオーソリを取得する
+     * @returns {Promise<IAuthorizeAction>} 承認アクション
+     */
+    public async createPecorinoAuthorization(params: {
+        /**
+         * 取引ID
+         */
+        transactionId: string;
+        /**
+         * 金額
+         */
+        price: number;
+    }): Promise<IAuthorizeAction> {
+        return this.fetch({
+            uri: `/transactions/placeOrder/${params.transactionId}/actions/authorize/pecorino`,
+            method: 'POST',
+            expectedStatusCodes: [CREATED],
+            body: {
+                price: params.price
+            }
+        });
+    }
+
+    /**
      * register a customer contact
      * @returns {Promise<factory.transaction.placeOrder.ICustomerContact>} 登録された購入者情報
      */
