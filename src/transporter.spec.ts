@@ -143,7 +143,7 @@ describe('CONFIGURE()', () => {
         sandbox.restore();
     });
 
-    it('既存のUser-Agentヘッダーにパッケージ情報がなければ、ヘッダーに情報が追加されるはず', async () => {
+    it('すでにヘッダー情報があれば、継承されるされるはず', async () => {
         const options = {
             headers: {
                 'User-Agent': 'useragent'
@@ -151,7 +151,19 @@ describe('CONFIGURE()', () => {
         };
 
         const result = DefaultTransporter.CONFIGURE(options);
-        assert(result.headers['User-Agent'].indexOf(DefaultTransporter.USER_AGENT) > 0);
+        assert.deepEqual(result.headers, options.headers);
         sandbox.verify();
     });
+
+    // it('既存のUser-Agentヘッダーにパッケージ情報がなければ、ヘッダーに情報が追加されるはず', async () => {
+    //     const options = {
+    //         headers: {
+    //             'User-Agent': 'useragent'
+    //         }
+    //     };
+
+    //     const result = DefaultTransporter.CONFIGURE(options);
+    //     assert(result.headers['User-Agent'].indexOf(DefaultTransporter.USER_AGENT) > 0);
+    //     sandbox.verify();
+    // });
 });
