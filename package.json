@@ -1,6 +1,6 @@
 {
   "name": "@motionpicture/sskts-api-abstract-client",
-  "version": "2.1.3",
+  "version": "2.1.4",
   "description": "SSKTS API abstract client library for Javascript.",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
@@ -58,7 +58,6 @@
     "@types/open": "0.0.29",
     "@types/power-assert": "^1.4.29",
     "@types/qs": "^6.5.1",
-    "@types/request": "^2.0.8",
     "@types/sinon": "^2.3.7",
     "coveralls": "^2.13.3",
     "http-server": "^0.10.0",
