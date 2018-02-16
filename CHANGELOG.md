@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ## Unreleased
 ### Added
+- 注文返品取引サービスを追加。
 
 ### Changed
 
