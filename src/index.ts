@@ -17,6 +17,7 @@ import { OrganizationService } from './service/organization';
 import { PersonService } from './service/person';
 import { PlaceService } from './service/place';
 import { PlaceOrderTransactionService } from './service/transaction/placeOrder';
+import { ReturnOrderTransactionService } from './service/transaction/returnOrder';
 import * as transporters from './transporters';
 
 export import factory = factory;
@@ -26,45 +27,37 @@ export import transporters = transporters;
  * auth client abstract class
  * 認証クライアント抽象クラス
  * @export
- * @class
- * @abstract
  */
 export abstract class Auth extends AuthClient { }
 
 export namespace service {
     /**
      * action service
-     * @class
      */
     export class Action extends ActionService { }
     /**
      * event service
-     * @class
      */
     export class Event extends EventService { }
     /**
      * order service
-     * @class
      */
     export class Order extends OrderService { }
     /**
      * organization service
-     * @class
      */
     export class Organization extends OrganizationService { }
     /**
      * person service
-     * @class
      */
     export class Person extends PersonService { }
     /**
      * place service
-     * @class
      */
     export class Place extends PlaceService { }
     /**
      * event service
-     * @param {IOptions} options service configurations
+     * @param options service configurations
      * @deprecated use new service.Event() instead.
      */
     // tslint:disable-next-line:no-single-line-block-comment
@@ -74,7 +67,7 @@ export namespace service {
     }
     /**
      * order service
-     * @param {IOptions} options service configurations
+     * @param options service configurations
      * @deprecated use new service.Order() instead.
      */
     // tslint:disable-next-line:no-single-line-block-comment
@@ -84,7 +77,7 @@ export namespace service {
     }
     /**
      * organization service
-     * @param {IOptions} options service configurations
+     * @param options service configurations
      * @deprecated use new service.Organization() instead.
      */
     // tslint:disable-next-line:no-single-line-block-comment
@@ -94,7 +87,7 @@ export namespace service {
     }
     /**
      * person service
-     * @param {IOptions} options service configurations
+     * @param options service configurations
      * @deprecated use new service.Person() instead.
      */
     // tslint:disable-next-line:no-single-line-block-comment
@@ -104,7 +97,7 @@ export namespace service {
     }
     /**
      * place service
-     * @param {IOptions} options service configurations
+     * @param options service configurations
      * @deprecated use new service.Place() instead.
      */
     // tslint:disable-next-line:no-single-line-block-comment
@@ -115,13 +108,17 @@ export namespace service {
 
     export namespace transaction {
         /**
-         * placeOrder transaction service
-         * @class
+         * 注文取引サービス
          */
         export class PlaceOrder extends PlaceOrderTransactionService { }
         /**
+         * 注文返品取引サービス
+         */
+        export class ReturnOrder extends ReturnOrderTransactionService { }
+
+        /**
          * placeOrder transaction service
-         * @param {IOptions} options service configurations
+         * @param options service configurations
          * @deprecated use new service.transaction.PlaceOrder() instead.
          */
         // tslint:disable-next-line:no-single-line-block-comment

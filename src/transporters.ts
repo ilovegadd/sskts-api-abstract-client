@@ -11,14 +11,12 @@ import * as fetch from 'isomorphic-fetch';
 
 const debug = createDebug('sskts-api-abstract-client:transporters');
 // tslint:disable-next-line
-const pkg = require('../package.json');
+// const pkg = require('../package.json');
 
 /**
  * transporter abstract class
  * トランスポーター抽象クラス
  * @export
- * @class
- * @abstract
  */
 export abstract class Transporter {
     public abstract async fetch(url: string, options: RequestInit): Promise<any>;
@@ -29,7 +27,6 @@ export type IBodyResponseCallback = Promise<any>;
 /**
  * RequestError
  * @export
- * @class
  */
 export class RequestError extends Error {
     public code: number;
@@ -40,7 +37,6 @@ export class RequestError extends Error {
  * stub transporter
  * スタブトランポーター
  * @export
- * @class
  */
 export class StubTransporter implements Transporter {
     public body: any;
@@ -58,13 +54,12 @@ export class StubTransporter implements Transporter {
 /**
  * DefaultTransporter
  * @export
- * @class
  */
 export class DefaultTransporter implements Transporter {
     /**
      * Default user agent.
      */
-    public static readonly USER_AGENT: string = `sasaki-api-javascript-client/${pkg.version}`;
+    // public static readonly USER_AGENT: string = `sasaki-api-javascript-client/${pkg.version}`;
 
     public expectedStatusCodes: number[];
 
@@ -80,11 +75,11 @@ export class DefaultTransporter implements Transporter {
         options.headers = (options.headers !== undefined) ? options.headers : {};
         // tslint:disable-next-line:no-single-line-block-comment
         /* istanbul ignore else */
-        if (!options.headers['User-Agent']) {
-            options.headers['User-Agent'] = DefaultTransporter.USER_AGENT;
-        } else if (options.headers['User-Agent'].indexOf(DefaultTransporter.USER_AGENT) === -1) {
-            options.headers['User-Agent'] = `${options.headers['User-Agent']} ${DefaultTransporter.USER_AGENT}`;
-        }
+        // if (!options.headers['User-Agent']) {
+        //     options.headers['User-Agent'] = DefaultTransporter.USER_AGENT;
+        // } else if (options.headers['User-Agent'].indexOf(DefaultTransporter.USER_AGENT) === -1) {
+        //     options.headers['User-Agent'] = `${options.headers['User-Agent']} ${DefaultTransporter.USER_AGENT}`;
+        // }
 
         return options;
     }
