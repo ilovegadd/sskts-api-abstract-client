@@ -4,8 +4,6 @@ import { DefaultTransporter } from '../transporters';
  * AuthClient abstract class
  * 抽象認証クライアント
  * @export
- * @abstract
- * @class
  */
 export abstract class AuthClient {
     public abstract async fetch(url: string, options: RequestInit, expectedStatusCodes: number[]): Promise<any>;
@@ -16,7 +14,6 @@ export abstract class AuthClient {
  * test auth client
  * テスト認証クライアント
  * @export
- * @class
  */
 // tslint:disable-next-line:no-single-line-block-comment
 /* istanbul ignore next */

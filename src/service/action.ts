@@ -5,7 +5,6 @@ import { Service } from '../service';
 
 /**
  * action service
- * @class
  */
 export class ActionService extends Service {
     /**

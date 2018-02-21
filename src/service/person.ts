@@ -10,8 +10,6 @@ export type IScreenEventReservation = factory.reservation.event.IEventReservatio
 
 /**
  * person service
- *
- * @class PersonService
  */
 export class PersonService extends Service {
     /**
@@ -44,7 +42,7 @@ export class PersonService extends Service {
         /**
          * contacts
          */
-        contacts: factory.person.IContact
+        contacts: factory.person.IContact;
     }): Promise<void> {
         return this.fetch({
             uri: `/people/${params.personId}/contacts`,
@@ -77,7 +75,7 @@ export class PersonService extends Service {
     /**
      * add a credit card
      * クレジットカード追加
-     * @return {Promise<ISearchCardResult>} successfully created credit card info
+     * @return successfully created credit card info
      * @see example /example/person/handleCreditCards
      */
     public async addCreditCard(params: {
@@ -90,7 +88,7 @@ export class PersonService extends Service {
          * credit card info
          * クレジットカード情報(情報の渡し方にはいくつかパターンがあるので、型を参照すること)
          */
-        creditCard: ICreditCard
+        creditCard: ICreditCard;
     }): Promise<factory.paymentMethod.paymentCard.creditCard.ICheckedCard> {
         return this.fetch({
             uri: `/people/${params.personId}/creditCards`,
@@ -103,8 +101,7 @@ export class PersonService extends Service {
     /**
      * delete a credit card by cardSeq
      * クレジットカード削除
-     * @return {Promise<void>}
-     * @see example /example/person/handleCreditCards
+     * @see /example/person/handleCreditCards
      */
     public async deleteCreditCard(params: {
         /**
@@ -116,12 +113,48 @@ export class PersonService extends Service {
          * cardSeq
          * カード連番
          */
-        cardSeq: string
+        cardSeq: string;
     }): Promise<void> {
         return this.fetch({
             uri: `/people/${params.personId}/creditCards/${params.cardSeq}`,
             method: 'DELETE',
             expectedStatusCodes: [NO_CONTENT]
+        });
+    }
+
+    /**
+     * 口座照会
+     */
+    public async findAccount(params: {
+        /**
+         * person id
+         * basically specify 'me' to retrieve contacts of login user
+         */
+        personId: string;
+    }): Promise<any> {
+        return this.fetch({
+            uri: `/people/${params.personId}/accounts`,
+            method: 'GET',
+            qs: {},
+            expectedStatusCodes: [OK]
+        });
+    }
+
+    /**
+     * 口座照会
+     */
+    public async searchAccountTradeActions(params: {
+        /**
+         * person id
+         * basically specify 'me' to retrieve contacts of login user
+         */
+        personId: string;
+    }): Promise<any[]> {
+        return this.fetch({
+            uri: `/people/${params.personId}/accounts/actions/trade`,
+            method: 'GET',
+            qs: {},
+            expectedStatusCodes: [OK]
         });
     }
 
