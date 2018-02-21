@@ -17,6 +17,7 @@ import { OrganizationService } from './service/organization';
 import { PersonService } from './service/person';
 import { PlaceService } from './service/place';
 import { PlaceOrderTransactionService } from './service/transaction/placeOrder';
+import { ReturnOrderTransactionService } from './service/transaction/returnOrder';
 import * as transporters from './transporters';
 
 export import factory = factory;
@@ -115,10 +116,14 @@ export namespace service {
 
     export namespace transaction {
         /**
-         * placeOrder transaction service
-         * @class
+         * 注文取引サービス
          */
         export class PlaceOrder extends PlaceOrderTransactionService { }
+        /**
+         * 注文返品取引サービス
+         */
+        export class ReturnOrder extends ReturnOrderTransactionService { }
+
         /**
          * placeOrder transaction service
          * @param {IOptions} options service configurations
