@@ -38,8 +38,6 @@ describe('searchIndividualScreeningEvent()', () => {
         const data: any[] = [];
         sandbox.mock(events).expects('fetch').once().resolves(data);
         const result = await events.searchIndividualScreeningEvent({
-            day: 'day',
-            theater: 'theater'
         });
 
         assert.deepEqual(result, data);
@@ -51,8 +49,6 @@ describe('searchIndividualScreeningEvent()', () => {
         sandbox.mock(events).expects('fetch').once().rejects(error);
 
         const result = await events.searchIndividualScreeningEvent({
-            day: 'day',
-            theater: 'theater'
         }).catch((err) => err);
 
         assert.deepEqual(result, error);

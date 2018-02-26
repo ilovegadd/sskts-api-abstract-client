@@ -15,6 +15,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 ### Removed
 
 ### Fixed
+- IE11でes6コードが動作しない問題を解消。
 
 ### Security
 
