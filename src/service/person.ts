@@ -141,7 +141,7 @@ export class PersonService extends Service {
     }
 
     /**
-     * 口座照会
+     * 口座取引履歴検索
      */
     public async searchAccountTradeActions(params: {
         /**

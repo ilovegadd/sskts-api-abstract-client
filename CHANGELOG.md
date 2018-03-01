@@ -13,6 +13,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 ### Deprecated
 
 ### Removed
+- サービスクラスインスタンス作成ファクション(前バージョンでdeprecatedであったもの)を削除。
 
 ### Fixed
 - IE11でes6コードが動作しない問題を解消。

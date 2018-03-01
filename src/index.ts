@@ -9,7 +9,6 @@ import * as factory from '@motionpicture/sskts-factory';
 
 import { AuthClient } from './auth/authClient';
 
-import { IOptions } from './service';
 import { ActionService } from './service/action';
 import { EventService } from './service/event';
 import { OrderService } from './service/order';
@@ -55,56 +54,6 @@ export namespace service {
      * place service
      */
     export class Place extends PlaceService { }
-    /**
-     * event service
-     * @param options service configurations
-     * @deprecated use new service.Event() instead.
-     */
-    // tslint:disable-next-line:no-single-line-block-comment
-    /* istanbul ignore next */
-    export function event(options: IOptions) {
-        return new EventService(options);
-    }
-    /**
-     * order service
-     * @param options service configurations
-     * @deprecated use new service.Order() instead.
-     */
-    // tslint:disable-next-line:no-single-line-block-comment
-    /* istanbul ignore next */
-    export function order(options: IOptions) {
-        return new OrderService(options);
-    }
-    /**
-     * organization service
-     * @param options service configurations
-     * @deprecated use new service.Organization() instead.
-     */
-    // tslint:disable-next-line:no-single-line-block-comment
-    /* istanbul ignore next */
-    export function organization(options: IOptions) {
-        return new OrganizationService(options);
-    }
-    /**
-     * person service
-     * @param options service configurations
-     * @deprecated use new service.Person() instead.
-     */
-    // tslint:disable-next-line:no-single-line-block-comment
-    /* istanbul ignore next */
-    export function person(options: IOptions) {
-        return new PersonService(options);
-    }
-    /**
-     * place service
-     * @param options service configurations
-     * @deprecated use new service.Place() instead.
-     */
-    // tslint:disable-next-line:no-single-line-block-comment
-    /* istanbul ignore next */
-    export function place(options: IOptions) {
-        return new PlaceService(options);
-    }
 
     export namespace transaction {
         /**
@@ -115,16 +64,5 @@ export namespace service {
          * 注文返品取引サービス
          */
         export class ReturnOrder extends ReturnOrderTransactionService { }
-
-        /**
-         * placeOrder transaction service
-         * @param options service configurations
-         * @deprecated use new service.transaction.PlaceOrder() instead.
-         */
-        // tslint:disable-next-line:no-single-line-block-comment
-        /* istanbul ignore next */
-        export function placeOrder(options: IOptions) {
-            return new PlaceOrderTransactionService(options);
-        }
     }
 }
