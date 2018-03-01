@@ -5,21 +5,28 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ## Unreleased
 ### Added
-- Pecorino口座関連のエンドポイントを追加。
-- 注文返品取引サービスを追加。
 
 ### Changed
 
 ### Deprecated
 
 ### Removed
+
+### Fixed
+
+### Security
+
+
+## v3.0.0 - 2018-03-01
+### Added
+- Pecorino口座関連のエンドポイントを追加。
+- 注文返品取引サービスを追加。
+
+### Removed
 - サービスクラスインスタンス作成ファクション(前バージョンでdeprecatedであったもの)を削除。
 
 ### Fixed
 - IE11でes6コードが動作しない問題を解消。
-
-### Security
-
 
 ## v2.1.4 - 2018-02-15
 ### Fixed
