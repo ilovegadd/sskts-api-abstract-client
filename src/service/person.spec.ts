@@ -123,4 +123,30 @@ describe('person service', () => {
         assert.deepEqual(result, data);
         sandbox.verify();
     });
+
+    it('口座照会の結果が期待通り', async () => {
+        const personId = 'me';
+        const data = {};
+        sandbox.mock(people).expects('fetch').once().resolves(data);
+
+        const result = await people.findAccount({
+            personId: personId
+        });
+
+        assert.deepEqual(result, data);
+        sandbox.verify();
+    });
+
+    it('口座取引履歴検索の結果が期待通り', async () => {
+        const personId = 'me';
+        const data = [{}];
+        sandbox.mock(people).expects('fetch').once().resolves(data);
+
+        const result = await people.searchAccountTradeActions({
+            personId: personId
+        });
+
+        assert.deepEqual(result, data);
+        sandbox.verify();
+    });
 });

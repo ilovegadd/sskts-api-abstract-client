@@ -11,8 +11,6 @@ import { Service } from '../service';
 
 /**
  * order service
- *
- * @class OrderService
  */
 export class OrderService extends Service {
     /**

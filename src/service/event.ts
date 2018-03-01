@@ -5,7 +5,6 @@ import { Service } from '../service';
 
 /**
  * event service
- * @class EventService
  */
 export class EventService extends Service {
     /**

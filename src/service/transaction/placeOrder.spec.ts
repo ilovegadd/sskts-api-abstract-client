@@ -180,4 +180,17 @@ describe('placeOrder transaction sasaki.service', () => {
         assert.deepEqual(result, data);
         sandbox.verify();
     });
+
+    it('Pecorino口座承認アクションの結果が期待通り', async () => {
+        const data = {};
+        sandbox.mock(transactions).expects('fetch').once().resolves(data);
+
+        const result = await transactions.createPecorinoAuthorization({
+            transactionId: 'transactionId',
+            price: 1234
+        });
+
+        assert.deepEqual(result, data);
+        sandbox.verify();
+    });
 });

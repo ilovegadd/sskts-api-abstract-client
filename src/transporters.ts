@@ -17,8 +17,6 @@ const debug = createDebug('sskts-api-abstract-client:transporters');
  * transporter abstract class
  * トランスポーター抽象クラス
  * @export
- * @class
- * @abstract
  */
 export abstract class Transporter {
     public abstract async fetch(url: string, options: RequestInit): Promise<any>;
@@ -29,7 +27,6 @@ export type IBodyResponseCallback = Promise<any>;
 /**
  * RequestError
  * @export
- * @class
  */
 export class RequestError extends Error {
     public code: number;
@@ -40,7 +37,6 @@ export class RequestError extends Error {
  * stub transporter
  * スタブトランポーター
  * @export
- * @class
  */
 export class StubTransporter implements Transporter {
     public body: any;
@@ -58,7 +54,6 @@ export class StubTransporter implements Transporter {
 /**
  * DefaultTransporter
  * @export
- * @class
  */
 export class DefaultTransporter implements Transporter {
     /**
