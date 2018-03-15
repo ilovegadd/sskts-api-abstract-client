@@ -24,6 +24,30 @@ export interface IAuthorizeAction {
 }
 
 /**
+ * メニューアイテム承認アクションインターフェース
+ */
+export interface IMenuItemAuthorizeAction {
+    typeOf: factory.actionType.AuthorizeAction;
+    object: {
+        identifier: string;
+        typeOf: 'Offer';
+        price: number;
+        priceCurrency: factory.priceCurrency;
+        itemOffered: {
+            identifier: string;
+            typeOf: 'MenuItem';
+            name: string;
+            description: string;
+        };
+    };
+    agent: any;
+    recipient: any;
+    purpose: factory.transaction.placeOrder.ITransaction;
+    result: {
+        price: number;
+    };
+}
+/**
  * 注文取引サービス
  */
 export class PlaceOrderTransactionService extends Service {
@@ -264,6 +288,36 @@ export class PlaceOrderTransactionService extends Service {
             expectedStatusCodes: [CREATED],
             body: {
                 price: params.price
+            }
+        });
+    }
+
+    /**
+     * メニューアイテムに対して承認アクションを作成する
+     */
+    // tslint:disable-next-line:no-single-line-block-comment
+    /* istanbul ignore next */
+    public async createMenuItemAuthorization(params: {
+        /**
+         * 取引ID
+         */
+        transactionId: string;
+        /**
+         * メニューアイテムID
+         */
+        menuItemIdentifier: string;
+        /**
+         * 販売情報ID
+         */
+        offerIdentifier: string;
+    }): Promise<IMenuItemAuthorizeAction> {
+        return this.fetch({
+            uri: `/transactions/placeOrder/${params.transactionId}/actions/authorize/menuItem`,
+            method: 'POST',
+            expectedStatusCodes: [CREATED],
+            body: {
+                menuItemIdentifier: params.menuItemIdentifier,
+                offerIdentifier: params.offerIdentifier
             }
         });
     }

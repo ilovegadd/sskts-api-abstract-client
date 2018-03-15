@@ -5,6 +5,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ## Unreleased
 ### Added
+- 実験的にレストランのメニューアイテムを注文アイテムとして追加できるようにしてみる。
 
 ### Changed
 
