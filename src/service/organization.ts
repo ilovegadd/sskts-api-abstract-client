@@ -65,10 +65,74 @@ export class OrganizationService extends Service {
             expectedStatusCodes: [OK]
         });
     }
+
+    /**
+     * レストラン注文検索
+     */
+    // tslint:disable-next-line:no-single-line-block-comment
+    /* istanbul ignore next */
+    public async searchRestaurantOrders(params: {
+        identifier: string;
+    }): Promise<IRestaurantOrder[]> {
+        return this.fetch({
+            uri: `/organizations/restaurant/${params.identifier}/orders`,
+            method: 'GET',
+            qs: {},
+            expectedStatusCodes: [OK]
+        });
+    }
 }
 
+/**
+ * メニューインターフェース
+ */
+export interface IMenu {
+    typeOf: 'Menu';
+    hasMenuSection: IMenuSection[];
+}
+/**
+ * メニューセクションインターフェース
+ */
+export interface IMenuSection {
+    typeOf: 'MenuSection';
+    name: string;
+    description: string;
+    image: string[];
+    hasMenuItem: IMenuItem[];
+}
+/**
+ * メニューアイテムインターフェース
+ */
+export interface IMenuItem {
+    identifier: string;
+    typeOf: 'MenuItem';
+    name: string;
+    description: string;
+    offers: IMenuItemOffer[];
+}
+/**
+ * メニューアイテムに対するオファーインターフェース
+ */
+export interface IMenuItemOffer {
+    identifier: string;
+    typeOf: 'Offer';
+    price: number;
+    priceCurrency: factory.priceCurrency;
+    offeredBy?: {
+        typeOf: 'Restaurant';
+        identifier: string;
+        name: string;
+        telephone: string;
+        url: string;
+        image: string;
+    };
+}
+/**
+ * レストラン組織インターフェース
+ */
 export interface IRestaurantOrganization {
     typeOf: 'Restaurant';
+    identifier: string;
     aggregateRating: {
         typeOf: 'AggregateRating';
         ratingValue: number;
@@ -79,25 +143,61 @@ export interface IRestaurantOrganization {
     telephone: string;
     url: string;
     image: string;
-    hasMenu: {
-        typeOf: 'Menu';
-        hasMenuSection: {
-            typeOf: 'MenuSection';
-            name: string;
-            description: string;
-            image: string[];
-            hasMenuItem: {
-                identifier: string;
-                typeOf: 'MenuItem';
-                name: string;
-                description: string;
-                offers: {
-                    identifier: string;
-                    typeOf: 'Offer';
-                    price: number;
-                    priceCurrency: factory.priceCurrency;
-                }[];
-            }[];
-        }[];
-    }[];
+    hasMenu: IMenu[];
 }
+
+/**
+ * 配送イベントインターフェス
+ */
+export interface IDeliveryEvent { typeOf: 'DeliveryEvent'; }
+/**
+ * チケットに割り当てられるアイテムインターフェース
+ */
+export interface ITicketedItem {
+    typeOf: 'OrderItem';
+    orderQuantity: number;
+    orderedItem: IMenuItem;
+}
+/**
+ * 予約チケットインターフェース
+ */
+export interface IReservedTicket {
+    typeOf: 'Ticket';
+    ticketToken: string;
+    ticketedItem: ITicketedItem[];
+}
+/**
+ * 配送イベント予約インターフェース
+ */
+export type IDeliveryEventReservation = factory.reservation.event.IEventReservation<any> & {
+    /**
+     * サービス提供者
+     */
+    provider: IRestaurantOrganization;
+    /**
+     * 予約対象
+     */
+    reservationFor: IDeliveryEvent;
+    /**
+     * 予約チケット内容
+     */
+    reservedTicket: IReservedTicket;
+};
+/**
+ * レストラン注文で提供されるアイテムインターフェース
+ */
+export type IRestaurantOrderItemOffered = factory.order.IItemOffered & {
+    itemOffered: IDeliveryEventReservation;
+};
+/**
+ * レストランで受け入れられたオファーインターフェース
+ */
+export type IRestaurantOrderOffer = factory.order.IOffer & {
+    itemOffered: IRestaurantOrderItemOffered;
+};
+/**
+ * レストラン注文インターフェース
+ */
+export type IRestaurantOrder = factory.order.IOrder & {
+    acceptedOffers: IRestaurantOrderOffer;
+};

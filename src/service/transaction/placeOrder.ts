@@ -33,6 +33,13 @@ export interface IMenuItemAuthorizeAction {
         typeOf: 'Offer';
         price: number;
         priceCurrency: factory.priceCurrency;
+        offeredBy: {
+            typeOf: 'Restaurant';
+            name: string;
+            telephone: string;
+            url: string;
+            image: string;
+        };
         itemOffered: {
             identifier: string;
             typeOf: 'MenuItem';
@@ -310,6 +317,10 @@ export class PlaceOrderTransactionService extends Service {
          * 販売情報ID
          */
         offerIdentifier: string;
+        /**
+         * 数量
+         */
+        acceptedQuantity: string;
     }): Promise<IMenuItemAuthorizeAction> {
         return this.fetch({
             uri: `/transactions/placeOrder/${params.transactionId}/actions/authorize/menuItem`,
@@ -317,7 +328,8 @@ export class PlaceOrderTransactionService extends Service {
             expectedStatusCodes: [CREATED],
             body: {
                 menuItemIdentifier: params.menuItemIdentifier,
-                offerIdentifier: params.offerIdentifier
+                offerIdentifier: params.offerIdentifier,
+                acceptedQuantity: params.acceptedQuantity
             }
         });
     }
