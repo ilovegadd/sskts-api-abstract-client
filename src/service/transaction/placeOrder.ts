@@ -320,7 +320,7 @@ export class PlaceOrderTransactionService extends Service {
         /**
          * 数量
          */
-        acceptedQuantity: string;
+        acceptedQuantity: number;
     }): Promise<IMenuItemAuthorizeAction> {
         return this.fetch({
             uri: `/transactions/placeOrder/${params.transactionId}/actions/authorize/menuItem`,
