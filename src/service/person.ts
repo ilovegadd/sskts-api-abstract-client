@@ -9,11 +9,11 @@ export type ICreditCard =
 export type IScreenEventReservation = factory.reservation.event.IEventReservation<factory.event.individualScreeningEvent.IEvent>;
 
 /**
- * person service
+ * ユーザーサービス
  */
 export class PersonService extends Service {
     /**
-     * retrieve user contacts
+     * ユーザーの連絡先を検索する
      */
     public async getContacts(params: {
         /**
@@ -31,7 +31,7 @@ export class PersonService extends Service {
     }
 
     /**
-     * update contacts
+     * ユーザーの連絡先を更新する
      */
     public async updateContacts(params: {
         /**
@@ -53,7 +53,6 @@ export class PersonService extends Service {
     }
 
     /**
-     * find credit cards
      * クレジットカード検索
      * @see example /example/person/handleCreditCards
      */
@@ -73,7 +72,6 @@ export class PersonService extends Service {
     }
 
     /**
-     * add a credit card
      * クレジットカード追加
      * @return successfully created credit card info
      * @see example /example/person/handleCreditCards
@@ -99,7 +97,6 @@ export class PersonService extends Service {
     }
 
     /**
-     * delete a credit card by cardSeq
      * クレジットカード削除
      * @see /example/person/handleCreditCards
      */
@@ -123,15 +120,62 @@ export class PersonService extends Service {
     }
 
     /**
-     * 口座照会
+     * 口座開設
      */
-    public async findAccount(params: {
+    public async openAccount(params: {
         /**
          * person id
-         * basically specify 'me' to retrieve contacts of login user
+         * ログインユーザーの場合'me'を指定
          */
         personId: string;
-    }): Promise<any> {
+        /**
+         * 口座名義
+         */
+        name: string;
+    }): Promise<factory.pecorino.account.IAccount> {
+        return this.fetch({
+            uri: `/people/${params.personId}/accounts`,
+            method: 'POST',
+            body: {
+                name: params.name
+            },
+            expectedStatusCodes: [CREATED]
+        });
+    }
+
+    /**
+     * 口座開解約
+     * 口座の状態を変更するだけで、ユーザーの所有する口座リストから削除はされません。
+     * 解約された口座で取引を進行しようとすると400エラーとなります。
+     */
+    public async closeAccount(params: {
+        /**
+         * person id
+         * ログインユーザーの場合'me'を指定
+         */
+        personId: string;
+        /**
+         * 口座番号
+         */
+        accountNumber: string;
+    }): Promise<void> {
+        return this.fetch({
+            uri: `/people/${params.personId}/accounts/${params.accountNumber}/close`,
+            method: 'PUT',
+            expectedStatusCodes: [NO_CONTENT]
+        });
+    }
+
+    /**
+     * 口座照会
+     */
+    public async findAccounts(params: {
+        /**
+         * person id
+         * ログインユーザーの場合'me'を指定
+         */
+        personId: string;
+    }): Promise<factory.pecorino.account.IAccount[]> {
         return this.fetch({
             uri: `/people/${params.personId}/accounts`,
             method: 'GET',
@@ -143,15 +187,19 @@ export class PersonService extends Service {
     /**
      * 口座取引履歴検索
      */
-    public async searchAccountTradeActions(params: {
+    public async searchAccountMoneyTransferActions(params: {
         /**
          * person id
-         * basically specify 'me' to retrieve contacts of login user
+         * ログインユーザーの場合'me'を指定
          */
         personId: string;
-    }): Promise<any[]> {
+        /**
+         * 口座番号
+         */
+        accountNumber: string;
+    }): Promise<factory.pecorino.action.transfer.moneyTransfer.IAction[]> {
         return this.fetch({
-            uri: `/people/${params.personId}/accounts/actions/trade`,
+            uri: `/people/${params.personId}/accounts/${params.accountNumber}/actions/moneyTransfer`,
             method: 'GET',
             qs: {},
             expectedStatusCodes: [OK]
@@ -159,19 +207,18 @@ export class PersonService extends Service {
     }
 
     /**
-     * 座席予約の所有権を検索する
+     * 所有権を検索する
+     * 座席予約、所属会員プログラム、などユーザーの資産(モノ、サービス)を検索します。
      */
-    public async searchReservationOwnerships(params: {
-        /**
-         * person id
-         * basically specify 'me' to retrieve contacts of login user
-         */
-        personId: string;
-    }): Promise<factory.ownershipInfo.IOwnershipInfo<IScreenEventReservation>[]> {
+    public async searchOwnershipInfos<T extends factory.ownershipInfo.IGoodType>(
+        params: factory.ownershipInfo.ISearchConditions<T>
+    ): Promise<factory.ownershipInfo.IOwnershipInfo<T>[]> {
         return this.fetch({
-            uri: `/people/${params.personId}/ownershipInfos/reservation`,
+            uri: `/people/${params.ownedBy}/ownershipInfos/${params.goodType}`,
             method: 'GET',
-            qs: {},
+            qs: {
+                ownedAt: params.ownedAt
+            },
             expectedStatusCodes: [OK]
         });
     }

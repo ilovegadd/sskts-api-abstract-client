@@ -1,10 +1,8 @@
 // tslint:disable:no-implicit-dependencies
-
 /**
  * person service test
  * @ignore
  */
-
 import { } from 'mocha';
 import * as assert from 'power-assert';
 import * as sinon from 'sinon';
@@ -111,13 +109,42 @@ describe('person service', () => {
         sandbox.verify();
     });
 
-    it('クレジットカード削除の結果が期待通り', async () => {
+    it('所有権検索の結果が期待通り', async () => {
         const personId = 'me';
         const data = [{}];
         sandbox.mock(people).expects('fetch').once().resolves(data);
 
-        const result = await people.searchReservationOwnerships({
-            personId: personId
+        const result = await people.searchOwnershipInfos({
+            goodType: sasaki.factory.reservationType.EventReservation,
+            ownedBy: personId
+        });
+
+        assert.deepEqual(result, data);
+        sandbox.verify();
+    });
+
+    it('口座開設の結果が期待通り', async () => {
+        const personId = 'me';
+        const data = {};
+        sandbox.mock(people).expects('fetch').once().resolves(data);
+
+        const result = await people.openAccount({
+            personId: personId,
+            name: 'name'
+        });
+
+        assert.deepEqual(result, data);
+        sandbox.verify();
+    });
+
+    it('口座解約の結果が期待通り', async () => {
+        const personId = 'me';
+        const data = {};
+        sandbox.mock(people).expects('fetch').once().resolves(data);
+
+        const result = await people.closeAccount({
+            personId: personId,
+            accountNumber: '12345'
         });
 
         assert.deepEqual(result, data);
@@ -126,10 +153,10 @@ describe('person service', () => {
 
     it('口座照会の結果が期待通り', async () => {
         const personId = 'me';
-        const data = {};
+        const data = [{}];
         sandbox.mock(people).expects('fetch').once().resolves(data);
 
-        const result = await people.findAccount({
+        const result = await people.findAccounts({
             personId: personId
         });
 
@@ -142,8 +169,9 @@ describe('person service', () => {
         const data = [{}];
         sandbox.mock(people).expects('fetch').once().resolves(data);
 
-        const result = await people.searchAccountTradeActions({
-            personId: personId
+        const result = await people.searchAccountMoneyTransferActions({
+            personId: personId,
+            accountNumber: '12345'
         });
 
         assert.deepEqual(result, data);

@@ -1,10 +1,8 @@
 // tslint:disable:max-classes-per-file
-
 /**
  * Sasaki API Service Library for Javascript
  * @ignore
  */
-
 import * as factory from '@motionpicture/sskts-factory';
 
 import { AuthClient } from './auth/authClient';
@@ -15,6 +13,7 @@ import { OrderService } from './service/order';
 import { OrganizationService } from './service/organization';
 import { PersonService } from './service/person';
 import { PlaceService } from './service/place';
+import { ProgramMembershipService } from './service/programMembership';
 import { PlaceOrderTransactionService } from './service/transaction/placeOrder';
 import { ReturnOrderTransactionService } from './service/transaction/returnOrder';
 import * as transporters from './transporters';
@@ -31,29 +30,33 @@ export abstract class Auth extends AuthClient { }
 
 export namespace service {
     /**
-     * action service
+     * アクションサービス
      */
     export class Action extends ActionService { }
     /**
-     * event service
+     * イベントサービス
      */
     export class Event extends EventService { }
     /**
-     * order service
+     * 注文サービス
      */
     export class Order extends OrderService { }
     /**
-     * organization service
+     * 組織サービス
      */
     export class Organization extends OrganizationService { }
     /**
-     * person service
+     * ユーザーサービス
      */
     export class Person extends PersonService { }
     /**
-     * place service
+     * 場所サービス
      */
     export class Place extends PlaceService { }
+    /**
+     * 会員プログラムサービス
+     */
+    export class ProgramMembership extends ProgramMembershipService { }
 
     export namespace transaction {
         /**

@@ -187,10 +187,34 @@ describe('placeOrder transaction sasaki.service', () => {
 
         const result = await transactions.createPecorinoAuthorization({
             transactionId: 'transactionId',
-            price: 1234
+            amount: 1234,
+            fromAccountNumber: '12345'
         });
 
         assert.deepEqual(result, data);
         sandbox.verify();
+    });
+
+    it('Pecorino口座オーソリ取消結果が期待通り', async () => {
+        const data = undefined;
+        sandbox.mock(transactions).expects('fetch').once().resolves(data);
+
+        const result = await transactions.cancelPecorinoAuthorization({
+            transactionId: 'transactionId',
+            actionId: 'actionId'
+        });
+
+        assert.deepEqual(result, data);
+        sandbox.verify();
+    });
+
+    it('取引中止結果が期待通り', async () => {
+        const data = {};
+        sandbox.mock(transactions).expects('fetch').once().resolves(data);
+
+        const result = await transactions.cancel({
+            transactionId: 'transactionId'
+        });
+        assert.deepEqual(result, data);
     });
 });

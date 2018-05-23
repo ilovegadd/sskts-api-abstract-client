@@ -1,8 +1,6 @@
 /**
  * 注文取引サービス
- * @namespace service.transaction.placeOrder
  */
-
 import * as factory from '@motionpicture/sskts-factory';
 import { CREATED, NO_CONTENT, OK } from 'http-status';
 
@@ -21,6 +19,20 @@ export type ICreditCard =
  */
 export interface IAuthorizeAction {
     id: string;
+}
+
+/**
+ * 注文インセンティブインターフェース
+ */
+export interface IIncentive {
+    /**
+     * 付与ポイント数
+     */
+    amount: number;
+    /**
+     * 付与先口座番号
+     */
+    toAccountNumber: string;
 }
 
 /**
@@ -256,15 +268,47 @@ export class PlaceOrderTransactionService extends Service {
         /**
          * 金額
          */
-        price: number;
+        amount: number;
+        /**
+         * 引き出し元口座番号
+         */
+        fromAccountNumber: string;
+        /**
+         * 取引メモ
+         * 指定すると、口座の取引明細に記録されます。
+         * 後の調査のためにある程度の情報を記録することが望ましい。
+         */
+        notes?: string;
     }): Promise<IAuthorizeAction> {
         return this.fetch({
             uri: `/transactions/placeOrder/${params.transactionId}/actions/authorize/pecorino`,
             method: 'POST',
             expectedStatusCodes: [CREATED],
             body: {
-                price: params.price
+                amount: params.amount,
+                fromAccountNumber: params.fromAccountNumber,
+                notes: params.notes
             }
+        });
+    }
+
+    /**
+     * Pecorino口座オーソリ取消
+     */
+    public async cancelPecorinoAuthorization(params: {
+        /**
+         * 取引ID
+         */
+        transactionId: string;
+        /**
+         * アクションID
+         */
+        actionId: string;
+    }): Promise<void> {
+        return this.fetch({
+            uri: `/transactions/placeOrder/${params.transactionId}/actions/authorize/pecorino/${params.actionId}`,
+            method: 'DELETE',
+            expectedStatusCodes: [NO_CONTENT]
         });
     }
 
@@ -299,11 +343,24 @@ export class PlaceOrderTransactionService extends Service {
          * 取引ID
          */
         transactionId: string;
+        /**
+         * 注文メールを送信するかどうか
+         * デフォルトはfalse
+         */
+        sendEmailMessage?: boolean;
+        /**
+         * インセンティブとしてポイントを付与する場合、ポイント数と対象口座を指定
+         */
+        incentives?: IIncentive[];
     }): Promise<factory.order.IOrder> {
         return this.fetch({
             uri: `/transactions/placeOrder/${params.transactionId}/confirm`,
             method: 'POST',
-            expectedStatusCodes: [CREATED]
+            expectedStatusCodes: [CREATED],
+            body: {
+                sendEmailMessage: params.sendEmailMessage,
+                incentives: params.incentives
+            }
         });
     }
 
@@ -326,6 +383,21 @@ export class PlaceOrderTransactionService extends Service {
             method: 'POST',
             expectedStatusCodes: [CREATED],
             body: params.emailMessageAttributes
+        });
+    }
+
+    /**
+     * 明示的に取引を中止する
+     * 既に確定済、あるいは、期限切れの取引に対して実行するとNotFoundエラーが返されます。
+     * @param params.transactionId 取引ID
+     */
+    public async cancel(params: {
+        transactionId: string;
+    }): Promise<void> {
+        return this.fetch({
+            uri: `/transactions/placeOrder/${params.transactionId}/cancel`,
+            method: 'POST',
+            expectedStatusCodes: [NO_CONTENT]
         });
     }
 }
