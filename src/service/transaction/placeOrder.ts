@@ -89,7 +89,7 @@ export class PlaceOrderTransactionService extends Service {
          * 座席販売情報
          */
         offers: factory.offer.seatReservation.IOffer[];
-    }): Promise<factory.action.authorize.seatReservation.IAction> {
+    }): Promise<factory.action.authorize.offer.seatReservation.IAction> {
         return this.fetch({
             uri: `/transactions/placeOrder/${params.transactionId}/actions/authorize/seatReservation`,
             method: 'POST',
@@ -143,7 +143,7 @@ export class PlaceOrderTransactionService extends Service {
          * 座席販売情報
          */
         offers: factory.offer.seatReservation.IOffer[];
-    }): Promise<factory.action.authorize.seatReservation.IAction> {
+    }): Promise<factory.action.authorize.offer.seatReservation.IAction> {
         return this.fetch({
             uri: `/transactions/placeOrder/${params.transactionId}/actions/authorize/seatReservation/${params.actionId}`,
             method: 'PATCH',
@@ -226,7 +226,7 @@ export class PlaceOrderTransactionService extends Service {
         /**
          * ムビチケ情報
          */
-        mvtk: factory.action.authorize.mvtk.IObject;
+        mvtk: factory.action.authorize.discount.mvtk.IObject;
     }): Promise<IAuthorizeAction> {
         return this.fetch({
             uri: `/transactions/placeOrder/${params.transactionId}/actions/authorize/mvtk`,
