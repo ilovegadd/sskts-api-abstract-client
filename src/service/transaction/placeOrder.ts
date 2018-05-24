@@ -257,10 +257,10 @@ export class PlaceOrderTransactionService extends Service {
     }
 
     /**
-     * Pecorino口座のオーソリを取得する
+     * Pecorino口座決済のオーソリを取得する
      * @returns 承認アクション
      */
-    public async createPecorinoAuthorization(params: {
+    public async createPecorinoPaymentAuthorization(params: {
         /**
          * 取引ID
          */
@@ -281,7 +281,7 @@ export class PlaceOrderTransactionService extends Service {
         notes?: string;
     }): Promise<IAuthorizeAction> {
         return this.fetch({
-            uri: `/transactions/placeOrder/${params.transactionId}/actions/authorize/pecorino`,
+            uri: `/transactions/placeOrder/${params.transactionId}/actions/authorize/paymentMethod/pecorino`,
             method: 'POST',
             expectedStatusCodes: [CREATED],
             body: {
@@ -293,9 +293,9 @@ export class PlaceOrderTransactionService extends Service {
     }
 
     /**
-     * Pecorino口座オーソリ取消
+     * Pecorino口座決済オーソリ取消
      */
-    public async cancelPecorinoAuthorization(params: {
+    public async cancelPecorinoPaymentAuthorization(params: {
         /**
          * 取引ID
          */
@@ -306,7 +306,63 @@ export class PlaceOrderTransactionService extends Service {
         actionId: string;
     }): Promise<void> {
         return this.fetch({
-            uri: `/transactions/placeOrder/${params.transactionId}/actions/authorize/pecorino/${params.actionId}`,
+            uri: `/transactions/placeOrder/${params.transactionId}/actions/authorize/paymentMethod/pecorino/${params.actionId}`,
+            method: 'DELETE',
+            expectedStatusCodes: [NO_CONTENT]
+        });
+    }
+
+    /**
+     * Pecorinoポイントインセンティブのオーソリを取得する
+     * @returns 承認アクション
+     */
+    public async createPecorinoAwardAuthorization(params: {
+        /**
+         * 取引ID
+         */
+        transactionId: string;
+        /**
+         * 金額
+         */
+        amount: number;
+        /**
+         * 入金先口座番号
+         */
+        toAccountNumber: string;
+        /**
+         * 取引メモ
+         * 指定すると、口座の取引明細に記録されます。
+         * 後の調査のためにある程度の情報を記録することが望ましい。
+         */
+        notes?: string;
+    }): Promise<IAuthorizeAction> {
+        return this.fetch({
+            uri: `/transactions/placeOrder/${params.transactionId}/actions/authorize/award/pecorino`,
+            method: 'POST',
+            expectedStatusCodes: [CREATED],
+            body: {
+                amount: params.amount,
+                toAccountNumber: params.toAccountNumber,
+                notes: params.notes
+            }
+        });
+    }
+
+    /**
+     * Pecorinoポイントインセンティブオーソリ取消
+     */
+    public async cancelPecorinoAwardAuthorization(params: {
+        /**
+         * 取引ID
+         */
+        transactionId: string;
+        /**
+         * アクションID
+         */
+        actionId: string;
+    }): Promise<void> {
+        return this.fetch({
+            uri: `/transactions/placeOrder/${params.transactionId}/actions/authorize/award/pecorino/${params.actionId}`,
             method: 'DELETE',
             expectedStatusCodes: [NO_CONTENT]
         });

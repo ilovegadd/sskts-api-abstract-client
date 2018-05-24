@@ -185,7 +185,7 @@ describe('placeOrder transaction sasaki.service', () => {
         const data = {};
         sandbox.mock(transactions).expects('fetch').once().resolves(data);
 
-        const result = await transactions.createPecorinoAuthorization({
+        const result = await transactions.createPecorinoPaymentAuthorization({
             transactionId: 'transactionId',
             amount: 1234,
             fromAccountNumber: '12345'
@@ -199,7 +199,34 @@ describe('placeOrder transaction sasaki.service', () => {
         const data = undefined;
         sandbox.mock(transactions).expects('fetch').once().resolves(data);
 
-        const result = await transactions.cancelPecorinoAuthorization({
+        const result = await transactions.cancelPecorinoPaymentAuthorization({
+            transactionId: 'transactionId',
+            actionId: 'actionId'
+        });
+
+        assert.deepEqual(result, data);
+        sandbox.verify();
+    });
+
+    it('Pecorinoインセンティブ承認アクションの結果が期待通り', async () => {
+        const data = {};
+        sandbox.mock(transactions).expects('fetch').once().resolves(data);
+
+        const result = await transactions.createPecorinoAwardAuthorization({
+            transactionId: 'transactionId',
+            amount: 1234,
+            toAccountNumber: '12345'
+        });
+
+        assert.deepEqual(result, data);
+        sandbox.verify();
+    });
+
+    it('Pecorinoインセンティブオーソリ取消結果が期待通り', async () => {
+        const data = undefined;
+        sandbox.mock(transactions).expects('fetch').once().resolves(data);
+
+        const result = await transactions.cancelPecorinoAwardAuthorization({
             transactionId: 'transactionId',
             actionId: 'actionId'
         });
