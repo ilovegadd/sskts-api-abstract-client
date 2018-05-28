@@ -177,4 +177,21 @@ describe('person service', () => {
         assert.deepEqual(result, data);
         sandbox.verify();
     });
+
+    it('会員プログラム登録の結果が期待通り', async () => {
+        const personId = 'me';
+        const data = {};
+        sandbox.mock(people).expects('fetch').once().resolves(data);
+
+        const result = await people.registerProgramMembership({
+            personId: personId,
+            programMembershipId: 'programMembershipId',
+            offerIdentifier: 'offerIdentifier',
+            sellerType: sasaki.factory.organizationType.MovieTheater,
+            sellerId: 'sellerId'
+        });
+
+        assert.deepEqual(result, data);
+        sandbox.verify();
+    });
 });

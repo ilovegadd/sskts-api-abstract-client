@@ -1,5 +1,5 @@
 import * as factory from '@motionpicture/sskts-factory';
-import { CREATED, NO_CONTENT, OK } from 'http-status';
+import { ACCEPTED, CREATED, NO_CONTENT, OK } from 'http-status';
 
 import { Service } from '../service';
 
@@ -220,6 +220,41 @@ export class PersonService extends Service {
                 ownedAt: params.ownedAt
             },
             expectedStatusCodes: [OK]
+        });
+    }
+
+    /**
+     * 会員プログラムに登録する
+     */
+    public async registerProgramMembership(params: {
+        personId: string;
+        /**
+         * 会員プログラムID
+         */
+        programMembershipId: string;
+        /**
+         * 会員プログラムに対するオファー識別子
+         */
+        offerIdentifier: string;
+        /**
+         * 販売者タイプ
+         */
+        sellerType: factory.organizationType;
+        /**
+         * 販売者ID
+         */
+        sellerId: string;
+    }): Promise<factory.task.registerProgramMembership.ITask> {
+        return this.fetch({
+            uri: `/people/${params.personId}/ownershipInfos/programMembership/register`,
+            method: 'PUT',
+            body: {
+                programMembershipId: params.programMembershipId,
+                offerIdentifier: params.offerIdentifier,
+                sellerType: params.sellerType,
+                sellerId: params.sellerId
+            },
+            expectedStatusCodes: [ACCEPTED]
         });
     }
 }
