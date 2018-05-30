@@ -257,4 +257,22 @@ export class PersonService extends Service {
             expectedStatusCodes: [ACCEPTED]
         });
     }
+
+    /**
+     * 会員プログラム登録解除
+     */
+    public async unRegisterProgramMembership(params: {
+        personId: string;
+        /**
+         * 会員プログラム所有権識別子
+         */
+        ownershipInfoIdentifier: string;
+    }): Promise<factory.task.unRegisterProgramMembership.ITask> {
+        return this.fetch({
+            uri: `/people/${params.personId}/ownershipInfos/programMembership/${params.ownershipInfoIdentifier}/unRegister`,
+            method: 'PUT',
+            body: {},
+            expectedStatusCodes: [ACCEPTED]
+        });
+    }
 }
