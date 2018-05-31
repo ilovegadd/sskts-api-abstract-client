@@ -1,10 +1,8 @@
 // tslint:disable:no-implicit-dependencies
-
 /**
  * order service test
  * @ignore
  */
-
 import { } from 'mocha';
 import * as assert from 'power-assert';
 import * as sinon from 'sinon';
@@ -14,7 +12,7 @@ import { StubAuthClient } from '../auth/authClient';
 
 const API_ENDPOINT = 'https://localhost';
 
-describe('findByOrderInquiryKey()', () => {
+describe('注文サービス', () => {
     let sandbox: sinon.SinonSandbox;
     let orders: sasaki.service.Order;
 
@@ -34,7 +32,7 @@ describe('findByOrderInquiryKey()', () => {
         sandbox.restore();
     });
 
-    it('fetch結果が正常であればそのまま取得できるはず', async () => {
+    it('注文照会結果が期待通り', async () => {
         const data = {};
         sandbox.mock(orders).expects('fetch').once().resolves(data);
 
@@ -43,7 +41,18 @@ describe('findByOrderInquiryKey()', () => {
             confirmationNumber: 123,
             telephone: 'xxx'
         });
+        assert.deepEqual(result, data);
+        sandbox.verify();
+    });
 
+    it('注文検索結果が期待通り', async () => {
+        const data = {};
+        sandbox.mock(orders).expects('fetch').once().resolves(data);
+
+        const result = await orders.search({
+            orderDateFrom: new Date(),
+            orderDateThrough: new Date()
+        });
         assert.deepEqual(result, data);
         sandbox.verify();
     });
