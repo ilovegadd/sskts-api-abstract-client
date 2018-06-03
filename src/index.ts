@@ -7,6 +7,7 @@ import * as factory from '@motionpicture/sskts-factory';
 
 import { AuthClient } from './auth/authClient';
 
+import { AccountService } from './service/account';
 import { ActionService } from './service/action';
 import { EventService } from './service/event';
 import { OrderService } from './service/order';
@@ -29,6 +30,10 @@ export import transporters = transporters;
 export abstract class Auth extends AuthClient { }
 
 export namespace service {
+    /**
+     * Pecorino口座サービス
+     */
+    export class Account extends AccountService { }
     /**
      * アクションサービス
      */
