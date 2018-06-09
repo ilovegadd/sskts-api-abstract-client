@@ -9,13 +9,10 @@
 [![Known Vulnerabilities](https://snyk.io/test/github/motionpicture/sskts-api-abstract-client/badge.svg)](https://snyk.io/test/github/motionpicture/sskts-api-abstract-client)
 [![npm](https://img.shields.io/npm/dm/@motionpicture/sskts-api-abstract-client.svg)](https://nodei.co/npm/@motionpicture/sskts-api-abstract-client/)
 
-
 ## Table of contents
 
 * [Usage](#usage)
-* [Jsdoc](#jsdoc)
 * [License](#license)
-
 
 ## Usage
 
@@ -26,13 +23,8 @@ npm install @motionpicture/sskts-api-abstract-client
 ### Environment variables
 
 | Name    | Required | Value                       | Purpose |
-| ------- | -------- | --------------------------- | ------- |
+|---------|----------|-----------------------------|---------|
 | `DEBUG` | false    | sskts-api-abstract-client:* | Debug   |
-
-
-## Jsdoc
-
-`npm run doc` outputs docs to ./docs.
 
 ## License
 
