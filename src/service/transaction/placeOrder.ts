@@ -2,7 +2,7 @@
  * 注文取引サービス
  */
 import * as factory from '@motionpicture/sskts-factory';
-import { CREATED, NO_CONTENT, OK } from 'http-status';
+import { ACCEPTED, CREATED, NO_CONTENT, OK } from 'http-status';
 
 import { Service } from '../../service';
 
@@ -151,6 +151,45 @@ export class PlaceOrderTransactionService extends Service {
             body: {
                 eventIdentifier: params.eventIdentifier,
                 offers: params.offers
+            }
+        });
+    }
+
+    /**
+     * クレジットカードの有効性を検証する
+     * @returns 検証アクション
+     */
+    public async validateCreditCardeffectiveness(params: {
+        /**
+         * 取引ID
+         */
+        transactionId: string;
+        /**
+         * オーダーID
+         */
+        orderId: string;
+        /**
+         * 金額
+         */
+        amount: number;
+        /**
+         * 支払い方法
+         */
+        method: string;
+        /**
+         * クレジットカード情報
+         */
+        creditCard: ICreditCard;
+    }): Promise<IAuthorizeAction> {
+        return this.fetch({
+            uri: `/transactions/placeOrder/${params.transactionId}/actions/validate/creditCard`,
+            method: 'POST',
+            expectedStatusCodes: [ACCEPTED],
+            body: {
+                orderId: params.orderId,
+                amount: params.amount,
+                method: params.method,
+                creditCard: params.creditCard
             }
         });
     }
