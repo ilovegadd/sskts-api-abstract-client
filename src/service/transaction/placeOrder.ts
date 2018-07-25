@@ -369,6 +369,48 @@ export class PlaceOrderTransactionService extends Service {
     }
 
     /**
+     * Mocoin決済のオーソリを取得する
+     * @returns 承認アクション
+     */
+    public async createMocoinPaymentAuthorization(params: {
+        /**
+         * 取引ID
+         */
+        transactionId: string;
+        /**
+         * 金額
+         */
+        amount: number;
+        /**
+         * 引き出し元口座番号
+         */
+        fromAccountNumber: string;
+        /**
+         * 取引メモ
+         * 指定すると、口座の取引明細に記録されます。
+         * 後の調査のためにある程度の情報を記録することが望ましい。
+         */
+        notes?: string;
+        /**
+         * 決済トークン
+         * Mocoinユーザーのアクセストークンをセットしてください。
+         */
+        token: string;
+    }): Promise<IAuthorizeAction> {
+        return this.fetch({
+            uri: `/transactions/placeOrder/${params.transactionId}/actions/authorize/paymentMethod/mocoin`,
+            method: 'POST',
+            expectedStatusCodes: [CREATED],
+            body: {
+                amount: params.amount,
+                fromAccountNumber: params.fromAccountNumber,
+                notes: params.notes,
+                token: params.token
+            }
+        });
+    }
+
+    /**
      * register a customer contact
      * @returns 登録された購入者情報
      */
