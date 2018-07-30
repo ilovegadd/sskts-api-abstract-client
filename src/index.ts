@@ -12,6 +12,7 @@ import { ActionService } from './service/action';
 import { EventService } from './service/event';
 import { OrderService } from './service/order';
 import { OrganizationService } from './service/organization';
+import { OwnershipInfoService } from './service/ownershipInfo';
 import { PersonService } from './service/person';
 import { PlaceService } from './service/place';
 import { ProgramMembershipService } from './service/programMembership';
@@ -50,6 +51,10 @@ export namespace service {
      * 組織サービス
      */
     export class Organization extends OrganizationService { }
+    /**
+     * 所有権サービス
+     */
+    export class OwnershipInfo extends OwnershipInfoService { }
     /**
      * ユーザーサービス
      */
