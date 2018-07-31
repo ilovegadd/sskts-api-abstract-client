@@ -10,6 +10,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Changed
 
+- ポイント口座に口座タイプを追加。
+
 ### Deprecated
 
 ### Removed

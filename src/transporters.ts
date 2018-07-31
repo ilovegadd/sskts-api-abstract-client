@@ -59,7 +59,7 @@ export class DefaultTransporter implements Transporter {
     /**
      * Default user agent.
      */
-    // public static readonly USER_AGENT: string = `sasaki-api-javascript-client/${pkg.version}`;
+    // public static readonly USER_AGENT: string = `sskts-api-javascript-client/${pkg.version}`;
 
     public expectedStatusCodes: number[];
 
@@ -144,7 +144,7 @@ export class DefaultTransporter implements Transporter {
 //     /**
 //      * Default user agent.
 //      */
-//     public static readonly USER_AGENT: string = `sasaki-api-nodejs-client/${pkg.version}`;
+//     public static readonly USER_AGENT: string = `sskt-api-nodejs-client/${pkg.version}`;
 
 //     public expectedStatusCodes: number[];
 
