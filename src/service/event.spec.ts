@@ -8,7 +8,7 @@
 import { } from 'mocha';
 import * as assert from 'power-assert';
 import * as sinon from 'sinon';
-import * as sasaki from '../index';
+import * as client from '../index';
 
 import { StubAuthClient } from '../auth/authClient';
 
@@ -16,11 +16,11 @@ const API_ENDPOINT = 'https://localhost';
 
 describe('searchIndividualScreeningEvent()', () => {
     let sandbox: sinon.SinonSandbox;
-    let events: sasaki.service.Event;
+    let events: client.service.Event;
 
     before(() => {
         const auth = new StubAuthClient();
-        events = new sasaki.service.Event({
+        events = new client.service.Event({
             auth: auth,
             endpoint: API_ENDPOINT
         });
@@ -45,7 +45,7 @@ describe('searchIndividualScreeningEvent()', () => {
     });
 
     it('fetch結果が正常でなければエラーになるはず', async () => {
-        const error = new sasaki.transporters.RequestError('invalid request');
+        const error = new client.transporters.RequestError('invalid request');
         sandbox.mock(events).expects('fetch').once().rejects(error);
 
         const result = await events.searchIndividualScreeningEvent({
@@ -58,11 +58,11 @@ describe('searchIndividualScreeningEvent()', () => {
 
 describe('findIndividualScreeningEvent()', () => {
     let sandbox: sinon.SinonSandbox;
-    let events: sasaki.service.Event;
+    let events: client.service.Event;
 
     before(() => {
         const auth = new StubAuthClient();
-        events = new sasaki.service.Event({
+        events = new client.service.Event({
             auth: auth,
             endpoint: API_ENDPOINT
         });
@@ -89,7 +89,7 @@ describe('findIndividualScreeningEvent()', () => {
     });
 
     it('fetch結果が正常でなければエラーになるはず', async () => {
-        const error = new sasaki.transporters.RequestError('invalid request');
+        const error = new client.transporters.RequestError('invalid request');
         sandbox.mock(events).expects('fetch').once().rejects(error);
 
         const result = await events.findIndividualScreeningEvent({

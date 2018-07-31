@@ -1,6 +1,6 @@
 // tslint:disable:max-classes-per-file
 /**
- * Sasaki API Service Library for Javascript
+ * API Service Library for Javascript
  * @ignore
  */
 import * as factory from '@motionpicture/sskts-factory';

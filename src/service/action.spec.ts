@@ -8,7 +8,7 @@
 import { } from 'mocha';
 import * as assert from 'power-assert';
 import * as sinon from 'sinon';
-import * as sasaki from '../index';
+import * as client from '../index';
 
 import { StubAuthClient } from '../auth/authClient';
 
@@ -16,11 +16,11 @@ const API_ENDPOINT = 'https://localhost';
 
 describe('printTicket()', () => {
     let sandbox: sinon.SinonSandbox;
-    let actions: sasaki.service.Action;
+    let actions: client.service.Action;
 
     before(() => {
         const auth = new StubAuthClient();
-        actions = new sasaki.service.Action({
+        actions = new client.service.Action({
             auth: auth,
             endpoint: API_ENDPOINT
         });
@@ -47,7 +47,7 @@ describe('printTicket()', () => {
 
     it('fetch結果が正常でなければエラーになるはず', async () => {
         const params = {};
-        const error = new sasaki.transporters.RequestError('invalid request');
+        const error = new client.transporters.RequestError('invalid request');
 
         sandbox.mock(actions).expects('fetch').once().rejects(error);
 
@@ -59,11 +59,11 @@ describe('printTicket()', () => {
 
 describe('searchPrintTicket()', () => {
     let sandbox: sinon.SinonSandbox;
-    let actions: sasaki.service.Action;
+    let actions: client.service.Action;
 
     before(() => {
         const auth = new StubAuthClient();
-        actions = new sasaki.service.Action({
+        actions = new client.service.Action({
             auth: auth,
             endpoint: API_ENDPOINT
         });
@@ -90,7 +90,7 @@ describe('searchPrintTicket()', () => {
 
     it('fetch結果が正常でなければエラーになるはず', async () => {
         const params = {};
-        const error = new sasaki.transporters.RequestError('invalid request');
+        const error = new client.transporters.RequestError('invalid request');
 
         sandbox.mock(actions).expects('fetch').once().rejects(error);
 

@@ -8,7 +8,7 @@
 import { } from 'mocha';
 import * as assert from 'power-assert';
 import * as sinon from 'sinon';
-import * as sasaki from '../index';
+import * as client from '../index';
 
 import { StubAuthClient } from '../auth/authClient';
 
@@ -16,11 +16,11 @@ const API_ENDPOINT = 'https://localhost';
 
 describe('organization service', () => {
     let sandbox: sinon.SinonSandbox;
-    let organizations: sasaki.service.Organization;
+    let organizations: client.service.Organization;
 
     before(() => {
         const auth = new StubAuthClient();
-        organizations = new sasaki.service.Organization({
+        organizations = new client.service.Organization({
             auth: auth,
             endpoint: API_ENDPOINT
         });

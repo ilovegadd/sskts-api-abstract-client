@@ -1,26 +1,26 @@
 // tslint:disable:no-implicit-dependencies
 
 /**
- * placeOrder transaction sasaki.service test
+ * placeOrder transaction client.service test
  * @ignore
  */
 
 import { } from 'mocha';
 import * as assert from 'power-assert';
 import * as sinon from 'sinon';
-import * as sasaki from '../../index';
+import * as client from '../../index';
 
 import { StubAuthClient } from '../../auth/authClient';
 
 const API_ENDPOINT = 'https://localhost';
 
-describe('placeOrder transaction sasaki.service', () => {
+describe('placeOrder transaction client.service', () => {
     let sandbox: sinon.SinonSandbox;
-    let transactions: sasaki.service.transaction.PlaceOrder;
+    let transactions: client.service.transaction.PlaceOrder;
 
     before(() => {
         const auth = new StubAuthClient();
-        transactions = new sasaki.service.transaction.PlaceOrder({
+        transactions = new client.service.transaction.PlaceOrder({
             auth: auth,
             endpoint: API_ENDPOINT
         });
