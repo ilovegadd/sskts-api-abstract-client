@@ -132,7 +132,7 @@ export class PersonService extends Service {
          * 口座名義
          */
         name: string;
-    }): Promise<factory.pecorino.account.IAccount> {
+    }): Promise<factory.pecorino.account.IAccount<factory.accountType.Point>> {
         return this.fetch({
             uri: `/people/${params.personId}/accounts`,
             method: 'POST',
@@ -175,7 +175,7 @@ export class PersonService extends Service {
          * ログインユーザーの場合'me'を指定
          */
         personId: string;
-    }): Promise<factory.pecorino.account.IAccount[]> {
+    }): Promise<factory.pecorino.account.IAccount<factory.accountType.Point>[]> {
         return this.fetch({
             uri: `/people/${params.personId}/accounts`,
             method: 'GET',
@@ -197,7 +197,7 @@ export class PersonService extends Service {
          * 口座番号
          */
         accountNumber: string;
-    }): Promise<factory.pecorino.action.transfer.moneyTransfer.IAction[]> {
+    }): Promise<factory.pecorino.action.transfer.moneyTransfer.IAction<factory.accountType.Point>[]> {
         return this.fetch({
             uri: `/people/${params.personId}/accounts/${params.accountNumber}/actions/moneyTransfer`,
             method: 'GET',

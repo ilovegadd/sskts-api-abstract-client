@@ -8,7 +8,7 @@
 import { } from 'mocha';
 import * as assert from 'power-assert';
 import * as sinon from 'sinon';
-import * as sasaki from '../../index';
+import * as client from '../../index';
 
 import { StubAuthClient } from '../../auth/authClient';
 
@@ -16,11 +16,11 @@ const API_ENDPOINT = 'https://localhost';
 
 describe('注文返品取引サービス', () => {
     let sandbox: sinon.SinonSandbox;
-    let transactions: sasaki.service.transaction.ReturnOrder;
+    let transactions: client.service.transaction.ReturnOrder;
 
     before(() => {
         const auth = new StubAuthClient();
-        transactions = new sasaki.service.transaction.ReturnOrder({
+        transactions = new client.service.transaction.ReturnOrder({
             auth: auth,
             endpoint: API_ENDPOINT
         });
