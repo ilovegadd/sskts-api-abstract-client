@@ -1,6 +1,4 @@
-<img src="https://motionpicture.jp/images/common/logo_01.svg" alt="motionpicture" title="motionpicture" align="right" height="56" width="98"/>
-
-# SSKTS API abstract client library for Javascript
+# SSKTS API Abstract Client Library for Javascript
 
 [![npm (scoped)](https://img.shields.io/npm/v/@motionpicture/sskts-api-abstract-client.svg)](https://www.npmjs.com/package/@motionpicture/sskts-api-abstract-client)
 [![CircleCI](https://circleci.com/gh/motionpicture/sskts-api-abstract-client.svg?style=shield)](https://circleci.com/gh/motionpicture/sskts-api-abstract-client)

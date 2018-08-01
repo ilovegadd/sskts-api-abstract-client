@@ -6,7 +6,7 @@
 import { } from 'mocha';
 import * as assert from 'power-assert';
 import * as sinon from 'sinon';
-import * as sasaki from '../index';
+import * as client from '../index';
 
 import { StubAuthClient } from '../auth/authClient';
 
@@ -14,11 +14,11 @@ const API_ENDPOINT = 'https://localhost';
 
 describe('person service', () => {
     let sandbox: sinon.SinonSandbox;
-    let people: sasaki.service.Person;
+    let people: client.service.Person;
 
     before(() => {
         const auth = new StubAuthClient();
-        people = new sasaki.service.Person({
+        people = new client.service.Person({
             auth: auth,
             endpoint: API_ENDPOINT
         });
@@ -110,7 +110,7 @@ describe('person service', () => {
         sandbox.mock(people).expects('fetch').once().resolves(data);
 
         const result = await people.searchOwnershipInfos({
-            goodType: sasaki.factory.reservationType.EventReservation,
+            goodType: client.factory.reservationType.EventReservation,
             ownedBy: personId
         });
         assert.deepEqual(result, data);
@@ -177,7 +177,7 @@ describe('person service', () => {
             personId: personId,
             programMembershipId: 'programMembershipId',
             offerIdentifier: 'offerIdentifier',
-            sellerType: sasaki.factory.organizationType.MovieTheater,
+            sellerType: client.factory.organizationType.MovieTheater,
             sellerId: 'sellerId'
         });
         assert.deepEqual(result, data);
