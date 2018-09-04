@@ -43,18 +43,4 @@ export class OrderService extends Service {
             expectedStatusCodes: [OK]
         });
     }
-
-    /**
-     * リミテッド注文を検索する
-     */
-    public async isLimitedOrdered(
-        params: factory.order.ILimitedOrderSearchConditions
-    ): Promise<{ result: boolean }> {
-        return this.fetch({
-            uri: '/orders/isLimitedOrdered',
-            method: 'GET',
-            qs: params,
-            expectedStatusCodes: [OK]
-        });
-    }
 }
