@@ -51,7 +51,7 @@ export class OrderService extends Service {
         params: factory.order.ILimitedOrderSearchConditions
     ): Promise<{ result: boolean }> {
         return this.fetch({
-            uri: '/isLimitedOrdered',
+            uri: '/orders/isLimitedOrdered',
             method: 'GET',
             qs: params,
             expectedStatusCodes: [OK]
