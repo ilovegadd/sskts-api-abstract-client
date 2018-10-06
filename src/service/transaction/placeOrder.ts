@@ -69,7 +69,7 @@ export class PlaceOrderTransactionService extends Service {
                 passportToken: params.passportToken
             },
             expectedStatusCodes: [OK]
-        });
+        }).then(async (response) => response.json());
     }
 
     /**
@@ -98,7 +98,7 @@ export class PlaceOrderTransactionService extends Service {
                 eventIdentifier: params.eventIdentifier,
                 offers: params.offers
             }
-        });
+        }).then(async (response) => response.json());
     }
 
     /**
@@ -114,7 +114,7 @@ export class PlaceOrderTransactionService extends Service {
          */
         actionId: string;
     }): Promise<void> {
-        return this.fetch({
+        await this.fetch({
             uri: `/transactions/placeOrder/${params.transactionId}/actions/authorize/seatReservation/${params.actionId}`,
             method: 'DELETE',
             expectedStatusCodes: [NO_CONTENT]
@@ -152,7 +152,7 @@ export class PlaceOrderTransactionService extends Service {
                 eventIdentifier: params.eventIdentifier,
                 offers: params.offers
             }
-        });
+        }).then(async (response) => response.json());
     }
 
     /**
@@ -191,7 +191,7 @@ export class PlaceOrderTransactionService extends Service {
                 method: params.method,
                 creditCard: params.creditCard
             }
-        });
+        }).then(async (response) => response.json());
     }
 
     /**
@@ -207,7 +207,7 @@ export class PlaceOrderTransactionService extends Service {
          */
         actionId: string;
     }): Promise<void> {
-        return this.fetch({
+        await this.fetch({
             uri: `/transactions/placeOrder/${params.transactionId}/actions/authorize/creditCard/${params.actionId}`,
             method: 'DELETE',
             expectedStatusCodes: [NO_CONTENT]
@@ -233,7 +233,7 @@ export class PlaceOrderTransactionService extends Service {
             method: 'POST',
             expectedStatusCodes: [CREATED],
             body: params.mvtk
-        });
+        }).then(async (response) => response.json());
     }
 
     /**
@@ -249,7 +249,7 @@ export class PlaceOrderTransactionService extends Service {
          */
         actionId: string;
     }): Promise<void> {
-        return this.fetch({
+        await this.fetch({
             uri: `/transactions/placeOrder/${params.transactionId}/actions/authorize/mvtk/${params.actionId}`,
             method: 'DELETE',
             expectedStatusCodes: [NO_CONTENT]
@@ -289,7 +289,7 @@ export class PlaceOrderTransactionService extends Service {
                 fromAccountNumber: params.fromAccountNumber,
                 notes: params.notes
             }
-        });
+        }).then(async (response) => response.json());
     }
 
     /**
@@ -305,7 +305,7 @@ export class PlaceOrderTransactionService extends Service {
          */
         actionId: string;
     }): Promise<void> {
-        return this.fetch({
+        await this.fetch({
             uri: `/transactions/placeOrder/${params.transactionId}/actions/authorize/paymentMethod/pecorino/${params.actionId}`,
             method: 'DELETE',
             expectedStatusCodes: [NO_CONTENT]
@@ -345,7 +345,7 @@ export class PlaceOrderTransactionService extends Service {
                 toAccountNumber: params.toAccountNumber,
                 notes: params.notes
             }
-        });
+        }).then(async (response) => response.json());
     }
 
     /**
@@ -361,7 +361,7 @@ export class PlaceOrderTransactionService extends Service {
          */
         actionId: string;
     }): Promise<void> {
-        return this.fetch({
+        await this.fetch({
             uri: `/transactions/placeOrder/${params.transactionId}/actions/authorize/award/pecorino/${params.actionId}`,
             method: 'DELETE',
             expectedStatusCodes: [NO_CONTENT]
@@ -387,7 +387,7 @@ export class PlaceOrderTransactionService extends Service {
             method: 'PUT',
             expectedStatusCodes: [CREATED],
             body: params.contact
-        });
+        }).then(async (response) => response.json());
     }
 
     /**
@@ -417,7 +417,7 @@ export class PlaceOrderTransactionService extends Service {
                 sendEmailMessage: params.sendEmailMessage,
                 incentives: params.incentives
             }
-        });
+        }).then(async (response) => response.json());
     }
 
     /**
@@ -439,7 +439,7 @@ export class PlaceOrderTransactionService extends Service {
             method: 'POST',
             expectedStatusCodes: [CREATED],
             body: params.emailMessageAttributes
-        });
+        }).then(async (response) => response.json());
     }
 
     /**
@@ -450,7 +450,7 @@ export class PlaceOrderTransactionService extends Service {
     public async cancel(params: {
         transactionId: string;
     }): Promise<void> {
-        return this.fetch({
+        await this.fetch({
             uri: `/transactions/placeOrder/${params.transactionId}/cancel`,
             method: 'POST',
             expectedStatusCodes: [NO_CONTENT]

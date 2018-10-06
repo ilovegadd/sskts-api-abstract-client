@@ -4,7 +4,7 @@
  * placeOrder transaction client.service test
  * @ignore
  */
-
+import * as fetchMock from 'fetch-mock';
 import { } from 'mocha';
 import * as assert from 'power-assert';
 import * as sinon from 'sinon';
@@ -36,7 +36,8 @@ describe('placeOrder transaction client.service', () => {
 
     it('取引開始結果が期待通り', async () => {
         const data = {};
-        sandbox.mock(transactions).expects('fetch').once().resolves(data);
+        const myMock = fetchMock.sandbox().mock('*', data);
+        sandbox.mock(transactions).expects('fetch').once().resolves(await myMock());
 
         const result = await transactions.start({
             expires: new Date(),
@@ -50,7 +51,8 @@ describe('placeOrder transaction client.service', () => {
 
     it('座席仮予約結果が期待通り', async () => {
         const data = {};
-        sandbox.mock(transactions).expects('fetch').once().resolves(data);
+        const myMock = fetchMock.sandbox().mock('*', data);
+        sandbox.mock(transactions).expects('fetch').once().resolves(await myMock());
 
         const result = await transactions.createSeatReservationAuthorization({
             transactionId: 'transactionId',
@@ -64,20 +66,22 @@ describe('placeOrder transaction client.service', () => {
 
     it('座席予約取消結果が期待通り', async () => {
         const data = {};
-        sandbox.mock(transactions).expects('fetch').once().resolves(data);
+        const myMock = fetchMock.sandbox().mock('*', data);
+        sandbox.mock(transactions).expects('fetch').once().resolves(await myMock());
 
         const result = await transactions.cancelSeatReservationAuthorization({
             transactionId: 'transactionId',
             actionId: 'actionId'
         });
 
-        assert.deepEqual(result, data);
+        assert.deepEqual(result, undefined);
         sandbox.verify();
     });
 
     it('座席予約変更結果が期待通り', async () => {
         const data = {};
-        sandbox.mock(transactions).expects('fetch').once().resolves(data);
+        const myMock = fetchMock.sandbox().mock('*', data);
+        sandbox.mock(transactions).expects('fetch').once().resolves(await myMock());
 
         const result = await transactions.changeSeatReservationOffers({
             transactionId: 'transactionId',
@@ -92,7 +96,8 @@ describe('placeOrder transaction client.service', () => {
 
     it('クレジットカードオーソリ結果が期待通り', async () => {
         const data = {};
-        sandbox.mock(transactions).expects('fetch').once().resolves(data);
+        const myMock = fetchMock.sandbox().mock('*', data);
+        sandbox.mock(transactions).expects('fetch').once().resolves(await myMock());
 
         const result = await transactions.createCreditCardAuthorization({
             transactionId: 'transactionId',
@@ -107,21 +112,23 @@ describe('placeOrder transaction client.service', () => {
     });
 
     it('クレジットカードオーソリ取消結果が期待通り', async () => {
-        const data = undefined;
-        sandbox.mock(transactions).expects('fetch').once().resolves(data);
+        const data = {};
+        const myMock = fetchMock.sandbox().mock('*', data);
+        sandbox.mock(transactions).expects('fetch').once().resolves(await myMock());
 
         const result = await transactions.cancelCreditCardAuthorization({
             transactionId: 'transactionId',
             actionId: 'actionId'
         });
 
-        assert.deepEqual(result, data);
+        assert.deepEqual(result, undefined);
         sandbox.verify();
     });
 
     it('ムビチケ追加結果が期待通り', async () => {
         const data = {};
-        sandbox.mock(transactions).expects('fetch').once().resolves(data);
+        const myMock = fetchMock.sandbox().mock('*', data);
+        sandbox.mock(transactions).expects('fetch').once().resolves(await myMock());
 
         const result = await transactions.createMvtkAuthorization({
             transactionId: 'transactionId',
@@ -134,20 +141,22 @@ describe('placeOrder transaction client.service', () => {
 
     it('ムビチケ取消結果が期待通り', async () => {
         const data = {};
-        sandbox.mock(transactions).expects('fetch').once().resolves(data);
+        const myMock = fetchMock.sandbox().mock('*', data);
+        sandbox.mock(transactions).expects('fetch').once().resolves(await myMock());
 
         const result = await transactions.cancelMvtkAuthorization({
             transactionId: 'transactionId',
             actionId: 'actionId'
         });
 
-        assert.deepEqual(result, data);
+        assert.deepEqual(result, undefined);
         sandbox.verify();
     });
 
     it('購入者情報登録結果が期待通り', async () => {
         const data = {};
-        sandbox.mock(transactions).expects('fetch').once().resolves(data);
+        const myMock = fetchMock.sandbox().mock('*', data);
+        sandbox.mock(transactions).expects('fetch').once().resolves(await myMock());
 
         const result = await transactions.setCustomerContact({
             transactionId: 'transactionId',
@@ -160,7 +169,8 @@ describe('placeOrder transaction client.service', () => {
 
     it('取引確定結果が期待通り', async () => {
         const data = {};
-        sandbox.mock(transactions).expects('fetch').once().resolves(data);
+        const myMock = fetchMock.sandbox().mock('*', data);
+        sandbox.mock(transactions).expects('fetch').once().resolves(await myMock());
 
         const result = await transactions.confirm({
             transactionId: 'transactionId'
@@ -170,7 +180,8 @@ describe('placeOrder transaction client.service', () => {
 
     it('メール通知結果が期待通り', async () => {
         const data = {};
-        sandbox.mock(transactions).expects('fetch').once().resolves(data);
+        const myMock = fetchMock.sandbox().mock('*', data);
+        sandbox.mock(transactions).expects('fetch').once().resolves(await myMock());
 
         const result = await transactions.sendEmailNotification({
             transactionId: 'transactionId',
@@ -183,7 +194,8 @@ describe('placeOrder transaction client.service', () => {
 
     it('Pecorino口座承認アクションの結果が期待通り', async () => {
         const data = {};
-        sandbox.mock(transactions).expects('fetch').once().resolves(data);
+        const myMock = fetchMock.sandbox().mock('*', data);
+        sandbox.mock(transactions).expects('fetch').once().resolves(await myMock());
 
         const result = await transactions.createPecorinoPaymentAuthorization({
             transactionId: 'transactionId',
@@ -196,21 +208,23 @@ describe('placeOrder transaction client.service', () => {
     });
 
     it('Pecorino口座オーソリ取消結果が期待通り', async () => {
-        const data = undefined;
-        sandbox.mock(transactions).expects('fetch').once().resolves(data);
+        const data = {};
+        const myMock = fetchMock.sandbox().mock('*', data);
+        sandbox.mock(transactions).expects('fetch').once().resolves(await myMock());
 
         const result = await transactions.cancelPecorinoPaymentAuthorization({
             transactionId: 'transactionId',
             actionId: 'actionId'
         });
 
-        assert.deepEqual(result, data);
+        assert.deepEqual(result, undefined);
         sandbox.verify();
     });
 
     it('Pecorinoインセンティブ承認アクションの結果が期待通り', async () => {
         const data = {};
-        sandbox.mock(transactions).expects('fetch').once().resolves(data);
+        const myMock = fetchMock.sandbox().mock('*', data);
+        sandbox.mock(transactions).expects('fetch').once().resolves(await myMock());
 
         const result = await transactions.createPecorinoAwardAuthorization({
             transactionId: 'transactionId',
@@ -223,25 +237,27 @@ describe('placeOrder transaction client.service', () => {
     });
 
     it('Pecorinoインセンティブオーソリ取消結果が期待通り', async () => {
-        const data = undefined;
-        sandbox.mock(transactions).expects('fetch').once().resolves(data);
+        const data = {};
+        const myMock = fetchMock.sandbox().mock('*', data);
+        sandbox.mock(transactions).expects('fetch').once().resolves(await myMock());
 
         const result = await transactions.cancelPecorinoAwardAuthorization({
             transactionId: 'transactionId',
             actionId: 'actionId'
         });
 
-        assert.deepEqual(result, data);
+        assert.deepEqual(result, undefined);
         sandbox.verify();
     });
 
     it('取引中止結果が期待通り', async () => {
         const data = {};
-        sandbox.mock(transactions).expects('fetch').once().resolves(data);
+        const myMock = fetchMock.sandbox().mock('*', data);
+        sandbox.mock(transactions).expects('fetch').once().resolves(await myMock());
 
         const result = await transactions.cancel({
             transactionId: 'transactionId'
         });
-        assert.deepEqual(result, data);
+        assert.deepEqual(result, undefined);
     });
 });

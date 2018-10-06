@@ -4,7 +4,7 @@
  * place service test
  * @ignore
  */
-
+import * as fetchMock from 'fetch-mock';
 import { } from 'mocha';
 import * as assert from 'power-assert';
 import * as sinon from 'sinon';
@@ -35,8 +35,9 @@ describe('place service', () => {
     });
 
     it('劇場検索の結果が期待通り', async () => {
-        const data: any[] = [];
-        sandbox.mock(places).expects('fetch').once().resolves(data);
+        const data = {};
+        const myMock = fetchMock.sandbox().mock('*', data);
+        sandbox.mock(places).expects('fetch').once().resolves(await myMock());
 
         const result = await places.searchMovieTheaters({
         });
@@ -49,7 +50,8 @@ describe('place service', () => {
         const data = {
             branchCode: 'xxx'
         };
-        sandbox.mock(places).expects('fetch').once().resolves(data);
+        const myMock = fetchMock.sandbox().mock('*', data);
+        sandbox.mock(places).expects('fetch').once().resolves(await myMock());
 
         const result = await places.findMovieTheater({
             branchCode: data.branchCode

@@ -4,7 +4,7 @@
  * 注文返品取引サービステスト
  * @ignore
  */
-
+import * as fetchMock from 'fetch-mock';
 import { } from 'mocha';
 import * as assert from 'power-assert';
 import * as sinon from 'sinon';
@@ -36,7 +36,8 @@ describe('注文返品取引サービス', () => {
 
     it('取引開始結果が期待通り', async () => {
         const data = {};
-        sandbox.mock(transactions).expects('fetch').once().resolves(data);
+        const myMock = fetchMock.sandbox().mock('*', data);
+        sandbox.mock(transactions).expects('fetch').once().resolves(await myMock());
 
         const result = await transactions.start({
             expires: new Date(),
@@ -49,7 +50,8 @@ describe('注文返品取引サービス', () => {
 
     it('取引確定結果が期待通り', async () => {
         const data = {};
-        sandbox.mock(transactions).expects('fetch').once().resolves(data);
+        const myMock = fetchMock.sandbox().mock('*', data);
+        sandbox.mock(transactions).expects('fetch').once().resolves(await myMock());
 
         const result = await transactions.confirm({
             transactionId: 'transactionId'

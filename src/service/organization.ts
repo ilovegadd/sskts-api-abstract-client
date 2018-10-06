@@ -27,7 +27,7 @@ export class OrganizationService extends Service {
             method: 'GET',
             qs: params,
             expectedStatusCodes: [OK]
-        });
+        }).then(async (response) => response.json());
     }
 
     /**
@@ -44,6 +44,6 @@ export class OrganizationService extends Service {
             method: 'GET',
             qs: {},
             expectedStatusCodes: [OK]
-        });
+        }).then(async (response) => response.json());
     }
 }

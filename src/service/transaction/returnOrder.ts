@@ -35,7 +35,7 @@ export class ReturnOrderTransactionService extends Service {
                 transactionId: params.transactionId
             },
             expectedStatusCodes: [OK]
-        });
+        }).then(async (response) => response.json());
     }
 
     /**
@@ -52,6 +52,6 @@ export class ReturnOrderTransactionService extends Service {
             uri: `/transactions/returnOrder/${params.transactionId}/confirm`,
             method: 'POST',
             expectedStatusCodes: [CREATED]
-        });
+        }).then(async (response) => response.json());
     }
 }

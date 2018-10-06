@@ -21,7 +21,7 @@ export class ActionService extends Service {
             method: 'POST',
             body: params,
             expectedStatusCodes: [CREATED]
-        });
+        }).then(async (response) => response.json());
     }
 
     /**
@@ -38,6 +38,6 @@ export class ActionService extends Service {
             method: 'GET',
             qs: params,
             expectedStatusCodes: [OK]
-        });
+        }).then(async (response) => response.json());
     }
 }

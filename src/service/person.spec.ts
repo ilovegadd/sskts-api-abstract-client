@@ -3,6 +3,7 @@
  * person service test
  * @ignore
  */
+import * as fetchMock from 'fetch-mock';
 import { } from 'mocha';
 import * as assert from 'power-assert';
 import * as sinon from 'sinon';
@@ -34,9 +35,9 @@ describe('person service', () => {
 
     it('連絡先取得の結果が期待通り', async () => {
         const data = {};
-        sandbox.mock(people).expects('fetch').once().resolves(data);
+        const myMock = fetchMock.sandbox().mock('*', data);
+        sandbox.mock(people).expects('fetch').once().resolves(await myMock());
         const personId = 'me';
-
         const result = await people.getContacts({
             personId: personId
         });
@@ -46,8 +47,9 @@ describe('person service', () => {
 
     it('連絡先更新の結果が期待通り', async () => {
         const personId = 'me';
-        const data = undefined;
-        sandbox.mock(people).expects('fetch').once().resolves(data);
+        const data = {};
+        const myMock = fetchMock.sandbox().mock('*', data);
+        sandbox.mock(people).expects('fetch').once().resolves(await myMock());
 
         const contacts = {
             givenName: 'xxx',
@@ -60,14 +62,15 @@ describe('person service', () => {
             personId: personId,
             contacts: contacts
         });
-        assert.deepEqual(result, data);
+        assert.deepEqual(result, undefined);
         sandbox.verify();
     });
 
     it('クレジットカード検索の結果が期待通り', async () => {
         const personId = 'me';
         const data = {};
-        sandbox.mock(people).expects('fetch').once().resolves(data);
+        const myMock = fetchMock.sandbox().mock('*', data);
+        sandbox.mock(people).expects('fetch').once().resolves(await myMock());
 
         const result = await people.findCreditCards({
             personId: personId
@@ -80,7 +83,8 @@ describe('person service', () => {
         const personId = 'me';
         const creditCard = <any>{};
         const data = {};
-        sandbox.mock(people).expects('fetch').once().resolves(data);
+        const myMock = fetchMock.sandbox().mock('*', data);
+        sandbox.mock(people).expects('fetch').once().resolves(await myMock());
 
         const result = await people.addCreditCard({
             personId: personId,
@@ -93,8 +97,9 @@ describe('person service', () => {
     it('クレジットカード削除の結果が期待通り', async () => {
         const personId = 'me';
         const cardSeq = 'xxx';
-        const data = undefined;
-        sandbox.mock(people).expects('fetch').once().resolves(data);
+        const data = {};
+        const myMock = fetchMock.sandbox().mock('*', data);
+        sandbox.mock(people).expects('fetch').once().resolves(await myMock());
 
         const result = await people.deleteCreditCard({
             personId: personId,
@@ -106,8 +111,9 @@ describe('person service', () => {
 
     it('所有権検索の結果が期待通り', async () => {
         const personId = 'me';
-        const data = [{}];
-        sandbox.mock(people).expects('fetch').once().resolves(data);
+        const data = {};
+        const myMock = fetchMock.sandbox().mock('*', data);
+        sandbox.mock(people).expects('fetch').once().resolves(await myMock());
 
         const result = await people.searchOwnershipInfos({
             goodType: client.factory.reservationType.EventReservation,
@@ -120,7 +126,8 @@ describe('person service', () => {
     it('口座開設の結果が期待通り', async () => {
         const personId = 'me';
         const data = {};
-        sandbox.mock(people).expects('fetch').once().resolves(data);
+        const myMock = fetchMock.sandbox().mock('*', data);
+        sandbox.mock(people).expects('fetch').once().resolves(await myMock());
 
         const result = await people.openAccount({
             personId: personId,
@@ -133,20 +140,22 @@ describe('person service', () => {
     it('口座解約の結果が期待通り', async () => {
         const personId = 'me';
         const data = {};
-        sandbox.mock(people).expects('fetch').once().resolves(data);
+        const myMock = fetchMock.sandbox().mock('*', data);
+        sandbox.mock(people).expects('fetch').once().resolves(await myMock());
 
         const result = await people.closeAccount({
             personId: personId,
             accountNumber: '12345'
         });
-        assert.deepEqual(result, data);
+        assert.deepEqual(result, undefined);
         sandbox.verify();
     });
 
     it('口座照会の結果が期待通り', async () => {
         const personId = 'me';
-        const data = [{}];
-        sandbox.mock(people).expects('fetch').once().resolves(data);
+        const data = {};
+        const myMock = fetchMock.sandbox().mock('*', data);
+        sandbox.mock(people).expects('fetch').once().resolves(await myMock());
 
         const result = await people.findAccounts({
             personId: personId
@@ -157,8 +166,9 @@ describe('person service', () => {
 
     it('口座取引履歴検索の結果が期待通り', async () => {
         const personId = 'me';
-        const data = [{}];
-        sandbox.mock(people).expects('fetch').once().resolves(data);
+        const data = {};
+        const myMock = fetchMock.sandbox().mock('*', data);
+        sandbox.mock(people).expects('fetch').once().resolves(await myMock());
 
         const result = await people.searchAccountMoneyTransferActions({
             personId: personId,
@@ -171,7 +181,8 @@ describe('person service', () => {
     it('会員プログラム登録の結果が期待通り', async () => {
         const personId = 'me';
         const data = {};
-        sandbox.mock(people).expects('fetch').once().resolves(data);
+        const myMock = fetchMock.sandbox().mock('*', data);
+        sandbox.mock(people).expects('fetch').once().resolves(await myMock());
 
         const result = await people.registerProgramMembership({
             personId: personId,
@@ -187,7 +198,8 @@ describe('person service', () => {
     it('会員プログラム登録解除の結果が期待通り', async () => {
         const personId = 'me';
         const data = {};
-        sandbox.mock(people).expects('fetch').once().resolves(data);
+        const myMock = fetchMock.sandbox().mock('*', data);
+        sandbox.mock(people).expects('fetch').once().resolves(await myMock());
 
         const result = await people.unRegisterProgramMembership({
             personId: personId,

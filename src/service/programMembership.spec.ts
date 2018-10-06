@@ -3,6 +3,7 @@
  * 所有権サービステスト
  * @ignore
  */
+import * as fetchMock from 'fetch-mock';
 import { } from 'mocha';
 import * as assert from 'power-assert';
 import * as sinon from 'sinon';
@@ -33,8 +34,9 @@ describe('所有権サービス', () => {
     });
 
     it('所有権検索の結果が期待通り', async () => {
-        const data: any[] = [];
-        sandbox.mock(programMembershipService).expects('fetch').once().resolves(data);
+        const data = {};
+        const myMock = fetchMock.sandbox().mock('*', data);
+        sandbox.mock(programMembershipService).expects('fetch').once().resolves(await myMock());
         const personId = 'me';
 
         const result = await programMembershipService.search({
