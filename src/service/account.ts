@@ -32,12 +32,11 @@ export class AccountService extends Service {
          */
         notes?: string;
     }): Promise<void> {
-        return this.fetch({
+        await this.fetch({
             uri: '/accounts/transactions/deposit',
             method: 'POST',
             body: params,
             expectedStatusCodes: [NO_CONTENT]
         });
     }
-
 }

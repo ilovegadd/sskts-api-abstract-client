@@ -5,7 +5,6 @@ import { DefaultTransporter, Transporter } from './transporters';
 
 /**
  * service constructor options
- * @export
  */
 export interface IOptions {
     /**
@@ -23,7 +22,6 @@ export interface IOptions {
      */
     transporter?: Transporter;
 }
-
 export interface IFetchOptions {
     uri: string;
     form?: any;
@@ -35,18 +33,14 @@ export interface IFetchOptions {
     body?: any;
     expectedStatusCodes: number[];
 }
-
 /**
  * base service class
- * @export
  */
 export class Service {
     public options: IOptions;
-
     constructor(options: IOptions) {
         this.options = options;
     }
-
     /**
      * Create and send request to API
      */
@@ -88,4 +82,17 @@ export class Service {
             return transporter.fetch(url, fetchOptions);
         }
     }
+}
+/**
+ * 検索結果インターフェース
+ */
+export interface ISearchResult<T> {
+    /**
+     * マッチ数
+     */
+    totalCount: number;
+    /**
+     * マッチデータ
+     */
+    data: T;
 }

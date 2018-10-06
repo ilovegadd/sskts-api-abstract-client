@@ -4,7 +4,7 @@
  * organization service test
  * @ignore
  */
-
+import * as fetchMock from 'fetch-mock';
 import { } from 'mocha';
 import * as assert from 'power-assert';
 import * as sinon from 'sinon';
@@ -36,7 +36,8 @@ describe('organization service', () => {
 
     it('劇場組織検索の結果が期待通り', async () => {
         const data = {};
-        sandbox.mock(organizations).expects('fetch').once().resolves(data);
+        const myMock = fetchMock.sandbox().mock('*', data);
+        sandbox.mock(organizations).expects('fetch').once().resolves(await myMock());
 
         const result = await organizations.searchMovieTheaters({
         });
@@ -46,10 +47,9 @@ describe('organization service', () => {
     });
 
     it('枝番号で劇場組織検索の結果が期待通り', async () => {
-        const data = {
-            branchCode: 'xxx'
-        };
-        sandbox.mock(organizations).expects('fetch').once().resolves(data);
+        const data = { branchCode: 'xxx' };
+        const myMock = fetchMock.sandbox().mock('*', data);
+        sandbox.mock(organizations).expects('fetch').once().resolves(await myMock());
 
         const result = await organizations.findMovieTheaterByBranchCode({
             branchCode: data.branchCode

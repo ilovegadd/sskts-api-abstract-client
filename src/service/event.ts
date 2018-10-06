@@ -21,7 +21,7 @@ export class EventService extends Service {
             method: 'GET',
             qs: params,
             expectedStatusCodes: [OK]
-        });
+        }).then(async (response) => response.json());
     }
 
     /**
@@ -37,6 +37,6 @@ export class EventService extends Service {
             uri: `/events/individualScreeningEvent/${params.identifier}`,
             method: 'GET',
             expectedStatusCodes: [OK]
-        });
+        }).then(async (response) => response.json());
     }
 }

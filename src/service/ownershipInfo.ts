@@ -40,6 +40,6 @@ export class OwnershipInfoService extends Service {
             method: 'GET',
             qs: params,
             expectedStatusCodes: [OK]
-        });
+        }).then(async (response) => response.json());
     }
 }

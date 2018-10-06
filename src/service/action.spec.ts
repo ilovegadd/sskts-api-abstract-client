@@ -4,7 +4,7 @@
  * action service test
  * @ignore
  */
-
+import * as fetchMock from 'fetch-mock';
 import { } from 'mocha';
 import * as assert from 'power-assert';
 import * as sinon from 'sinon';
@@ -36,23 +36,12 @@ describe('printTicket()', () => {
 
     it('fetch結果が正常であればそのまま取得できるはず', async () => {
         const params = {};
-        const data: any = {};
-
-        sandbox.mock(actions).expects('fetch').once().resolves(data);
+        const data = {};
+        const myMock = fetchMock.sandbox().mock('*', data);
+        sandbox.mock(actions).expects('fetch').once().resolves(await myMock());
 
         const result = await actions.printTicket(<any>params);
         assert.deepEqual(result, data);
-        sandbox.verify();
-    });
-
-    it('fetch結果が正常でなければエラーになるはず', async () => {
-        const params = {};
-        const error = new client.transporters.RequestError('invalid request');
-
-        sandbox.mock(actions).expects('fetch').once().rejects(error);
-
-        const result = await actions.printTicket(<any>params).catch((err) => err);
-        assert.deepEqual(result, error);
         sandbox.verify();
     });
 });
@@ -79,23 +68,12 @@ describe('searchPrintTicket()', () => {
 
     it('fetch結果が正常であればそのまま取得できるはず', async () => {
         const params = {};
-        const data: any[] = [];
-
-        sandbox.mock(actions).expects('fetch').once().resolves(data);
+        const data = {};
+        const myMock = fetchMock.sandbox().mock('*', data);
+        sandbox.mock(actions).expects('fetch').once().resolves(await myMock());
 
         const result = await actions.searchPrintTicket(<any>params);
         assert.deepEqual(result, data);
-        sandbox.verify();
-    });
-
-    it('fetch結果が正常でなければエラーになるはず', async () => {
-        const params = {};
-        const error = new client.transporters.RequestError('invalid request');
-
-        sandbox.mock(actions).expects('fetch').once().rejects(error);
-
-        const result = await actions.searchPrintTicket(<any>params).catch((err) => err);
-        assert.deepEqual(result, error);
         sandbox.verify();
     });
 });

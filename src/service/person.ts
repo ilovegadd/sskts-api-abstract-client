@@ -27,7 +27,7 @@ export class PersonService extends Service {
             method: 'GET',
             qs: {},
             expectedStatusCodes: [OK]
-        });
+        }).then(async (response) => response.json());
     }
 
     /**
@@ -44,7 +44,7 @@ export class PersonService extends Service {
          */
         contacts: factory.person.IContact;
     }): Promise<void> {
-        return this.fetch({
+        await this.fetch({
             uri: `/people/${params.personId}/contacts`,
             method: 'PUT',
             body: params.contacts,
@@ -68,7 +68,7 @@ export class PersonService extends Service {
             method: 'GET',
             qs: {},
             expectedStatusCodes: [OK]
-        });
+        }).then(async (response) => response.json());
     }
 
     /**
@@ -93,7 +93,7 @@ export class PersonService extends Service {
             method: 'POST',
             body: params.creditCard,
             expectedStatusCodes: [CREATED]
-        });
+        }).then(async (response) => response.json());
     }
 
     /**
@@ -112,7 +112,7 @@ export class PersonService extends Service {
          */
         cardSeq: string;
     }): Promise<void> {
-        return this.fetch({
+        await this.fetch({
             uri: `/people/${params.personId}/creditCards/${params.cardSeq}`,
             method: 'DELETE',
             expectedStatusCodes: [NO_CONTENT]
@@ -140,7 +140,7 @@ export class PersonService extends Service {
                 name: params.name
             },
             expectedStatusCodes: [CREATED]
-        });
+        }).then(async (response) => response.json());
     }
 
     /**
@@ -159,7 +159,7 @@ export class PersonService extends Service {
          */
         accountNumber: string;
     }): Promise<void> {
-        return this.fetch({
+        await this.fetch({
             uri: `/people/${params.personId}/accounts/${params.accountNumber}/close`,
             method: 'PUT',
             expectedStatusCodes: [NO_CONTENT]
@@ -181,7 +181,7 @@ export class PersonService extends Service {
             method: 'GET',
             qs: {},
             expectedStatusCodes: [OK]
-        });
+        }).then(async (response) => response.json());
     }
 
     /**
@@ -203,7 +203,7 @@ export class PersonService extends Service {
             method: 'GET',
             qs: {},
             expectedStatusCodes: [OK]
-        });
+        }).then(async (response) => response.json());
     }
 
     /**
@@ -220,7 +220,7 @@ export class PersonService extends Service {
                 ownedAt: params.ownedAt
             },
             expectedStatusCodes: [OK]
-        });
+        }).then(async (response) => response.json());
     }
 
     /**
@@ -255,7 +255,7 @@ export class PersonService extends Service {
                 sellerId: params.sellerId
             },
             expectedStatusCodes: [ACCEPTED]
-        });
+        }).then(async (response) => response.json());
     }
 
     /**
@@ -273,6 +273,6 @@ export class PersonService extends Service {
             method: 'PUT',
             body: {},
             expectedStatusCodes: [ACCEPTED]
-        });
+        }).then(async (response) => response.json());
     }
 }
