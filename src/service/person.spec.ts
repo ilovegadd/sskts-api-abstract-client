@@ -208,4 +208,15 @@ describe('person service', () => {
         assert.deepEqual(result, data);
         sandbox.verify();
     });
+
+    it('会員検索結果が期待通り', async () => {
+        const data = {};
+        const myMock = fetchMock.sandbox().mock('*', data);
+        sandbox.mock(people).expects('fetch').once().resolves(await myMock());
+
+        const result = await people.search({
+        });
+        assert.deepEqual(result.data, data);
+        sandbox.verify();
+    });
 });

@@ -1,12 +1,12 @@
 import * as factory from '@motionpicture/sskts-factory';
 import { ACCEPTED, CREATED, NO_CONTENT, OK } from 'http-status';
 
-import { Service } from '../service';
+import { ISearchResult, Service } from '../service';
 
 export type ICreditCard =
     factory.paymentMethod.paymentCard.creditCard.IUncheckedCardRaw | factory.paymentMethod.paymentCard.creditCard.IUncheckedCardTokenized;
-
 export type IScreenEventReservation = factory.reservation.event.IEventReservation<factory.event.individualScreeningEvent.IEvent>;
+export type IPerson = factory.person.IContact & factory.person.IPerson;
 
 /**
  * ユーザーサービス
@@ -274,5 +274,27 @@ export class PersonService extends Service {
             body: {},
             expectedStatusCodes: [ACCEPTED]
         }).then(async (response) => response.json());
+    }
+    /**
+     * 会員検索
+     */
+    public async search(params: {
+        username?: string;
+        email?: string;
+        telephone?: string;
+        givenName?: string;
+        familyName?: string;
+    }): Promise<ISearchResult<IPerson[]>> {
+        return this.fetch({
+            uri: '/people',
+            method: 'GET',
+            qs: params,
+            expectedStatusCodes: [OK]
+        }).then(async (response) => {
+            return {
+                totalCount: Number(<string>response.headers.get('X-Total-Count')),
+                data: await response.json()
+            };
+        });
     }
 }
