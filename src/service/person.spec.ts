@@ -219,4 +219,14 @@ describe('person service', () => {
         assert.deepEqual(result.data, data);
         sandbox.verify();
     });
+
+    it('IDで会員検索結果が期待通り', async () => {
+        const data = {};
+        const myMock = fetchMock.sandbox().mock('*', data);
+        sandbox.mock(people).expects('fetch').once().resolves(await myMock());
+
+        const result = await people.findById({ id: 'id' });
+        assert.deepEqual(result, data);
+        sandbox.verify();
+    });
 });
