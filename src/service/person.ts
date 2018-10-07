@@ -279,6 +279,7 @@ export class PersonService extends Service {
      * 会員検索
      */
     public async search(params: {
+        id?: string;
         username?: string;
         email?: string;
         telephone?: string;
@@ -296,5 +297,17 @@ export class PersonService extends Service {
                 data: await response.json()
             };
         });
+    }
+    /**
+     * IDで検索
+     */
+    public async findById(params: {
+        id: string;
+    }): Promise<IPerson> {
+        return this.fetch({
+            uri: `/people/${params.id}`,
+            method: 'GET',
+            expectedStatusCodes: [OK]
+        }).then(async (response) => response.json());
     }
 }
