@@ -18,6 +18,7 @@ import { PlaceService } from './service/place';
 import { ProgramMembershipService } from './service/programMembership';
 import { PlaceOrderTransactionService } from './service/transaction/placeOrder';
 import { ReturnOrderTransactionService } from './service/transaction/returnOrder';
+import { UserPoolService } from './service/userPool';
 import * as transporters from './transporters';
 
 export import factory = factory;
@@ -67,7 +68,6 @@ export namespace service {
      * 会員プログラムサービス
      */
     export class ProgramMembership extends ProgramMembershipService { }
-
     export namespace transaction {
         /**
          * 注文取引サービス
@@ -78,4 +78,8 @@ export namespace service {
          */
         export class ReturnOrder extends ReturnOrderTransactionService { }
     }
+    /**
+     * ユーザープールサービス
+     */
+    export class UserPool extends UserPoolService { }
 }
