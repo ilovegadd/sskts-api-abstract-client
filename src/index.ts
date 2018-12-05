@@ -1,9 +1,8 @@
 // tslint:disable:max-classes-per-file
 /**
  * API Service Library for Javascript
- * @ignore
  */
-import * as factory from '@motionpicture/sskts-factory';
+import * as factory from './factory';
 
 import { AuthClient } from './auth/authClient';
 
@@ -16,6 +15,7 @@ import { OwnershipInfoService } from './service/ownershipInfo';
 import { PersonService } from './service/person';
 import { PlaceService } from './service/place';
 import { ProgramMembershipService } from './service/programMembership';
+import { TaskService } from './service/task';
 import { PlaceOrderTransactionService } from './service/transaction/placeOrder';
 import { ReturnOrderTransactionService } from './service/transaction/returnOrder';
 import { UserPoolService } from './service/userPool';
@@ -68,6 +68,10 @@ export namespace service {
      * 会員プログラムサービス
      */
     export class ProgramMembership extends ProgramMembershipService { }
+    /**
+     * タスクサービス
+     */
+    export class Task extends TaskService { }
     export namespace transaction {
         /**
          * 注文取引サービス

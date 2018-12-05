@@ -1,9 +1,9 @@
 /**
  * 注文取引サービス
  */
-import * as factory from '@motionpicture/sskts-factory';
 import { CREATED, NO_CONTENT, OK } from 'http-status';
 
+import * as factory from '../../factory';
 import { Service } from '../../service';
 
 /**

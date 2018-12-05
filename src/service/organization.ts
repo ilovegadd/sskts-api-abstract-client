@@ -1,12 +1,9 @@
 /**
  * 組織サービス
- *
- * @namespace service.organization
  */
-
-import * as factory from '@motionpicture/sskts-factory';
 import { OK } from 'http-status';
 
+import * as factory from '../factory';
 import { Service } from '../service';
 
 /**

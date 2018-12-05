@@ -1,11 +1,9 @@
 /**
  * 注文返品取引サービス
- * @namespace service.transaction.returnOrder
  */
-
-import * as factory from '@motionpicture/sskts-factory';
 import { CREATED, OK } from 'http-status';
 
+import * as factory from '../../factory';
 import { Service } from '../../service';
 
 /**
