@@ -260,4 +260,24 @@ describe('placeOrder transaction client.service', () => {
         });
         assert.deepEqual(result, undefined);
     });
+
+    it('取引検索結果が期待通り', async () => {
+        const data = {};
+        const myMock = fetchMock.sandbox().mock('*', data);
+        sandbox.mock(transactions).expects('fetch').once().resolves(await myMock());
+
+        const result = await transactions.search(<any>{});
+        assert.deepEqual(result.data, data);
+        sandbox.verify();
+    });
+
+    it('取引に対するアクション検索結果が期待通り', async () => {
+        const data: any[] = [];
+        const myMock = fetchMock.sandbox().mock('*', data);
+        sandbox.mock(transactions).expects('fetch').once().resolves(await myMock());
+
+        const result = await transactions.searchActionsByTransactionId(<any>{});
+        assert.deepEqual(result, data);
+        sandbox.verify();
+    });
 });
