@@ -1,17 +1,17 @@
 /**
  * 注文返品取引サービス
- * @namespace service.transaction.returnOrder
  */
-
-import * as factory from '@motionpicture/sskts-factory';
 import { CREATED, OK } from 'http-status';
 
-import { Service } from '../../service';
+import * as factory from '../../factory';
+import { ISearchResult, Service } from '../../service';
 
 /**
  * 注文返品取引サービス
  */
 export class ReturnOrderTransactionService extends Service {
+    public typeOf: factory.transactionType.ReturnOrder = factory.transactionType.ReturnOrder;
+
     /**
      * 取引を開始する
      * @returns 注文返品取引オブジェクト
@@ -53,5 +53,24 @@ export class ReturnOrderTransactionService extends Service {
             method: 'POST',
             expectedStatusCodes: [CREATED]
         }).then(async (response) => response.json());
+    }
+
+    /**
+     * 取引検索
+     */
+    public async search(
+        params: factory.transaction.ISearchConditions<factory.transactionType.ReturnOrder>
+    ): Promise<ISearchResult<factory.transaction.ITransaction<factory.transactionType.ReturnOrder>[]>> {
+        return this.fetch({
+            uri: '/transactions/returnOrder',
+            method: 'GET',
+            qs: params,
+            expectedStatusCodes: [OK]
+        }).then(async (response) => {
+            return {
+                totalCount: Number(<string>response.headers.get('X-Total-Count')),
+                data: await response.json()
+            };
+        });
     }
 }

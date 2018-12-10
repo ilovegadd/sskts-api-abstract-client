@@ -58,4 +58,14 @@ describe('注文返品取引サービス', () => {
         });
         assert.deepEqual(result, data);
     });
+
+    it('取引検索結果が期待通り', async () => {
+        const data = {};
+        const myMock = fetchMock.sandbox().mock('*', data);
+        sandbox.mock(transactions).expects('fetch').once().resolves(await myMock());
+
+        const result = await transactions.search(<any>{});
+        assert.deepEqual(result.data, data);
+        sandbox.verify();
+    });
 });

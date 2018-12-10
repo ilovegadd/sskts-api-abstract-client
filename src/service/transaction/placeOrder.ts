@@ -1,10 +1,10 @@
 /**
  * 注文取引サービス
  */
-import * as factory from '@motionpicture/sskts-factory';
 import { CREATED, NO_CONTENT, OK } from 'http-status';
 
-import { Service } from '../../service';
+import * as factory from '../../factory';
+import { ISearchResult, Service } from '../../service';
 
 /**
  * クレジットカード承認アクションに必要なクレジットカード情報インターフェース
@@ -39,6 +39,8 @@ export interface IIncentive {
  * 注文取引サービス
  */
 export class PlaceOrderTransactionService extends Service {
+    public typeOf: factory.transactionType.PlaceOrder = factory.transactionType.PlaceOrder;
+
     /**
      * 取引を開始する
      * 開始できない場合(混雑中など)、nullが返されます。
@@ -455,5 +457,39 @@ export class PlaceOrderTransactionService extends Service {
             method: 'POST',
             expectedStatusCodes: [NO_CONTENT]
         });
+    }
+
+    /**
+     * 取引検索
+     */
+    public async search(
+        params: factory.transaction.ISearchConditions<factory.transactionType.PlaceOrder>
+    ): Promise<ISearchResult<factory.transaction.ITransaction<factory.transactionType.PlaceOrder>[]>> {
+        return this.fetch({
+            uri: `/transactions/${this.typeOf}`,
+            method: 'GET',
+            qs: params,
+            expectedStatusCodes: [OK]
+        }).then(async (response) => {
+            return {
+                totalCount: Number(<string>response.headers.get('X-Total-Count')),
+                data: await response.json()
+            };
+        });
+    }
+
+    /**
+     * 取引に対するアクションを検索する
+     */
+    public async searchActionsByTransactionId(params: {
+        id: string;
+        sort: factory.action.ISortOrder;
+    }): Promise<factory.action.IAction<factory.action.IAttributes<factory.actionType, any, any>>[]> {
+        return this.fetch({
+            uri: `/transactions/${this.typeOf}/${params.id}/actions`,
+            method: 'GET',
+            qs: params,
+            expectedStatusCodes: [OK]
+        }).then(async (response) => response.json());
     }
 }

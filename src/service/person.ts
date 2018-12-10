@@ -1,6 +1,6 @@
-import * as factory from '@motionpicture/sskts-factory';
 import { ACCEPTED, CREATED, NO_CONTENT, OK } from 'http-status';
 
+import * as factory from '../factory';
 import { ISearchResult, Service } from '../service';
 
 export type ICreditCard =

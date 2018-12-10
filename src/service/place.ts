@@ -1,12 +1,9 @@
 /**
  * 場所サービス
- *
- * @namespace service.place
  */
-
-import * as factory from '@motionpicture/sskts-factory';
 import { OK } from 'http-status';
 
+import * as factory from '../factory';
 import { Service } from '../service';
 
 /**
