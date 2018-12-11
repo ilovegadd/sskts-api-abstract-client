@@ -1,14 +1,34 @@
 import { OK } from 'http-status';
 
 import * as factory from '../factory';
-import { Service } from '../service';
+import { ISearchResult, Service } from '../service';
 
 /**
  * event service
  */
 export class EventService extends Service {
     /**
+     * 上映イベント検索(ページング機能付き)
+     */
+    public async searchIndividualScreeningEventWithPagination(
+        params: factory.event.individualScreeningEvent.ISearchConditions
+    ): Promise<ISearchResult<factory.event.individualScreeningEvent.IEventWithOffer[]>> {
+        return this.fetch({
+            uri: '/events/individualScreeningEvent',
+            method: 'GET',
+            qs: params,
+            expectedStatusCodes: [OK]
+        }).then(async (response) => {
+            return {
+                totalCount: Number(<string>response.headers.get('X-Total-Count')),
+                data: await response.json()
+            };
+        });
+    }
+
+    /**
      * 上映イベント検索
+     * @deprecated Use searchIndividualScreeningEventWithPagination
      */
     public async searchIndividualScreeningEvent(
         /**
