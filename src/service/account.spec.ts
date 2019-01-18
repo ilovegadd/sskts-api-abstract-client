@@ -2,13 +2,12 @@
 /**
  * 口座サービステスト
  */
+import * as cinerino from '@cinerino/api-abstract-client';
 import * as fetchMock from 'fetch-mock';
 import { } from 'mocha';
 import * as assert from 'power-assert';
 import * as sinon from 'sinon';
 import * as client from '../index';
-
-import { StubAuthClient } from '../auth/authClient';
 
 const API_ENDPOINT = 'https://localhost';
 
@@ -17,7 +16,7 @@ describe('口座サービス', () => {
     let accountService: client.service.Account;
 
     before(() => {
-        const auth = new StubAuthClient();
+        const auth = new cinerino.auth.StubAuth();
         accountService = new client.service.Account({
             auth: auth,
             endpoint: API_ENDPOINT

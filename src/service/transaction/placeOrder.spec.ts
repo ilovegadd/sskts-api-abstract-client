@@ -1,16 +1,13 @@
 // tslint:disable:no-implicit-dependencies
-
 /**
  * placeOrder transaction client.service test
- * @ignore
  */
+import * as cinerino from '@cinerino/api-abstract-client';
 import * as fetchMock from 'fetch-mock';
 import { } from 'mocha';
 import * as assert from 'power-assert';
 import * as sinon from 'sinon';
 import * as client from '../../index';
-
-import { StubAuthClient } from '../../auth/authClient';
 
 const API_ENDPOINT = 'https://localhost';
 
@@ -19,7 +16,7 @@ describe('placeOrder transaction client.service', () => {
     let transactions: client.service.transaction.PlaceOrder;
 
     before(() => {
-        const auth = new StubAuthClient();
+        const auth = new cinerino.auth.StubAuth();
         transactions = new client.service.transaction.PlaceOrder({
             auth: auth,
             endpoint: API_ENDPOINT

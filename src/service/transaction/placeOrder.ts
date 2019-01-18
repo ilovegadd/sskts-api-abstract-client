@@ -4,7 +4,7 @@
 import { CREATED, NO_CONTENT, OK } from 'http-status';
 
 import * as factory from '../../factory';
-import { ISearchResult, Service } from '../../service';
+import { IOptions, ISearchResult, Service } from '../../service';
 
 /**
  * クレジットカード承認アクションに必要なクレジットカード情報インターフェース
@@ -40,6 +40,10 @@ export interface IIncentive {
  */
 export class PlaceOrderTransactionService extends Service {
     public typeOf: factory.transactionType.PlaceOrder = factory.transactionType.PlaceOrder;
+
+    constructor(options: IOptions) {
+        super(options)/* istanbul ignore next */;
+    }
 
     /**
      * 取引を開始する

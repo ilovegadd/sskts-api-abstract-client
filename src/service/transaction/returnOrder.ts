@@ -4,13 +4,17 @@
 import { CREATED, OK } from 'http-status';
 
 import * as factory from '../../factory';
-import { ISearchResult, Service } from '../../service';
+import { IOptions, ISearchResult, Service } from '../../service';
 
 /**
  * 注文返品取引サービス
  */
 export class ReturnOrderTransactionService extends Service {
     public typeOf: factory.transactionType.ReturnOrder = factory.transactionType.ReturnOrder;
+
+    constructor(options: IOptions) {
+        super(options)/* istanbul ignore next */;
+    }
 
     /**
      * 取引を開始する

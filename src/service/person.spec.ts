@@ -1,15 +1,13 @@
 // tslint:disable:no-implicit-dependencies
 /**
  * person service test
- * @ignore
  */
+import * as cinerino from '@cinerino/api-abstract-client';
 import * as fetchMock from 'fetch-mock';
 import { } from 'mocha';
 import * as assert from 'power-assert';
 import * as sinon from 'sinon';
 import * as client from '../index';
-
-import { StubAuthClient } from '../auth/authClient';
 
 const API_ENDPOINT = 'https://localhost';
 
@@ -18,7 +16,7 @@ describe('person service', () => {
     let people: client.service.Person;
 
     before(() => {
-        const auth = new StubAuthClient();
+        const auth = new cinerino.auth.StubAuth();
         people = new client.service.Person({
             auth: auth,
             endpoint: API_ENDPOINT

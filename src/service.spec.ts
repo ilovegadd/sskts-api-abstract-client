@@ -2,27 +2,14 @@
 /**
  * service test
  */
+import * as cinerino from '@cinerino/api-abstract-client';
 import { } from 'mocha';
 import * as assert from 'power-assert';
 import * as querystring from 'querystring';
 import * as sinon from 'sinon';
 
-import { StubAuthClient } from './auth/authClient';
 import { Service } from './service';
-import { DefaultTransporter, Transporter } from './transporters';
 
-/**
- * スタブトランポーター
- */
-class StubTransporter implements Transporter {
-    public body: any;
-    constructor(body: any) {
-        this.body = body;
-    }
-    public async fetch(_: string, options: RequestInit) {
-        return new Response(this.body, options);
-    }
-}
 const API_ENDPOINT = 'https://example.com';
 
 describe('fetch()', () => {
@@ -39,7 +26,7 @@ describe('fetch()', () => {
     it('認証クライアントが正常であれば、レスポンスを取得できるはず', async () => {
         const response: any = { key: 'value' };
 
-        const auth = new StubAuthClient();
+        const auth = new cinerino.auth.StubAuth();
         const service = new Service({
             auth: auth,
             endpoint: API_ENDPOINT
@@ -58,7 +45,7 @@ describe('fetch()', () => {
 
         const service = new Service({
             endpoint: API_ENDPOINT,
-            transporter: new StubTransporter(response)
+            transporter: new cinerino.transporters.StubTransporter(response)
         });
 
         const result = await service.fetch(<any>{});
@@ -77,7 +64,7 @@ describe('fetch()', () => {
         const response: any = { key: 'value' };
         const querystrings = querystring.stringify(options.qs);
 
-        const auth = new StubAuthClient();
+        const auth = new cinerino.auth.StubAuth();
         const service = new Service({
             auth: auth,
             endpoint: API_ENDPOINT
@@ -102,7 +89,7 @@ describe('fetch()', () => {
         const response: any = { key: 'value' };
         const querystrings = `now=${encodeURIComponent(now.toISOString())}`;
 
-        const auth = new StubAuthClient();
+        const auth = new cinerino.auth.StubAuth();
         const service = new Service({
             auth: auth,
             endpoint: API_ENDPOINT
@@ -123,7 +110,7 @@ describe('fetch()', () => {
             endpoint: API_ENDPOINT
         });
 
-        sandbox.mock(DefaultTransporter.prototype).expects('fetch').once();
+        sandbox.mock(cinerino.transporters.DefaultTransporter.prototype).expects('fetch').once();
 
         await service.fetch(<any>options);
         sandbox.verify();

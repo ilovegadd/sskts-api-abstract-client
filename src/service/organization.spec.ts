@@ -1,16 +1,13 @@
 // tslint:disable:no-implicit-dependencies
-
 /**
  * organization service test
- * @ignore
  */
+import * as cinerino from '@cinerino/api-abstract-client';
 import * as fetchMock from 'fetch-mock';
 import { } from 'mocha';
 import * as assert from 'power-assert';
 import * as sinon from 'sinon';
 import * as client from '../index';
-
-import { StubAuthClient } from '../auth/authClient';
 
 const API_ENDPOINT = 'https://localhost';
 
@@ -19,7 +16,7 @@ describe('organization service', () => {
     let organizations: client.service.Organization;
 
     before(() => {
-        const auth = new StubAuthClient();
+        const auth = new cinerino.auth.StubAuth();
         organizations = new client.service.Organization({
             auth: auth,
             endpoint: API_ENDPOINT

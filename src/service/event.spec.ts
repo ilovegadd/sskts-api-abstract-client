@@ -2,13 +2,12 @@
 /**
  * event service test
  */
+import * as cinerino from '@cinerino/api-abstract-client';
 import * as fetchMock from 'fetch-mock';
 import { } from 'mocha';
 import * as assert from 'power-assert';
 import * as sinon from 'sinon';
 import * as client from '../index';
-
-import { StubAuthClient } from '../auth/authClient';
 
 const API_ENDPOINT = 'https://localhost';
 
@@ -17,7 +16,7 @@ describe('searchIndividualScreeningEventWithPagination()', () => {
     let events: client.service.Event;
 
     before(() => {
-        const auth = new StubAuthClient();
+        const auth = new cinerino.auth.StubAuth();
         events = new client.service.Event({
             auth: auth,
             endpoint: API_ENDPOINT
@@ -59,7 +58,7 @@ describe('searchIndividualScreeningEvent()', () => {
     let events: client.service.Event;
 
     before(() => {
-        const auth = new StubAuthClient();
+        const auth = new cinerino.auth.StubAuth();
         events = new client.service.Event({
             auth: auth,
             endpoint: API_ENDPOINT
@@ -101,7 +100,7 @@ describe('findIndividualScreeningEvent()', () => {
     let events: client.service.Event;
 
     before(() => {
-        const auth = new StubAuthClient();
+        const auth = new cinerino.auth.StubAuth();
         events = new client.service.Event({
             auth: auth,
             endpoint: API_ENDPOINT
