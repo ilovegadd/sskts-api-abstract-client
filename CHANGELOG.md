@@ -12,6 +12,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 - 人物インターフェースを拡張
 - @cinerino/api-abstract-clientを可能な範囲で継承するように調整
+- 決済方法タイプを拡張
 
 ### Deprecated
 
