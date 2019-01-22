@@ -8,11 +8,14 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Added
 
+- 上映イベントシリーズインターフェースを追加
+
 ### Changed
 
 - 人物インターフェースを拡張
 - @cinerino/api-abstract-clientを可能な範囲で継承するように調整
 - 決済方法タイプを拡張
+- 予約インターフェースを価格属性を除いてChevreに統一
 
 ### Deprecated
 
