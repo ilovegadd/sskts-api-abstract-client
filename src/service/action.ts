@@ -32,7 +32,7 @@ export class ActionService extends Service {
          * 検索条件
          */
         params: factory.action.transfer.print.ticket.ISearchConditions
-    ): Promise<factory.event.individualScreeningEvent.IEventWithOffer> {
+    ): Promise<factory.event.screeningEvent.IEventWithOffer> {
         return this.fetch({
             uri: '/actions/print/ticket',
             method: 'GET',

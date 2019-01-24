@@ -5,7 +5,7 @@ import * as factory from '../factory';
 
 export type ICreditCard =
     factory.paymentMethod.paymentCard.creditCard.IUncheckedCardRaw | factory.paymentMethod.paymentCard.creditCard.IUncheckedCardTokenized;
-export type IScreenEventReservation = factory.reservation.event.IEventReservation<factory.event.individualScreeningEvent.IEvent>;
+export type IScreenEventReservation = factory.reservation.event.IEventReservation<factory.event.screeningEvent.IEvent>;
 export type IPerson = factory.person.IContact & factory.person.IPerson;
 
 /**

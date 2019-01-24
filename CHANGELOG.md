@@ -16,6 +16,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 - @cinerino/api-abstract-clientを可能な範囲で継承するように調整
 - 決済方法タイプを拡張
 - 予約インターフェースを価格属性を除いてChevreに統一
+- 個々の上映イベントのイベントタイプを変更
 
 ### Deprecated
 
