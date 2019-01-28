@@ -80,6 +80,13 @@ export namespace service {
         export class ReturnOrder extends ReturnOrderTransactionService { }
     }
     /**
+     * 取引サービス
+     * @alias service.transaction
+     */
+    // tslint:disable-next-line:no-single-line-block-comment
+    /* istanbul ignore next */
+    export import txn = transaction;
+    /**
      * ユーザープールサービス
      */
     export class UserPool extends UserPoolService { }
