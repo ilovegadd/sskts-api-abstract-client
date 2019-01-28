@@ -38,7 +38,9 @@ describe('注文返品取引サービス', () => {
 
         const result = await transactions.start({
             expires: new Date(),
-            transactionId: 'transactionId'
+            object: {
+                order: { orderNumber: 'orderNumber' }
+            }
         });
 
         assert.deepEqual(result, data);
@@ -51,9 +53,9 @@ describe('注文返品取引サービス', () => {
         sandbox.mock(transactions).expects('fetch').once().resolves(await myMock());
 
         const result = await transactions.confirm({
-            transactionId: 'transactionId'
+            id: 'transactionId'
         });
-        assert.deepEqual(result, data);
+        assert.deepEqual(result, undefined);
     });
 
     it('取引検索結果が期待通り', async () => {
