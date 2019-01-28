@@ -1,4 +1,4 @@
-# SSKTS API Abstract Client Library for Javascript
+# Cinemasunshine API Abstract Client Library for Javascript
 
 [![npm (scoped)](https://img.shields.io/npm/v/@motionpicture/sskts-api-abstract-client.svg)](https://www.npmjs.com/package/@motionpicture/sskts-api-abstract-client)
 [![CircleCI](https://circleci.com/gh/motionpicture/sskts-api-abstract-client.svg?style=shield)](https://circleci.com/gh/motionpicture/sskts-api-abstract-client)
@@ -21,7 +21,7 @@ npm install @motionpicture/sskts-api-abstract-client
 ### Environment variables
 
 | Name    | Required | Value                       | Purpose |
-|---------|----------|-----------------------------|---------|
+| ------- | -------- | --------------------------- | ------- |
 | `DEBUG` | false    | sskts-api-abstract-client:* | Debug   |
 
 ## License
