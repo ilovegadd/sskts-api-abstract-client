@@ -1,19 +1,20 @@
+import * as cinerino from '@cinerino/api-abstract-client';
 import { ACCEPTED, CREATED, NO_CONTENT, OK } from 'http-status';
 
 import * as factory from '../factory';
-import { ISearchResult, Service } from '../service';
 
 export type ICreditCard =
     factory.paymentMethod.paymentCard.creditCard.IUncheckedCardRaw | factory.paymentMethod.paymentCard.creditCard.IUncheckedCardTokenized;
-export type IScreenEventReservation = factory.reservation.event.IEventReservation<factory.event.individualScreeningEvent.IEvent>;
+export type IScreenEventReservation = factory.reservation.event.IEventReservation<factory.event.screeningEvent.IEvent>;
 export type IPerson = factory.person.IContact & factory.person.IPerson;
 
 /**
  * ユーザーサービス
  */
-export class PersonService extends Service {
+export class PersonService extends cinerino.service.Person {
     /**
      * ユーザーの連絡先を検索する
+     * @deprecated Use getProfile()
      */
     public async getContacts(params: {
         /**
@@ -32,6 +33,7 @@ export class PersonService extends Service {
 
     /**
      * ユーザーの連絡先を更新する
+     * @deprecated Use updateProfile()
      */
     public async updateContacts(params: {
         /**
@@ -273,41 +275,6 @@ export class PersonService extends Service {
             method: 'PUT',
             body: {},
             expectedStatusCodes: [ACCEPTED]
-        }).then(async (response) => response.json());
-    }
-    /**
-     * 会員検索
-     */
-    public async search(params: {
-        id?: string;
-        username?: string;
-        email?: string;
-        telephone?: string;
-        givenName?: string;
-        familyName?: string;
-    }): Promise<ISearchResult<IPerson[]>> {
-        return this.fetch({
-            uri: '/people',
-            method: 'GET',
-            qs: params,
-            expectedStatusCodes: [OK]
-        }).then(async (response) => {
-            return {
-                totalCount: Number(<string>response.headers.get('X-Total-Count')),
-                data: await response.json()
-            };
-        });
-    }
-    /**
-     * IDで検索
-     */
-    public async findById(params: {
-        id: string;
-    }): Promise<IPerson> {
-        return this.fetch({
-            uri: `/people/${params.id}`,
-            method: 'GET',
-            expectedStatusCodes: [OK]
         }).then(async (response) => response.json());
     }
 }

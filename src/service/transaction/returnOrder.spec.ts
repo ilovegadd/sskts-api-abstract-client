@@ -1,16 +1,13 @@
 // tslint:disable:no-implicit-dependencies
-
 /**
  * 注文返品取引サービステスト
- * @ignore
  */
+import * as cinerino from '@cinerino/api-abstract-client';
 import * as fetchMock from 'fetch-mock';
 import { } from 'mocha';
 import * as assert from 'power-assert';
 import * as sinon from 'sinon';
 import * as client from '../../index';
-
-import { StubAuthClient } from '../../auth/authClient';
 
 const API_ENDPOINT = 'https://localhost';
 
@@ -19,7 +16,7 @@ describe('注文返品取引サービス', () => {
     let transactions: client.service.transaction.ReturnOrder;
 
     before(() => {
-        const auth = new StubAuthClient();
+        const auth = new cinerino.auth.StubAuth();
         transactions = new client.service.transaction.ReturnOrder({
             auth: auth,
             endpoint: API_ENDPOINT
@@ -41,7 +38,9 @@ describe('注文返品取引サービス', () => {
 
         const result = await transactions.start({
             expires: new Date(),
-            transactionId: 'transactionId'
+            object: {
+                order: { orderNumber: 'orderNumber' }
+            }
         });
 
         assert.deepEqual(result, data);
@@ -54,9 +53,9 @@ describe('注文返品取引サービス', () => {
         sandbox.mock(transactions).expects('fetch').once().resolves(await myMock());
 
         const result = await transactions.confirm({
-            transactionId: 'transactionId'
+            id: 'transactionId'
         });
-        assert.deepEqual(result, data);
+        assert.deepEqual(result, undefined);
     });
 
     it('取引検索結果が期待通り', async () => {

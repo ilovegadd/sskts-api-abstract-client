@@ -1,16 +1,13 @@
 // tslint:disable:no-implicit-dependencies
-
 /**
  * place service test
- * @ignore
  */
+import * as cinerino from '@cinerino/api-abstract-client';
 import * as fetchMock from 'fetch-mock';
 import { } from 'mocha';
 import * as assert from 'power-assert';
 import * as sinon from 'sinon';
 import * as client from '../index';
-
-import { StubAuthClient } from '../auth/authClient';
 
 const API_ENDPOINT = 'https://localhost';
 
@@ -19,7 +16,7 @@ describe('place service', () => {
     let places: client.service.Place;
 
     before(() => {
-        const auth = new StubAuthClient();
+        const auth = new cinerino.auth.StubAuth();
         places = new client.service.Place({
             auth: auth,
             endpoint: API_ENDPOINT
