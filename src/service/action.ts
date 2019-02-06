@@ -3,8 +3,10 @@ import { CREATED, OK } from 'http-status';
 import * as factory from '../factory';
 import { Service } from '../service';
 
+export type IPrintTicketAction = factory.action.transfer.print.ticket.IAction;
+
 /**
- * action service
+ * アクションサービス
  */
 export class ActionService extends Service {
     /**
@@ -15,7 +17,7 @@ export class ActionService extends Service {
          * チケットオブジェクト
          */
         params: factory.action.transfer.print.ticket.ITicket
-    ): Promise<factory.action.transfer.print.ticket.IAction> {
+    ): Promise<IPrintTicketAction> {
         return this.fetch({
             uri: '/actions/print/ticket',
             method: 'POST',
@@ -32,7 +34,7 @@ export class ActionService extends Service {
          * 検索条件
          */
         params: factory.action.transfer.print.ticket.ISearchConditions
-    ): Promise<factory.event.screeningEvent.IEventWithOffer> {
+    ): Promise<IPrintTicketAction[]> {
         return this.fetch({
             uri: '/actions/print/ticket',
             method: 'GET',
