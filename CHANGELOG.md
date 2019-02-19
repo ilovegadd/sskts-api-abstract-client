@@ -9,6 +9,7 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 ### Added
 
 - 販売者サービスを追加
+- 会員所有権サービスを追加
 
 ### Changed
 

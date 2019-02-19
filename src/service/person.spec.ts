@@ -108,14 +108,13 @@ describe('person service', () => {
     });
 
     it('所有権検索の結果が期待通り', async () => {
-        const id = 'me';
         const data = {};
         const myMock = fetchMock.sandbox().mock('*', data);
         sandbox.mock(people).expects('fetch').once().resolves(await myMock());
 
         const result = await people.searchOwnershipInfos({
             goodType: client.factory.reservationType.EventReservation,
-            ownedBy: id
+            ownedAt: new Date()
         });
         assert.deepEqual(result, data);
         sandbox.verify();

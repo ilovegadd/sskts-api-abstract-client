@@ -213,12 +213,27 @@ export class PersonService extends cinerino.service.Person {
     /**
      * 所有権を検索する
      * 座席予約、所属会員プログラム、などユーザーの資産(モノ、サービス)を検索します。
+     * @deprecated 会員所有権サービスを使ってください。所有期間指定で所有権を検索することができます。
+     * @example
+     * const ownershipInfoService = new service.person.OwnershipInfo({});
+     * const searchResult = ownershipInfoService.search({
+     *     ownedFrom: new Date()
+     *     ownedThrough: new Date()
+     * });
+     * console.log(searchResult.totalCount, 'ownershipInfos found');
      */
-    public async searchOwnershipInfos<T extends factory.ownershipInfo.IGoodType>(
-        params: factory.ownershipInfo.ISearchConditions<T>
-    ): Promise<factory.ownershipInfo.IOwnershipInfo<T>[]> {
+    public async searchOwnershipInfos<T extends factory.ownershipInfo.IGoodType>(params: {
+        /**
+         * 所有対象物のタイプ
+         */
+        goodType: T;
+        /**
+         * いつの時点での所有か
+         */
+        ownedAt?: Date;
+    }): Promise<factory.ownershipInfo.IOwnershipInfo<factory.ownershipInfo.IGood<T>>[]> {
         return this.fetch({
-            uri: `/people/${params.ownedBy}/ownershipInfos/${params.goodType}`,
+            uri: `/people/me/ownershipInfos/${params.goodType}`,
             method: 'GET',
             qs: {
                 ownedAt: params.ownedAt

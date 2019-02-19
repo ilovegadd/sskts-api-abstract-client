@@ -43,6 +43,7 @@ export namespace service {
      * 所有権サービス
      */
     export class OwnershipInfo extends OwnershipInfoService { }
+    export import person = cinerino.service.person;
     /**
      * ユーザーサービス
      */
