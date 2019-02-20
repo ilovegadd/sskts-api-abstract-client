@@ -5,7 +5,6 @@ import * as factory from '../factory';
 
 export type ICreditCard =
     factory.paymentMethod.paymentCard.creditCard.IUncheckedCardRaw | factory.paymentMethod.paymentCard.creditCard.IUncheckedCardTokenized;
-export type IPerson = factory.person.IProfile & factory.person.IPerson;
 
 /**
  * ユーザーサービス
@@ -13,6 +12,7 @@ export type IPerson = factory.person.IProfile & factory.person.IPerson;
 export class PersonService extends cinerino.service.Person {
     /**
      * クレジットカード検索
+     * @deprecated new service.person.OwnershipInfo({}).searchCreditCards()
      */
     public async findCreditCards(params: {
         /**
@@ -38,6 +38,7 @@ export class PersonService extends cinerino.service.Person {
 
     /**
      * クレジットカード追加
+     * @deprecated new service.person.OwnershipInfo({}).addCreditCard()
      */
     public async addCreditCard(params: {
         /**
@@ -68,6 +69,7 @@ export class PersonService extends cinerino.service.Person {
 
     /**
      * クレジットカード削除
+     * @deprecated new service.person.OwnershipInfo({}).deleteCreditCard()
      */
     public async deleteCreditCard(params: {
         /**
@@ -97,6 +99,7 @@ export class PersonService extends cinerino.service.Person {
 
     /**
      * 口座開設
+     * @deprecated new service.person.OwnershipInfo({}).openAccount()
      */
     public async openAccount(params: {
         /**
@@ -130,6 +133,7 @@ export class PersonService extends cinerino.service.Person {
      * 口座開解約
      * 口座の状態を変更するだけで、ユーザーの所有する口座リストから削除はされません。
      * 解約された口座で取引を進行しようとすると400エラーとなります。
+     * @deprecated new service.person.OwnershipInfo({}).closeAccount()
      */
     public async closeAccount(params: {
         /**
@@ -158,6 +162,7 @@ export class PersonService extends cinerino.service.Person {
 
     /**
      * 口座照会
+     * @deprecated new service.person.OwnershipInfo({}).search()
      */
     public async findAccounts(params: {
         /**
@@ -183,6 +188,7 @@ export class PersonService extends cinerino.service.Person {
 
     /**
      * 口座取引履歴検索
+     * @deprecated new service.person.OwnershipInfo({}).searchAccountMoneyTransferActions()
      */
     public async searchAccountMoneyTransferActions(params: {
         /**
