@@ -10,8 +10,6 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Changed
 
-- install @cinerino/api-abstract-client@1.0.0-alpha.82
-
 ### Deprecated
 
 ### Removed
@@ -19,6 +17,12 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 ### Fixed
 
 ### Security
+
+## v6.0.1 - 2019-02-20
+
+### Changed
+
+- install @cinerino/api-abstract-client@1.0.0-alpha.82
 
 ## v6.0.0 - 2019-02-20
 
