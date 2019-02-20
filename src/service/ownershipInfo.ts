@@ -1,15 +1,9 @@
-/**
- * 所有権サービス
- *
- * @namespace service.ownershipInfo
- */
-
 import { OK } from 'http-status';
 
 import { Service } from '../service';
 
 /**
- * organization service
+ * 所有権サービス
  */
 export class OwnershipInfoService extends Service {
     /**

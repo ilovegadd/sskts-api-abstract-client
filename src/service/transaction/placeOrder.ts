@@ -48,7 +48,6 @@ export class PlaceOrderTransactionService extends Service {
     /**
      * 取引を開始する
      * 開始できない場合(混雑中など)、nullが返されます。
-     * @returns 取引オブジェクト
      */
     public async start(params: {
         /**
@@ -80,7 +79,6 @@ export class PlaceOrderTransactionService extends Service {
 
     /**
      * 取引に座席予約を追加する
-     * @returns 座席予約承認アクション
      */
     public async createSeatReservationAuthorization(params: {
         /**
@@ -130,7 +128,6 @@ export class PlaceOrderTransactionService extends Service {
     /**
      * 座席予約承認アクションの供給情報を変更する
      * 完了ステータスの座席仮予約に対して券種変更する際に使用
-     * @returns 座席予約承認アクション
      */
     public async changeSeatReservationOffers(params: {
         /**
@@ -163,7 +160,6 @@ export class PlaceOrderTransactionService extends Service {
 
     /**
      * クレジットカードのオーソリを取得する
-     * @returns 承認アクション
      */
     public async createCreditCardAuthorization(params: {
         /**
@@ -222,7 +218,6 @@ export class PlaceOrderTransactionService extends Service {
 
     /**
      * 決済方法として、ムビチケを追加する
-     * @returns 承認アクション
      */
     public async createMvtkAuthorization(params: {
         /**
@@ -263,8 +258,7 @@ export class PlaceOrderTransactionService extends Service {
     }
 
     /**
-     * Pecorino口座決済のオーソリを取得する
-     * @returns 承認アクション
+     * ポイント口座決済のオーソリを取得する
      */
     public async createPecorinoPaymentAuthorization(params: {
         /**
@@ -299,7 +293,7 @@ export class PlaceOrderTransactionService extends Service {
     }
 
     /**
-     * Pecorino口座決済オーソリ取消
+     * ポイント口座決済オーソリ取消
      */
     public async cancelPecorinoPaymentAuthorization(params: {
         /**
@@ -319,8 +313,7 @@ export class PlaceOrderTransactionService extends Service {
     }
 
     /**
-     * Pecorinoポイントインセンティブのオーソリを取得する
-     * @returns 承認アクション
+     * ポイントポイントインセンティブのオーソリを取得する
      */
     public async createPecorinoAwardAuthorization(params: {
         /**
@@ -355,7 +348,7 @@ export class PlaceOrderTransactionService extends Service {
     }
 
     /**
-     * Pecorinoポイントインセンティブオーソリ取消
+     * ポイントポイントインセンティブオーソリ取消
      */
     public async cancelPecorinoAwardAuthorization(params: {
         /**
@@ -376,7 +369,6 @@ export class PlaceOrderTransactionService extends Service {
 
     /**
      * register a customer contact
-     * @returns 登録された購入者情報
      */
     public async setCustomerContact(params: {
         /**
@@ -398,7 +390,6 @@ export class PlaceOrderTransactionService extends Service {
 
     /**
      * 取引確定
-     * @returns 作成された注文
      */
     public async confirm(params: {
         /**
@@ -428,7 +419,6 @@ export class PlaceOrderTransactionService extends Service {
 
     /**
      * 確定した取引に関して、購入者にメール通知を送信する
-     * @returns メール送信タスク
      */
     public async sendEmailNotification(params: {
         /**
@@ -439,7 +429,7 @@ export class PlaceOrderTransactionService extends Service {
          * Eメールメッセージ属性
          */
         emailMessageAttributes: factory.creativeWork.message.email.IAttributes;
-    }): Promise<factory.task.sendEmailMessage.ITask> {
+    }): Promise<factory.task.ITask<factory.taskName.SendEmailMessage>> {
         return this.fetch({
             uri: `/transactions/placeOrder/${params.transactionId}/tasks/sendEmailNotification`,
             method: 'POST',

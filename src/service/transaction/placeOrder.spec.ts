@@ -189,7 +189,7 @@ describe('placeOrder transaction client.service', () => {
         sandbox.verify();
     });
 
-    it('Pecorino口座承認アクションの結果が期待通り', async () => {
+    it('ポイント口座承認アクションの結果が期待通り', async () => {
         const data = {};
         const myMock = fetchMock.sandbox().mock('*', data);
         sandbox.mock(transactions).expects('fetch').once().resolves(await myMock());
@@ -204,7 +204,7 @@ describe('placeOrder transaction client.service', () => {
         sandbox.verify();
     });
 
-    it('Pecorino口座オーソリ取消結果が期待通り', async () => {
+    it('ポイント口座オーソリ取消結果が期待通り', async () => {
         const data = {};
         const myMock = fetchMock.sandbox().mock('*', data);
         sandbox.mock(transactions).expects('fetch').once().resolves(await myMock());
@@ -218,7 +218,7 @@ describe('placeOrder transaction client.service', () => {
         sandbox.verify();
     });
 
-    it('Pecorinoインセンティブ承認アクションの結果が期待通り', async () => {
+    it('ポイントインセンティブ承認アクションの結果が期待通り', async () => {
         const data = {};
         const myMock = fetchMock.sandbox().mock('*', data);
         sandbox.mock(transactions).expects('fetch').once().resolves(await myMock());
@@ -233,7 +233,7 @@ describe('placeOrder transaction client.service', () => {
         sandbox.verify();
     });
 
-    it('Pecorinoインセンティブオーソリ取消結果が期待通り', async () => {
+    it('ポイントインセンティブオーソリ取消結果が期待通り', async () => {
         const data = {};
         const myMock = fetchMock.sandbox().mock('*', data);
         sandbox.mock(transactions).expects('fetch').once().resolves(await myMock());

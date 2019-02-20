@@ -35,57 +35,57 @@ describe('person service', () => {
         const data = {};
         const myMock = fetchMock.sandbox().mock('*', data);
         sandbox.mock(people).expects('fetch').once().resolves(await myMock());
-        const personId = 'me';
-        const result = await people.getContacts({
-            personId: personId
+        const id = 'me';
+        const result = await people.getProfile({
+            id: id
         });
         assert.deepEqual(result, data);
         sandbox.verify();
     });
 
     it('連絡先更新の結果が期待通り', async () => {
-        const personId = 'me';
+        const id = 'me';
         const data = {};
         const myMock = fetchMock.sandbox().mock('*', data);
         sandbox.mock(people).expects('fetch').once().resolves(await myMock());
 
-        const contacts = {
+        const profile = {
             givenName: 'xxx',
             familyName: 'xxx',
             telephone: 'xxx',
             email: 'xxx'
         };
 
-        const result = await people.updateContacts({
-            personId: personId,
-            contacts: contacts
+        const result = await people.updateProfile({
+            id: id,
+            ...profile
         });
         assert.deepEqual(result, undefined);
         sandbox.verify();
     });
 
     it('クレジットカード検索の結果が期待通り', async () => {
-        const personId = 'me';
+        const id = 'me';
         const data = {};
         const myMock = fetchMock.sandbox().mock('*', data);
         sandbox.mock(people).expects('fetch').once().resolves(await myMock());
 
         const result = await people.findCreditCards({
-            personId: personId
+            id: id
         });
         assert.deepEqual(result, data);
         sandbox.verify();
     });
 
     it('クレジットカード追加の結果が期待通り', async () => {
-        const personId = 'me';
+        const id = 'me';
         const creditCard = <any>{};
         const data = {};
         const myMock = fetchMock.sandbox().mock('*', data);
         sandbox.mock(people).expects('fetch').once().resolves(await myMock());
 
         const result = await people.addCreditCard({
-            personId: personId,
+            id: id,
             creditCard: creditCard
         });
         assert.deepEqual(result, data);
@@ -93,14 +93,14 @@ describe('person service', () => {
     });
 
     it('クレジットカード削除の結果が期待通り', async () => {
-        const personId = 'me';
+        const id = 'me';
         const cardSeq = 'xxx';
         const data = {};
         const myMock = fetchMock.sandbox().mock('*', data);
         sandbox.mock(people).expects('fetch').once().resolves(await myMock());
 
         const result = await people.deleteCreditCard({
-            personId: personId,
+            id: id,
             cardSeq: cardSeq
         });
         assert.deepEqual(result, undefined);
@@ -108,27 +108,26 @@ describe('person service', () => {
     });
 
     it('所有権検索の結果が期待通り', async () => {
-        const personId = 'me';
         const data = {};
         const myMock = fetchMock.sandbox().mock('*', data);
         sandbox.mock(people).expects('fetch').once().resolves(await myMock());
 
         const result = await people.searchOwnershipInfos({
             goodType: client.factory.reservationType.EventReservation,
-            ownedBy: personId
+            ownedAt: new Date()
         });
         assert.deepEqual(result, data);
         sandbox.verify();
     });
 
     it('口座開設の結果が期待通り', async () => {
-        const personId = 'me';
+        const id = 'me';
         const data = {};
         const myMock = fetchMock.sandbox().mock('*', data);
         sandbox.mock(people).expects('fetch').once().resolves(await myMock());
 
         const result = await people.openAccount({
-            personId: personId,
+            id: id,
             name: 'name'
         });
         assert.deepEqual(result, data);
@@ -136,13 +135,13 @@ describe('person service', () => {
     });
 
     it('口座解約の結果が期待通り', async () => {
-        const personId = 'me';
+        const id = 'me';
         const data = {};
         const myMock = fetchMock.sandbox().mock('*', data);
         sandbox.mock(people).expects('fetch').once().resolves(await myMock());
 
         const result = await people.closeAccount({
-            personId: personId,
+            id: id,
             accountNumber: '12345'
         });
         assert.deepEqual(result, undefined);
@@ -150,26 +149,26 @@ describe('person service', () => {
     });
 
     it('口座照会の結果が期待通り', async () => {
-        const personId = 'me';
+        const id = 'me';
         const data = {};
         const myMock = fetchMock.sandbox().mock('*', data);
         sandbox.mock(people).expects('fetch').once().resolves(await myMock());
 
         const result = await people.findAccounts({
-            personId: personId
+            id: id
         });
         assert.deepEqual(result, data);
         sandbox.verify();
     });
 
     it('口座取引履歴検索の結果が期待通り', async () => {
-        const personId = 'me';
+        const id = 'me';
         const data = {};
         const myMock = fetchMock.sandbox().mock('*', data);
         sandbox.mock(people).expects('fetch').once().resolves(await myMock());
 
         const result = await people.searchAccountMoneyTransferActions({
-            personId: personId,
+            id: id,
             accountNumber: '12345'
         });
         assert.deepEqual(result, data);
@@ -177,13 +176,13 @@ describe('person service', () => {
     });
 
     it('会員プログラム登録の結果が期待通り', async () => {
-        const personId = 'me';
+        const id = 'me';
         const data = {};
         const myMock = fetchMock.sandbox().mock('*', data);
         sandbox.mock(people).expects('fetch').once().resolves(await myMock());
 
         const result = await people.registerProgramMembership({
-            personId: personId,
+            id: id,
             programMembershipId: 'programMembershipId',
             offerIdentifier: 'offerIdentifier',
             sellerType: client.factory.organizationType.MovieTheater,
@@ -194,13 +193,13 @@ describe('person service', () => {
     });
 
     it('会員プログラム登録解除の結果が期待通り', async () => {
-        const personId = 'me';
+        const id = 'me';
         const data = {};
         const myMock = fetchMock.sandbox().mock('*', data);
         sandbox.mock(people).expects('fetch').once().resolves(await myMock());
 
         const result = await people.unRegisterProgramMembership({
-            personId: personId,
+            id: id,
             ownershipInfoIdentifier: 'ownershipInfoIdentifier'
         });
         assert.deepEqual(result, data);

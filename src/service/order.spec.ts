@@ -44,17 +44,4 @@ describe('注文サービス', () => {
         assert.deepEqual(result, data);
         sandbox.verify();
     });
-
-    it('注文検索結果が期待通り', async () => {
-        const data = {};
-        const myMock = fetchMock.sandbox().mock('*', data);
-        sandbox.mock(orders).expects('fetch').once().resolves(await myMock());
-
-        const result = await orders.search({
-            orderDateFrom: new Date(),
-            orderDateThrough: new Date()
-        });
-        assert.deepEqual(result.data, data);
-        sandbox.verify();
-    });
 });

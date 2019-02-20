@@ -3,11 +3,11 @@ import { NO_CONTENT } from 'http-status';
 import { Service } from '../service';
 
 /**
- * Pecorino口座サービス
+ * 口座サービス
  */
 export class AccountService extends Service {
     /**
-     * Pecorinoポイントを入金する
+     * ポイントを入金する
      * 管理者権限が必要です。
      */
     public async deposit(params: {

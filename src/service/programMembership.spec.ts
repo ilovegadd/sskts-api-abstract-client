@@ -33,14 +33,14 @@ describe('所有権サービス', () => {
 
     it('所有権検索の結果が期待通り', async () => {
         const data = {};
-        const myMock = fetchMock.sandbox().mock('*', data);
-        sandbox.mock(programMembershipService).expects('fetch').once().resolves(await myMock());
-        const personId = 'me';
+        const myMock = fetchMock.sandbox()
+            .mock('*', data);
+        sandbox.mock(programMembershipService)
+            .expects('fetch')
+            .once()
+            .resolves(await myMock());
 
-        const result = await programMembershipService.search({
-            personId: personId
-        });
-
+        const result = await programMembershipService.search({});
         assert.deepEqual(result, data);
         sandbox.verify();
     });

@@ -5,68 +5,31 @@ import * as factory from '../factory';
 
 export type ICreditCard =
     factory.paymentMethod.paymentCard.creditCard.IUncheckedCardRaw | factory.paymentMethod.paymentCard.creditCard.IUncheckedCardTokenized;
-export type IScreenEventReservation = factory.reservation.event.IEventReservation<factory.event.screeningEvent.IEvent>;
-export type IPerson = factory.person.IContact & factory.person.IPerson;
 
 /**
  * ユーザーサービス
  */
 export class PersonService extends cinerino.service.Person {
     /**
-     * ユーザーの連絡先を検索する
-     * @deprecated Use getProfile()
-     */
-    public async getContacts(params: {
-        /**
-         * person id
-         * basically specify 'me' to retrieve contacts of login user
-         */
-        personId: string;
-    }): Promise<factory.person.IContact> {
-        return this.fetch({
-            uri: `/people/${params.personId}/contacts`,
-            method: 'GET',
-            qs: {},
-            expectedStatusCodes: [OK]
-        }).then(async (response) => response.json());
-    }
-
-    /**
-     * ユーザーの連絡先を更新する
-     * @deprecated Use updateProfile()
-     */
-    public async updateContacts(params: {
-        /**
-         * person id
-         * basically specify 'me' to retrieve contacts of login user
-         */
-        personId: string;
-        /**
-         * contacts
-         */
-        contacts: factory.person.IContact;
-    }): Promise<void> {
-        await this.fetch({
-            uri: `/people/${params.personId}/contacts`,
-            method: 'PUT',
-            body: params.contacts,
-            expectedStatusCodes: [NO_CONTENT]
-        });
-    }
-
-    /**
      * クレジットカード検索
-     * @see example /example/person/handleCreditCards
+     * @deprecated new service.person.OwnershipInfo({}).searchCreditCards()
      */
     public async findCreditCards(params: {
         /**
-         * person id
-         * basically specify 'me' to retrieve contacts of login user
+         * 未指定の場合`me`がセットされます
          */
-        personId: string;
+        id?: string;
+        /**
+         * @deprecated `id`パラメータを使ってください
+         */
+        personId?: string;
     }): Promise<factory.paymentMethod.paymentCard.creditCard.ICheckedCard[]> {
+        const id = (params.personId !== undefined)
+            ? /* istanbul ignore next */ params.personId
+            : (params.id !== undefined) ? params.id : /* istanbul ignore next */  'me';
+
         return this.fetch({
-            uri: `/people/${params.personId}/creditCards`,
+            uri: `/people/${id}/creditCards`,
             method: 'GET',
             qs: {},
             expectedStatusCodes: [OK]
@@ -75,23 +38,29 @@ export class PersonService extends cinerino.service.Person {
 
     /**
      * クレジットカード追加
-     * @return successfully created credit card info
-     * @see example /example/person/handleCreditCards
+     * @deprecated new service.person.OwnershipInfo({}).addCreditCard()
      */
     public async addCreditCard(params: {
         /**
-         * person id
-         * basically specify 'me' to retrieve contacts of login user
+         * 未指定の場合`me`がセットされます
          */
-        personId: string;
+        id?: string;
+        /**
+         * @deprecated `id`パラメータを使ってください
+         */
+        personId?: string;
         /**
          * credit card info
          * クレジットカード情報(情報の渡し方にはいくつかパターンがあるので、型を参照すること)
          */
         creditCard: ICreditCard;
     }): Promise<factory.paymentMethod.paymentCard.creditCard.ICheckedCard> {
+        const id = (params.personId !== undefined)
+            ? /* istanbul ignore next */ params.personId
+            : (params.id !== undefined) ? params.id : /* istanbul ignore next */  'me';
+
         return this.fetch({
-            uri: `/people/${params.personId}/creditCards`,
+            uri: `/people/${id}/creditCards`,
             method: 'POST',
             body: params.creditCard,
             expectedStatusCodes: [CREATED]
@@ -100,22 +69,29 @@ export class PersonService extends cinerino.service.Person {
 
     /**
      * クレジットカード削除
-     * @see /example/person/handleCreditCards
+     * @deprecated new service.person.OwnershipInfo({}).deleteCreditCard()
      */
     public async deleteCreditCard(params: {
         /**
-         * person id
-         * basically specify 'me' to retrieve contacts of login user
+         * 未指定の場合`me`がセットされます
          */
-        personId: string;
+        id?: string;
+        /**
+         * @deprecated `id`パラメータを使ってください
+         */
+        personId?: string;
         /**
          * cardSeq
          * カード連番
          */
         cardSeq: string;
     }): Promise<void> {
+        const id = (params.personId !== undefined)
+            ? /* istanbul ignore next */ params.personId
+            : (params.id !== undefined) ? params.id : /* istanbul ignore next */  'me';
+
         await this.fetch({
-            uri: `/people/${params.personId}/creditCards/${params.cardSeq}`,
+            uri: `/people/${id}/creditCards/${params.cardSeq}`,
             method: 'DELETE',
             expectedStatusCodes: [NO_CONTENT]
         });
@@ -123,20 +99,28 @@ export class PersonService extends cinerino.service.Person {
 
     /**
      * 口座開設
+     * @deprecated new service.person.OwnershipInfo({}).openAccount()
      */
     public async openAccount(params: {
         /**
-         * person id
-         * ログインユーザーの場合'me'を指定
+         * 未指定の場合`me`がセットされます
          */
-        personId: string;
+        id?: string;
+        /**
+         * @deprecated `id`パラメータを使ってください
+         */
+        personId?: string;
         /**
          * 口座名義
          */
         name: string;
     }): Promise<factory.pecorino.account.IAccount<factory.accountType.Point>> {
+        const id = (params.personId !== undefined)
+            ? /* istanbul ignore next */ params.personId
+            : (params.id !== undefined) ? params.id : /* istanbul ignore next */  'me';
+
         return this.fetch({
-            uri: `/people/${params.personId}/accounts`,
+            uri: `/people/${id}/accounts`,
             method: 'POST',
             body: {
                 name: params.name
@@ -149,20 +133,28 @@ export class PersonService extends cinerino.service.Person {
      * 口座開解約
      * 口座の状態を変更するだけで、ユーザーの所有する口座リストから削除はされません。
      * 解約された口座で取引を進行しようとすると400エラーとなります。
+     * @deprecated new service.person.OwnershipInfo({}).closeAccount()
      */
     public async closeAccount(params: {
         /**
-         * person id
-         * ログインユーザーの場合'me'を指定
+         * 未指定の場合`me`がセットされます
          */
-        personId: string;
+        id?: string;
+        /**
+         * @deprecated `id`パラメータを使ってください
+         */
+        personId?: string;
         /**
          * 口座番号
          */
         accountNumber: string;
     }): Promise<void> {
+        const id = (params.personId !== undefined)
+            ? /* istanbul ignore next */ params.personId
+            : (params.id !== undefined) ? params.id : /* istanbul ignore next */  'me';
+
         await this.fetch({
-            uri: `/people/${params.personId}/accounts/${params.accountNumber}/close`,
+            uri: `/people/${id}/accounts/${params.accountNumber}/close`,
             method: 'PUT',
             expectedStatusCodes: [NO_CONTENT]
         });
@@ -170,16 +162,24 @@ export class PersonService extends cinerino.service.Person {
 
     /**
      * 口座照会
+     * @deprecated new service.person.OwnershipInfo({}).search()
      */
     public async findAccounts(params: {
         /**
-         * person id
-         * ログインユーザーの場合'me'を指定
+         * 未指定の場合`me`がセットされます
          */
-        personId: string;
+        id?: string;
+        /**
+         * @deprecated `id`パラメータを使ってください
+         */
+        personId?: string;
     }): Promise<factory.pecorino.account.IAccount<factory.accountType.Point>[]> {
+        const id = (params.personId !== undefined)
+            ? /* istanbul ignore next */ params.personId
+            : (params.id !== undefined) ? params.id : /* istanbul ignore next */  'me';
+
         return this.fetch({
-            uri: `/people/${params.personId}/accounts`,
+            uri: `/people/${id}/accounts`,
             method: 'GET',
             qs: {},
             expectedStatusCodes: [OK]
@@ -188,20 +188,28 @@ export class PersonService extends cinerino.service.Person {
 
     /**
      * 口座取引履歴検索
+     * @deprecated new service.person.OwnershipInfo({}).searchAccountMoneyTransferActions()
      */
     public async searchAccountMoneyTransferActions(params: {
         /**
-         * person id
-         * ログインユーザーの場合'me'を指定
+         * 未指定の場合`me`がセットされます
          */
-        personId: string;
+        id?: string;
+        /**
+         * @deprecated `id`パラメータを使ってください
+         */
+        personId?: string;
         /**
          * 口座番号
          */
         accountNumber: string;
     }): Promise<factory.pecorino.action.transfer.moneyTransfer.IAction<factory.accountType.Point>[]> {
+        const id = (params.personId !== undefined)
+            ? /* istanbul ignore next */ params.personId
+            : (params.id !== undefined) ? params.id : /* istanbul ignore next */  'me';
+
         return this.fetch({
-            uri: `/people/${params.personId}/accounts/${params.accountNumber}/actions/moneyTransfer`,
+            uri: `/people/${id}/accounts/${params.accountNumber}/actions/moneyTransfer`,
             method: 'GET',
             qs: {},
             expectedStatusCodes: [OK]
@@ -211,12 +219,27 @@ export class PersonService extends cinerino.service.Person {
     /**
      * 所有権を検索する
      * 座席予約、所属会員プログラム、などユーザーの資産(モノ、サービス)を検索します。
+     * @deprecated 会員所有権サービスを使ってください。所有期間指定で所有権を検索することができます。
+     * @example
+     * const ownershipInfoService = new service.person.OwnershipInfo({});
+     * const searchResult = ownershipInfoService.search({
+     *     ownedFrom: new Date()
+     *     ownedThrough: new Date()
+     * });
+     * console.log(searchResult.totalCount, 'ownershipInfos found');
      */
-    public async searchOwnershipInfos<T extends factory.ownershipInfo.IGoodType>(
-        params: factory.ownershipInfo.ISearchConditions<T>
-    ): Promise<factory.ownershipInfo.IOwnershipInfo<T>[]> {
+    public async searchOwnershipInfos<T extends factory.ownershipInfo.IGoodType>(params: {
+        /**
+         * 所有対象物のタイプ
+         */
+        goodType: T;
+        /**
+         * いつの時点での所有か
+         */
+        ownedAt?: Date;
+    }): Promise<factory.ownershipInfo.IOwnershipInfo<factory.ownershipInfo.IGood<T>>[]> {
         return this.fetch({
-            uri: `/people/${params.ownedBy}/ownershipInfos/${params.goodType}`,
+            uri: `/people/me/ownershipInfos/${params.goodType}`,
             method: 'GET',
             qs: {
                 ownedAt: params.ownedAt
@@ -229,7 +252,14 @@ export class PersonService extends cinerino.service.Person {
      * 会員プログラムに登録する
      */
     public async registerProgramMembership(params: {
-        personId: string;
+        /**
+         * 未指定の場合`me`がセットされます
+         */
+        id?: string;
+        /**
+         * @deprecated `id`パラメータを使ってください
+         */
+        personId?: string;
         /**
          * 会員プログラムID
          */
@@ -246,9 +276,13 @@ export class PersonService extends cinerino.service.Person {
          * 販売者ID
          */
         sellerId: string;
-    }): Promise<factory.task.registerProgramMembership.ITask> {
+    }): Promise<factory.task.ITask<factory.taskName.RegisterProgramMembership>> {
+        const id = (params.personId !== undefined)
+            ? /* istanbul ignore next */ params.personId
+            : (params.id !== undefined) ? params.id : /* istanbul ignore next */  'me';
+
         return this.fetch({
-            uri: `/people/${params.personId}/ownershipInfos/programMembership/register`,
+            uri: `/people/${id}/ownershipInfos/programMembership/register`,
             method: 'PUT',
             body: {
                 programMembershipId: params.programMembershipId,
@@ -264,14 +298,25 @@ export class PersonService extends cinerino.service.Person {
      * 会員プログラム登録解除
      */
     public async unRegisterProgramMembership(params: {
-        personId: string;
+        /**
+         * 未指定の場合`me`がセットされます
+         */
+        id?: string;
+        /**
+         * @deprecated `id`パラメータを使ってください
+         */
+        personId?: string;
         /**
          * 会員プログラム所有権識別子
          */
         ownershipInfoIdentifier: string;
-    }): Promise<factory.task.unRegisterProgramMembership.ITask> {
+    }): Promise<factory.task.ITask<factory.taskName.UnRegisterProgramMembership>> {
+        const id = (params.personId !== undefined)
+            ? /* istanbul ignore next */ params.personId
+            : (params.id !== undefined) ? params.id : /* istanbul ignore next */  'me';
+
         return this.fetch({
-            uri: `/people/${params.personId}/ownershipInfos/programMembership/${params.ownershipInfoIdentifier}/unRegister`,
+            uri: `/people/${id}/ownershipInfos/programMembership/${params.ownershipInfoIdentifier}/unRegister`,
             method: 'PUT',
             body: {},
             expectedStatusCodes: [ACCEPTED]

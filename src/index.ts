@@ -7,17 +7,11 @@ import * as factory from './factory';
 
 import { AccountService } from './service/account';
 import { ActionService } from './service/action';
-import { EventService } from './service/event';
 import { OrderService } from './service/order';
-import { OrganizationService } from './service/organization';
 import { OwnershipInfoService } from './service/ownershipInfo';
 import { PersonService } from './service/person';
-import { PlaceService } from './service/place';
 import { ProgramMembershipService } from './service/programMembership';
-import { TaskService } from './service/task';
 import { PlaceOrderTransactionService } from './service/transaction/placeOrder';
-import { ReturnOrderTransactionService } from './service/transaction/returnOrder';
-import { UserPoolService } from './service/userPool';
 
 export import factory = factory;
 export import transporters = cinerino.transporters;
@@ -30,7 +24,7 @@ export abstract class Auth extends cinerino.auth.Auth { }
 
 export namespace service {
     /**
-     * Pecorino口座サービス
+     * 口座サービス
      */
     export class Account extends AccountService { }
     /**
@@ -40,35 +34,32 @@ export namespace service {
     /**
      * イベントサービス
      */
-    export class Event extends EventService { }
+    export class Event extends cinerino.service.Event { }
     /**
      * 注文サービス
      */
     export class Order extends OrderService { }
     /**
-     * 組織サービス
-     */
-    export class Organization extends OrganizationService { }
-    /**
      * 所有権サービス
      */
     export class OwnershipInfo extends OwnershipInfoService { }
+    export import person = cinerino.service.person;
     /**
      * ユーザーサービス
      */
     export class Person extends PersonService { }
     /**
-     * 場所サービス
-     */
-    export class Place extends PlaceService { }
-    /**
      * 会員プログラムサービス
      */
     export class ProgramMembership extends ProgramMembershipService { }
     /**
+     * 販売者サービス
+     */
+    export class Seller extends cinerino.service.Seller { }
+    /**
      * タスクサービス
      */
-    export class Task extends TaskService { }
+    export class Task extends cinerino.service.Task { }
     export namespace transaction {
         /**
          * 注文取引サービス
@@ -77,7 +68,7 @@ export namespace service {
         /**
          * 注文返品取引サービス
          */
-        export class ReturnOrder extends ReturnOrderTransactionService { }
+        export class ReturnOrder extends cinerino.service.transaction.ReturnOrder { }
     }
     /**
      * 取引サービス
@@ -89,5 +80,5 @@ export namespace service {
     /**
      * ユーザープールサービス
      */
-    export class UserPool extends UserPoolService { }
+    export class UserPool extends cinerino.service.UserPool { }
 }
