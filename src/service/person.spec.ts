@@ -113,7 +113,7 @@ describe('person service', () => {
         sandbox.mock(people).expects('fetch').once().resolves(await myMock());
 
         const result = await people.searchOwnershipInfos({
-            goodType: client.factory.reservationType.EventReservation,
+            goodType: client.factory.chevre.reservationType.EventReservation,
             ownedAt: new Date()
         });
         assert.deepEqual(result, data);
