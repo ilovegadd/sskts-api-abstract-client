@@ -71,7 +71,14 @@ export class PlaceOrderTransactionService extends Service {
             body: {
                 expires: params.expires,
                 sellerId: params.sellerId,
-                passportToken: params.passportToken
+                seller: { // Cinerino移行のため
+                    typeOf: factory.organizationType.MovieTheater,
+                    id: params.sellerId
+                },
+                passportToken: params.passportToken,
+                object: { // Cinerino移行のため
+                    passport: { token: params.passportToken }
+                }
             },
             expectedStatusCodes: [OK]
         }).then(async (response) => response.json());
@@ -93,7 +100,7 @@ export class PlaceOrderTransactionService extends Service {
          * 座席販売情報
          */
         offers: factory.offer.seatReservation.IOffer[];
-    }): Promise<factory.action.authorize.offer.seatReservation.IAction> {
+    }): Promise<factory.action.authorize.offer.seatReservation.IAction<factory.service.webAPI.Identifier.COA>> {
         return this.fetch({
             uri: `/transactions/placeOrder/${params.transactionId}/actions/authorize/seatReservation`,
             method: 'POST',
@@ -146,7 +153,7 @@ export class PlaceOrderTransactionService extends Service {
          * 座席販売情報
          */
         offers: factory.offer.seatReservation.IOffer[];
-    }): Promise<factory.action.authorize.offer.seatReservation.IAction> {
+    }): Promise<factory.action.authorize.offer.seatReservation.IAction<factory.service.webAPI.Identifier.COA>> {
         return this.fetch({
             uri: `/transactions/placeOrder/${params.transactionId}/actions/authorize/seatReservation/${params.actionId}`,
             method: 'PATCH',
@@ -383,8 +390,11 @@ export class PlaceOrderTransactionService extends Service {
         return this.fetch({
             uri: `/transactions/placeOrder/${params.transactionId}/customerContact`,
             method: 'PUT',
-            expectedStatusCodes: [CREATED],
-            body: params.contact
+            expectedStatusCodes: [CREATED, OK],
+            body: {
+                ...params.contact,
+                telephoneRegion: 'JP'
+            }
         }).then(async (response) => response.json());
     }
 
