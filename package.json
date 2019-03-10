@@ -1,6 +1,6 @@
 {
   "name": "@motionpicture/sskts-api-abstract-client",
-  "version": "6.0.2",
+  "version": "6.1.0-alpha.0",
   "description": "Cinemasunshine API Abstract Client Library for Javascript",
   "main": "./lib/index.js",
   "types": "./lib/index.d.ts",
