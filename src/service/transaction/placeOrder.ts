@@ -56,30 +56,56 @@ export class PlaceOrderTransactionService extends Service {
          */
         expires: Date;
         /**
-         * 販売者ID
+         * 購入者
          */
-        sellerId: string;
+        agent?: {
+            identifier?: factory.person.IIdentifier;
+        };
+        /**
+         * 販売者
+         */
+        seller?: {
+            typeOf: factory.organizationType;
+            id: string;
+        };
+        /**
+         * 販売者ID
+         * @deprecated Use seller
+         */
+        sellerId?: string;
+        object?: {
+            /**
+             * WAITER許可証
+             */
+            passport?: {
+                token: factory.waiter.passport.IEncodedPassport;
+            };
+        };
         /**
          * WAITER許可証トークン
-         * 指定しなければ、バックエンドで許可証を発行しにいく
+         * @deprecated Use object.passport.token
          */
         passportToken?: string;
     }): Promise<factory.transaction.placeOrder.ITransaction> {
+        // Cinerino移行のため
+        if (params.sellerId !== undefined) {
+            params.seller = {
+                typeOf: factory.organizationType.MovieTheater,
+                id: params.sellerId
+            };
+        }
+
+        // Cinerino移行のため
+        if (params.passportToken !== undefined) {
+            params.object = {
+                passport: { token: params.passportToken }
+            };
+        }
+
         return this.fetch({
             uri: '/transactions/placeOrder/start',
             method: 'POST',
-            body: {
-                expires: params.expires,
-                sellerId: params.sellerId,
-                seller: { // Cinerino移行のため
-                    typeOf: factory.organizationType.MovieTheater,
-                    id: params.sellerId
-                },
-                passportToken: params.passportToken,
-                object: { // Cinerino移行のため
-                    passport: { token: params.passportToken }
-                }
-            },
+            body: params,
             expectedStatusCodes: [OK]
         }).then(async (response) => response.json());
     }
@@ -167,6 +193,7 @@ export class PlaceOrderTransactionService extends Service {
 
     /**
      * クレジットカードのオーソリを取得する
+     * @deprecated Use authorizeCreditCardPayment
      */
     public async createCreditCardAuthorization(params: {
         /**
@@ -205,6 +232,7 @@ export class PlaceOrderTransactionService extends Service {
 
     /**
      * クレジットカードオーソリ取消
+     * @deprecated Use voidPayment
      */
     public async cancelCreditCardAuthorization(params: {
         /**
@@ -219,6 +247,68 @@ export class PlaceOrderTransactionService extends Service {
         await this.fetch({
             uri: `/transactions/placeOrder/${params.transactionId}/actions/authorize/creditCard/${params.actionId}`,
             method: 'DELETE',
+            expectedStatusCodes: [NO_CONTENT]
+        });
+    }
+
+    /**
+     * クレジットカードのオーソリを取得する
+     */
+    // tslint:disable-next-line:no-single-line-block-comment
+    /* istanbul ignore next */
+    public async authorizeCreditCardPayment(params: {
+        object: factory.action.authorize.paymentMethod.creditCard.IObject;
+        purpose: factory.action.authorize.paymentMethod.any.IPurpose;
+    }): Promise<factory.action.authorize.paymentMethod.creditCard.IAction> {
+        return this.fetch({
+            uri: `/transactions/${this.typeOf}/${params.purpose.id}/actions/authorize/paymentMethod/creditCard`,
+            method: 'POST',
+            expectedStatusCodes: [CREATED],
+            body: params.object
+        })
+            .then(async (response) => response.json());
+    }
+
+    /**
+     * 口座決済のオーソリを取得する
+     */
+    // tslint:disable-next-line:no-single-line-block-comment
+    /* istanbul ignore next */
+    public async authorizeAccountPayment<T extends factory.accountType>(params: {
+        object: factory.action.authorize.paymentMethod.account.IObject<T>;
+        purpose: factory.action.authorize.paymentMethod.any.IPurpose;
+    }): Promise<factory.action.authorize.paymentMethod.account.IAction<T>> {
+        return this.fetch({
+            uri: `/transactions/${this.typeOf}/${params.purpose.id}/actions/authorize/paymentMethod/account`,
+            method: 'POST',
+            expectedStatusCodes: [CREATED],
+            body: params.object
+        })
+            .then(async (response) => response.json());
+    }
+
+    /**
+     * 決済承認取消
+     */
+    // tslint:disable-next-line:no-single-line-block-comment
+    /* istanbul ignore next */
+    public async voidPayment(params: {
+        /**
+         * アクションID
+         */
+        id: string;
+        object: {
+            /**
+             * 決済方法
+             */
+            typeOf: factory.paymentMethodType;
+        };
+        purpose: factory.action.authorize.paymentMethod.any.IPurpose;
+    }): Promise<void> {
+        await this.fetch({
+            // tslint:disable-next-line:max-line-length
+            uri: `/transactions/${this.typeOf}/${params.purpose.id}/actions/authorize/paymentMethod/${params.object.typeOf}/${params.id}/cancel`,
+            method: 'PUT',
             expectedStatusCodes: [NO_CONTENT]
         });
     }
@@ -266,6 +356,7 @@ export class PlaceOrderTransactionService extends Service {
 
     /**
      * ポイント口座決済のオーソリを取得する
+     * @deprecated Use authorizeAccountPayment
      */
     public async createPecorinoPaymentAuthorization(params: {
         /**
@@ -301,6 +392,7 @@ export class PlaceOrderTransactionService extends Service {
 
     /**
      * ポイント口座決済オーソリ取消
+     * @deprecated Use voidPayment
      */
     public async cancelPecorinoPaymentAuthorization(params: {
         /**
@@ -381,18 +473,40 @@ export class PlaceOrderTransactionService extends Service {
         /**
          * 取引ID
          */
-        transactionId: string;
+        id?: string;
+        object?: {
+            /**
+             * customer contact info
+             */
+            customerContact: factory.transaction.placeOrder.ICustomerContact;
+        };
+        /**
+         * 取引ID
+         * @deprecated Use id
+         */
+        transactionId?: string;
         /**
          * customer contact info
+         * @deprecated Use object.customerContact
          */
-        contact: factory.transaction.placeOrder.ICustomerContact;
+        contact?: factory.transaction.placeOrder.ICustomerContact;
     }): Promise<factory.transaction.placeOrder.ICustomerContact> {
+        if (params.transactionId !== undefined) {
+            params.id = params.transactionId;
+        }
+
+        if (params.contact !== undefined) {
+            params.object = {
+                customerContact: params.contact
+            };
+        }
+
         return this.fetch({
-            uri: `/transactions/placeOrder/${params.transactionId}/customerContact`,
+            uri: `/transactions/placeOrder/${params.id}/customerContact`,
             method: 'PUT',
             expectedStatusCodes: [CREATED, OK],
             body: {
-                ...params.contact,
+                ...(params.object !== undefined) ? params.object.customerContact : /* istanbul ignore next */ {},
                 telephoneRegion: 'JP'
             }
         }).then(async (response) => response.json());
@@ -405,10 +519,30 @@ export class PlaceOrderTransactionService extends Service {
         /**
          * 取引ID
          */
-        transactionId: string;
+        id?: string;
+        options?: {
+            /**
+             * 注文配送メールを送信するかどうか
+             */
+            sendEmailMessage?: boolean;
+            /**
+             * 注文配送メールテンプレート
+             * メールをカスタマイズしたい場合、PUGテンプレートを指定
+             * 挿入変数として`order`を使用できます
+             * @see https://pugjs.org/api/getting-started.html
+             * @example example/sendOrder.pug
+             */
+            emailTemplate?: string;
+        };
+        /**
+         * 取引ID
+         * @deprecated Use id
+         */
+        transactionId?: string;
         /**
          * 注文メールを送信するかどうか
          * デフォルトはfalse
+         * @deprecated Use options.sendEmailMessage
          */
         sendEmailMessage?: boolean;
         /**
@@ -416,12 +550,23 @@ export class PlaceOrderTransactionService extends Service {
          */
         incentives?: IIncentive[];
     }): Promise<factory.order.IOrder> {
+        if (params.transactionId !== undefined) {
+            params.id = params.transactionId;
+        }
+
+        if (params.sendEmailMessage !== undefined) {
+            if (params.options === undefined) {
+                params.options = {};
+            }
+            params.options.sendEmailMessage = params.sendEmailMessage;
+        }
+
         return this.fetch({
-            uri: `/transactions/placeOrder/${params.transactionId}/confirm`,
+            uri: `/transactions/placeOrder/${params.id}/confirm`,
             method: 'POST',
             expectedStatusCodes: [CREATED],
             body: {
-                sendEmailMessage: params.sendEmailMessage,
+                ...params.options,
                 incentives: params.incentives
             }
         }).then(async (response) => response.json());
