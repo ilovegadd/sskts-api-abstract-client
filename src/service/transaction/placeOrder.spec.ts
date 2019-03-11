@@ -170,7 +170,8 @@ describe('placeOrder transaction client.service', () => {
         sandbox.mock(transactions).expects('fetch').once().resolves(await myMock());
 
         const result = await transactions.confirm({
-            transactionId: 'transactionId'
+            transactionId: 'transactionId',
+            sendEmailMessage: true
         });
         assert.deepEqual(result, data);
     });
