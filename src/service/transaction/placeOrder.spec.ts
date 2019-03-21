@@ -38,8 +38,10 @@ describe('placeOrder transaction client.service', () => {
 
         const result = await transactions.start({
             expires: new Date(),
-            sellerId: 'sellerId',
-            passportToken: 'passportToken'
+            seller: { typeOf: client.factory.organizationType.MovieTheater, id: 'sellerId' },
+            object: {
+                passport: { token: 'passportToken' }
+            }
         });
 
         assert.deepEqual(result, data);
@@ -52,7 +54,7 @@ describe('placeOrder transaction client.service', () => {
         sandbox.mock(transactions).expects('fetch').once().resolves(await myMock());
 
         const result = await transactions.createSeatReservationAuthorization({
-            transactionId: 'transactionId',
+            id: 'transactionId',
             eventIdentifier: 'eventIdentifier',
             offers: []
         });
@@ -67,7 +69,7 @@ describe('placeOrder transaction client.service', () => {
         sandbox.mock(transactions).expects('fetch').once().resolves(await myMock());
 
         const result = await transactions.cancelSeatReservationAuthorization({
-            transactionId: 'transactionId',
+            id: 'transactionId',
             actionId: 'actionId'
         });
 
@@ -81,7 +83,7 @@ describe('placeOrder transaction client.service', () => {
         sandbox.mock(transactions).expects('fetch').once().resolves(await myMock());
 
         const result = await transactions.changeSeatReservationOffers({
-            transactionId: 'transactionId',
+            id: 'transactionId',
             actionId: 'actionId',
             eventIdentifier: 'eventIdentifier',
             offers: [<any>{}]
@@ -91,44 +93,13 @@ describe('placeOrder transaction client.service', () => {
         sandbox.verify();
     });
 
-    it('クレジットカードオーソリ結果が期待通り', async () => {
-        const data = {};
-        const myMock = fetchMock.sandbox().mock('*', data);
-        sandbox.mock(transactions).expects('fetch').once().resolves(await myMock());
-
-        const result = await transactions.createCreditCardAuthorization({
-            transactionId: 'transactionId',
-            orderId: 'orderId',
-            amount: 123,
-            method: 'method',
-            creditCard: <any>{}
-        });
-
-        assert.deepEqual(result, data);
-        sandbox.verify();
-    });
-
-    it('クレジットカードオーソリ取消結果が期待通り', async () => {
-        const data = {};
-        const myMock = fetchMock.sandbox().mock('*', data);
-        sandbox.mock(transactions).expects('fetch').once().resolves(await myMock());
-
-        const result = await transactions.cancelCreditCardAuthorization({
-            transactionId: 'transactionId',
-            actionId: 'actionId'
-        });
-
-        assert.deepEqual(result, undefined);
-        sandbox.verify();
-    });
-
     it('ムビチケ追加結果が期待通り', async () => {
         const data = {};
         const myMock = fetchMock.sandbox().mock('*', data);
         sandbox.mock(transactions).expects('fetch').once().resolves(await myMock());
 
         const result = await transactions.createMvtkAuthorization({
-            transactionId: 'transactionId',
+            id: 'transactionId',
             mvtk: <any>{}
         });
 
@@ -142,7 +113,7 @@ describe('placeOrder transaction client.service', () => {
         sandbox.mock(transactions).expects('fetch').once().resolves(await myMock());
 
         const result = await transactions.cancelMvtkAuthorization({
-            transactionId: 'transactionId',
+            id: 'transactionId',
             actionId: 'actionId'
         });
 
@@ -156,8 +127,10 @@ describe('placeOrder transaction client.service', () => {
         sandbox.mock(transactions).expects('fetch').once().resolves(await myMock());
 
         const result = await transactions.setCustomerContact({
-            transactionId: 'transactionId',
-            contact: <any>{}
+            id: 'transactionId',
+            object: {
+                customerContact: <any>{}
+            }
         });
 
         assert.deepEqual(result, data);
@@ -170,8 +143,10 @@ describe('placeOrder transaction client.service', () => {
         sandbox.mock(transactions).expects('fetch').once().resolves(await myMock());
 
         const result = await transactions.confirm({
-            transactionId: 'transactionId',
-            sendEmailMessage: true
+            id: 'transactionId',
+            options: {
+                sendEmailMessage: true
+            }
         });
         assert.deepEqual(result, data);
     });
@@ -182,40 +157,11 @@ describe('placeOrder transaction client.service', () => {
         sandbox.mock(transactions).expects('fetch').once().resolves(await myMock());
 
         const result = await transactions.sendEmailNotification({
-            transactionId: 'transactionId',
+            id: 'transactionId',
             emailMessageAttributes: <any>{}
         });
 
         assert.deepEqual(result, data);
-        sandbox.verify();
-    });
-
-    it('ポイント口座承認アクションの結果が期待通り', async () => {
-        const data = {};
-        const myMock = fetchMock.sandbox().mock('*', data);
-        sandbox.mock(transactions).expects('fetch').once().resolves(await myMock());
-
-        const result = await transactions.createPecorinoPaymentAuthorization({
-            transactionId: 'transactionId',
-            amount: 1234,
-            fromAccountNumber: '12345'
-        });
-
-        assert.deepEqual(result, data);
-        sandbox.verify();
-    });
-
-    it('ポイント口座オーソリ取消結果が期待通り', async () => {
-        const data = {};
-        const myMock = fetchMock.sandbox().mock('*', data);
-        sandbox.mock(transactions).expects('fetch').once().resolves(await myMock());
-
-        const result = await transactions.cancelPecorinoPaymentAuthorization({
-            transactionId: 'transactionId',
-            actionId: 'actionId'
-        });
-
-        assert.deepEqual(result, undefined);
         sandbox.verify();
     });
 
@@ -225,7 +171,7 @@ describe('placeOrder transaction client.service', () => {
         sandbox.mock(transactions).expects('fetch').once().resolves(await myMock());
 
         const result = await transactions.createPecorinoAwardAuthorization({
-            transactionId: 'transactionId',
+            id: 'transactionId',
             amount: 1234,
             toAccountNumber: '12345'
         });
@@ -240,7 +186,7 @@ describe('placeOrder transaction client.service', () => {
         sandbox.mock(transactions).expects('fetch').once().resolves(await myMock());
 
         const result = await transactions.cancelPecorinoAwardAuthorization({
-            transactionId: 'transactionId',
+            id: 'transactionId',
             actionId: 'actionId'
         });
 
@@ -254,28 +200,8 @@ describe('placeOrder transaction client.service', () => {
         sandbox.mock(transactions).expects('fetch').once().resolves(await myMock());
 
         const result = await transactions.cancel({
-            transactionId: 'transactionId'
+            id: 'transactionId'
         });
         assert.deepEqual(result, undefined);
-    });
-
-    it('取引検索結果が期待通り', async () => {
-        const data = {};
-        const myMock = fetchMock.sandbox().mock('*', data);
-        sandbox.mock(transactions).expects('fetch').once().resolves(await myMock());
-
-        const result = await transactions.search(<any>{});
-        assert.deepEqual(result.data, data);
-        sandbox.verify();
-    });
-
-    it('取引に対するアクション検索結果が期待通り', async () => {
-        const data: any[] = [];
-        const myMock = fetchMock.sandbox().mock('*', data);
-        sandbox.mock(transactions).expects('fetch').once().resolves(await myMock());
-
-        const result = await transactions.searchActionsByTransactionId(<any>{});
-        assert.deepEqual(result, data);
-        sandbox.verify();
     });
 });
