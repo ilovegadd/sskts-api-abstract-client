@@ -1,6 +1,6 @@
+import { factory } from '@cinerino/api-abstract-client';
 import { OK } from 'http-status';
 
-import * as factory from '../factory';
 import { Service } from '../service';
 
 /**

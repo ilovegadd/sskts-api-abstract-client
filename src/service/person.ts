@@ -1,12 +1,10 @@
-import * as cinerino from '@cinerino/api-abstract-client';
+import { factory, service } from '@cinerino/api-abstract-client';
 import { ACCEPTED } from 'http-status';
-
-import * as factory from '../factory';
 
 /**
  * ユーザーサービス
  */
-export class PersonService extends cinerino.service.Person {
+export class PersonService extends service.Person {
     /**
      * 会員プログラムに登録する
      */

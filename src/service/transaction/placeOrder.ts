@@ -1,9 +1,6 @@
-/**
- * 注文取引サービス
- */
+import { factory } from '@cinerino/api-abstract-client';
 import { CREATED, NO_CONTENT, OK } from 'http-status';
 
-import * as factory from '../../factory';
 import { IOptions, Service } from '../../service';
 
 /**

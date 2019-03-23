@@ -1,6 +1,6 @@
+import { factory } from '@cinerino/api-abstract-client';
 import { CREATED, OK } from 'http-status';
 
-import * as factory from '../factory';
 import { Service } from '../service';
 
 export type IPrintTicketAction = factory.action.transfer.print.ticket.IAction;

@@ -1,8 +1,6 @@
-import { service } from '@cinerino/api-abstract-client';
+import { factory, service } from '@cinerino/api-abstract-client';
 
 import { OK } from 'http-status';
-
-import * as factory from '../factory';
 
 export interface IOrderInquiryKey {
     theaterCode: string;
