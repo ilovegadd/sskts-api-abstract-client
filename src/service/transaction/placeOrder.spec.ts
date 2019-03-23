@@ -54,9 +54,11 @@ describe('placeOrder transaction client.service', () => {
         sandbox.mock(transactions).expects('fetch').once().resolves(await myMock());
 
         const result = await transactions.createSeatReservationAuthorization({
-            id: 'transactionId',
-            eventIdentifier: 'eventIdentifier',
-            offers: []
+            object: {
+                event: { id: 'eventId' },
+                acceptedOffer: []
+            },
+            purpose: { typeOf: client.factory.transactionType.PlaceOrder, id: 'transactionId' }
         });
 
         assert.deepEqual(result, data);
@@ -69,8 +71,8 @@ describe('placeOrder transaction client.service', () => {
         sandbox.mock(transactions).expects('fetch').once().resolves(await myMock());
 
         const result = await transactions.cancelSeatReservationAuthorization({
-            id: 'transactionId',
-            actionId: 'actionId'
+            id: 'actionId',
+            purpose: { typeOf: client.factory.transactionType.PlaceOrder, id: 'transactionId' }
         });
 
         assert.deepEqual(result, undefined);
@@ -83,10 +85,12 @@ describe('placeOrder transaction client.service', () => {
         sandbox.mock(transactions).expects('fetch').once().resolves(await myMock());
 
         const result = await transactions.changeSeatReservationOffers({
-            id: 'transactionId',
-            actionId: 'actionId',
-            eventIdentifier: 'eventIdentifier',
-            offers: [<any>{}]
+            id: 'actionId',
+            object: {
+                event: { id: 'eventId' },
+                acceptedOffer: []
+            },
+            purpose: { typeOf: client.factory.transactionType.PlaceOrder, id: 'transactionId' }
         });
 
         assert.deepEqual(result, data);
@@ -99,8 +103,8 @@ describe('placeOrder transaction client.service', () => {
         sandbox.mock(transactions).expects('fetch').once().resolves(await myMock());
 
         const result = await transactions.createMvtkAuthorization({
-            id: 'transactionId',
-            mvtk: <any>{}
+            object: <any>{},
+            purpose: { typeOf: client.factory.transactionType.PlaceOrder, id: 'transactionId' }
         });
 
         assert.deepEqual(result, data);
@@ -113,8 +117,8 @@ describe('placeOrder transaction client.service', () => {
         sandbox.mock(transactions).expects('fetch').once().resolves(await myMock());
 
         const result = await transactions.cancelMvtkAuthorization({
-            id: 'transactionId',
-            actionId: 'actionId'
+            id: 'actionId',
+            purpose: { typeOf: client.factory.transactionType.PlaceOrder, id: 'transactionId' }
         });
 
         assert.deepEqual(result, undefined);
@@ -171,9 +175,11 @@ describe('placeOrder transaction client.service', () => {
         sandbox.mock(transactions).expects('fetch').once().resolves(await myMock());
 
         const result = await transactions.createPecorinoAwardAuthorization({
-            id: 'transactionId',
-            amount: 1234,
-            toAccountNumber: '12345'
+            object: {
+                amount: 1234,
+                toAccountNumber: '12345'
+            },
+            purpose: { typeOf: client.factory.transactionType.PlaceOrder, id: 'transactionId' }
         });
 
         assert.deepEqual(result, data);
@@ -186,8 +192,8 @@ describe('placeOrder transaction client.service', () => {
         sandbox.mock(transactions).expects('fetch').once().resolves(await myMock());
 
         const result = await transactions.cancelPecorinoAwardAuthorization({
-            id: 'transactionId',
-            actionId: 'actionId'
+            id: 'actionId',
+            purpose: { typeOf: client.factory.transactionType.PlaceOrder, id: 'transactionId' }
         });
 
         assert.deepEqual(result, undefined);

@@ -24,8 +24,7 @@ export class PlaceOrderTransactionService extends Service {
     }
 
     /**
-     * 取引を開始する
-     * 開始できない場合(混雑中など)、nullが返されます。
+     * 取引開始
      */
     public async start(params: {
         /**
@@ -56,7 +55,7 @@ export class PlaceOrderTransactionService extends Service {
         };
     }): Promise<factory.transaction.placeOrder.ITransaction> {
         return this.fetch({
-            uri: '/transactions/placeOrder/start',
+            uri: `/transactions/${this.typeOf}/start`,
             method: 'POST',
             body: params,
             expectedStatusCodes: [OK]
@@ -64,48 +63,44 @@ export class PlaceOrderTransactionService extends Service {
     }
 
     /**
-     * 取引に座席予約を追加する
+     * 座席予約オファー承認
      */
     public async createSeatReservationAuthorization(params: {
-        /**
-         * 取引ID
-         */
-        id: string;
-        /**
-         * イベント識別子
-         */
-        eventIdentifier: string;
-        /**
-         * 座席販売情報
-         */
-        offers: factory.offer.seatReservation.IOffer[];
+        object: {
+            /**
+             * イベント
+             */
+            event: { id: string };
+            /**
+             * オファー
+             */
+            acceptedOffer: factory.offer.seatReservation.IOffer[];
+        };
+        purpose: factory.action.authorize.offer.seatReservation.IPurpose;
     }): Promise<factory.action.authorize.offer.seatReservation.IAction<factory.service.webAPI.Identifier.COA>> {
         return this.fetch({
-            uri: `/transactions/placeOrder/${params.id}/actions/authorize/seatReservation`,
+            uri: `/transactions/${this.typeOf}/${params.purpose.id}/actions/authorize/seatReservation`,
             method: 'POST',
             expectedStatusCodes: [CREATED],
             body: {
-                eventIdentifier: params.eventIdentifier,
-                offers: params.offers
+                eventIdentifier: params.object.event.id,
+                offers: params.object.acceptedOffer
             }
         }).then(async (response) => response.json());
     }
 
     /**
-     * 座席予約取消
+     * 座席予約オファー承認取消
      */
     public async cancelSeatReservationAuthorization(params: {
         /**
-         * 取引ID
-         */
-        id: string;
-        /**
          * アクションID
          */
-        actionId: string;
+        id: string;
+        purpose: factory.action.authorize.offer.seatReservation.IPurpose;
     }): Promise<void> {
         await this.fetch({
-            uri: `/transactions/placeOrder/${params.id}/actions/authorize/seatReservation/${params.actionId}`,
+            uri: `/transactions/${this.typeOf}/${params.purpose.id}/actions/authorize/seatReservation/${params.id}`,
             method: 'DELETE',
             expectedStatusCodes: [NO_CONTENT]
         });
@@ -117,29 +112,28 @@ export class PlaceOrderTransactionService extends Service {
      */
     public async changeSeatReservationOffers(params: {
         /**
-         * 取引ID
-         */
-        id: string;
-        /**
          * アクションID
          */
-        actionId: string;
-        /**
-         * イベント識別子
-         */
-        eventIdentifier: string;
-        /**
-         * 座席販売情報
-         */
-        offers: factory.offer.seatReservation.IOffer[];
+        id: string;
+        object: {
+            /**
+             * イベント
+             */
+            event: { id: string };
+            /**
+             * オファー
+             */
+            acceptedOffer: factory.offer.seatReservation.IOffer[];
+        };
+        purpose: factory.action.authorize.offer.seatReservation.IPurpose;
     }): Promise<factory.action.authorize.offer.seatReservation.IAction<factory.service.webAPI.Identifier.COA>> {
         return this.fetch({
-            uri: `/transactions/placeOrder/${params.id}/actions/authorize/seatReservation/${params.actionId}`,
+            uri: `/transactions/${this.typeOf}/${params.purpose.id}/actions/authorize/seatReservation/${params.id}`,
             method: 'PATCH',
             expectedStatusCodes: [OK],
             body: {
-                eventIdentifier: params.eventIdentifier,
-                offers: params.offers
+                eventIdentifier: params.object.event.id,
+                offers: params.object.acceptedOffer
             }
         }).then(async (response) => response.json());
     }
@@ -154,10 +148,10 @@ export class PlaceOrderTransactionService extends Service {
         purpose: factory.action.authorize.paymentMethod.any.IPurpose;
     }): Promise<factory.action.authorize.paymentMethod.creditCard.IAction> {
         return this.fetch({
-            uri: `/transactions/${this.typeOf}/${params.purpose.id}/actions/authorize/paymentMethod/creditCard`,
+            uri: `/payment/${factory.paymentMethodType.CreditCard}/authorize`,
             method: 'POST',
             expectedStatusCodes: [CREATED],
-            body: params.object
+            body: params
         })
             .then(async (response) => response.json());
     }
@@ -172,10 +166,10 @@ export class PlaceOrderTransactionService extends Service {
         purpose: factory.action.authorize.paymentMethod.any.IPurpose;
     }): Promise<factory.action.authorize.paymentMethod.account.IAction<T>> {
         return this.fetch({
-            uri: `/transactions/${this.typeOf}/${params.purpose.id}/actions/authorize/paymentMethod/account`,
+            uri: `/payment/${factory.paymentMethodType.Account}/authorize`,
             method: 'POST',
             expectedStatusCodes: [CREATED],
-            body: params.object
+            body: params
         })
             .then(async (response) => response.json());
     }
@@ -199,118 +193,105 @@ export class PlaceOrderTransactionService extends Service {
         purpose: factory.action.authorize.paymentMethod.any.IPurpose;
     }): Promise<void> {
         await this.fetch({
-            // tslint:disable-next-line:max-line-length
-            uri: `/transactions/${this.typeOf}/${params.purpose.id}/actions/authorize/paymentMethod/${params.object.typeOf}/${params.id}/cancel`,
+            uri: `/payment/${params.object.typeOf}/authorize/${params.id}/void`,
             method: 'PUT',
-            expectedStatusCodes: [NO_CONTENT]
+            expectedStatusCodes: [NO_CONTENT],
+            body: params
         });
     }
 
     /**
-     * 決済方法として、ムビチケを追加する
+     * ムビチケ決済承認
      */
     public async createMvtkAuthorization(params: {
-        /**
-         * 取引ID
-         */
-        id: string;
-        /**
-         * ムビチケ情報
-         */
-        mvtk: factory.action.authorize.discount.mvtk.IObject;
+        object: factory.action.authorize.discount.mvtk.IObject;
+        purpose: factory.action.authorize.discount.mvtk.IPurpose;
     }): Promise<IAuthorizeAction> {
         return this.fetch({
-            uri: `/transactions/placeOrder/${params.id}/actions/authorize/mvtk`,
+            uri: `/transactions/${this.typeOf}/${params.purpose.id}/actions/authorize/mvtk`,
             method: 'POST',
             expectedStatusCodes: [CREATED],
-            body: params.mvtk
+            body: params.object
         }).then(async (response) => response.json());
     }
 
     /**
-     * ムビチケ取消
+     * ムビチケ決済承認取消
      */
     public async cancelMvtkAuthorization(params: {
         /**
-         * 取引ID
-         */
-        id: string;
-        /**
          * アクションID
          */
-        actionId: string;
+        id: string;
+        purpose: factory.action.authorize.discount.mvtk.IPurpose;
     }): Promise<void> {
         await this.fetch({
-            uri: `/transactions/placeOrder/${params.id}/actions/authorize/mvtk/${params.actionId}`,
+            uri: `/transactions/${this.typeOf}/${params.purpose.id}/actions/authorize/mvtk/${params.id}`,
             method: 'DELETE',
             expectedStatusCodes: [NO_CONTENT]
         });
     }
 
     /**
-     * ポイントポイントインセンティブのオーソリを取得する
+     * ポイントインセンティブ承認
      */
     public async createPecorinoAwardAuthorization(params: {
-        /**
-         * 取引ID
-         */
-        id: string;
-        /**
-         * 金額
-         */
-        amount: number;
-        /**
-         * 入金先口座番号
-         */
-        toAccountNumber: string;
-        /**
-         * 取引メモ
-         * 指定すると、口座の取引明細に記録されます。
-         * 後の調査のためにある程度の情報を記録することが望ましい。
-         */
-        notes?: string;
+        object: {
+            /**
+             * 金額
+             */
+            amount: number;
+            /**
+             * 入金先口座番号
+             */
+            toAccountNumber: string;
+            /**
+             * 取引メモ
+             * 指定すると、口座の取引明細に記録されます。
+             * 後の調査のためにある程度の情報を記録することが望ましい。
+             */
+            notes?: string;
+        };
+        purpose: factory.action.authorize.award.point.IPurpose;
     }): Promise<IAuthorizeAction> {
         return this.fetch({
-            uri: `/transactions/placeOrder/${params.id}/actions/authorize/award/pecorino`,
+            uri: `/transactions/${this.typeOf}/${params.purpose.id}/actions/authorize/award/pecorino`,
             method: 'POST',
             expectedStatusCodes: [CREATED],
             body: {
-                amount: params.amount,
-                toAccountNumber: params.toAccountNumber,
-                notes: params.notes
+                amount: params.object.amount,
+                toAccountNumber: params.object.toAccountNumber,
+                notes: params.object.notes
             }
         }).then(async (response) => response.json());
     }
 
     /**
-     * ポイントポイントインセンティブオーソリ取消
+     * ポイントインセンティブ承認取消
      */
     public async cancelPecorinoAwardAuthorization(params: {
         /**
-         * 取引ID
-         */
-        id: string;
-        /**
          * アクションID
          */
-        actionId: string;
+        id: string;
+        purpose: factory.action.authorize.award.point.IPurpose;
     }): Promise<void> {
         await this.fetch({
-            uri: `/transactions/placeOrder/${params.id}/actions/authorize/award/pecorino/${params.actionId}`,
+            uri: `/transactions/${this.typeOf}/${params.purpose.id}/actions/authorize/award/pecorino/${params.id}`,
             method: 'DELETE',
             expectedStatusCodes: [NO_CONTENT]
         });
     }
 
     /**
-     * register a customer contact
+     * 購入者連絡先登録
      */
     public async setCustomerContact(params: {
         /**
          * 取引ID
          */
         id: string;
-        object?: {
+        object: {
             /**
              * customer contact info
              */
@@ -318,14 +299,12 @@ export class PlaceOrderTransactionService extends Service {
         };
     }): Promise<factory.transaction.placeOrder.ICustomerContact> {
         return this.fetch({
-            uri: `/transactions/placeOrder/${params.id}/customerContact`,
+            uri: `/transactions/${this.typeOf}/${params.id}/customerContact`,
             method: 'PUT',
             expectedStatusCodes: [CREATED, OK],
-            body: {
-                ...(params.object !== undefined) ? params.object.customerContact : /* istanbul ignore next */ {},
-                telephoneRegion: 'JP'
-            }
-        }).then(async (response) => response.json());
+            body: params.object.customerContact
+        })
+            .then(async (response) => response.json());
     }
 
     /**
@@ -352,7 +331,7 @@ export class PlaceOrderTransactionService extends Service {
         };
     }): Promise<factory.order.IOrder> {
         return this.fetch({
-            uri: `/transactions/placeOrder/${params.id}/confirm`,
+            uri: `/transactions/${this.typeOf}/${params.id}/confirm`,
             method: 'POST',
             expectedStatusCodes: [CREATED],
             body: {
@@ -375,7 +354,7 @@ export class PlaceOrderTransactionService extends Service {
         emailMessageAttributes: factory.creativeWork.message.email.IAttributes;
     }): Promise<factory.task.ITask<factory.taskName.SendEmailMessage>> {
         return this.fetch({
-            uri: `/transactions/placeOrder/${params.id}/tasks/sendEmailNotification`,
+            uri: `/transactions/${this.typeOf}/${params.id}/tasks/sendEmailNotification`,
             method: 'POST',
             expectedStatusCodes: [CREATED],
             body: params.emailMessageAttributes
@@ -393,8 +372,8 @@ export class PlaceOrderTransactionService extends Service {
         id: string;
     }): Promise<void> {
         await this.fetch({
-            uri: `/transactions/placeOrder/${params.id}/cancel`,
-            method: 'POST',
+            uri: `/transactions/${this.typeOf}/${params.id}/cancel`,
+            method: 'PUT',
             expectedStatusCodes: [NO_CONTENT]
         });
     }

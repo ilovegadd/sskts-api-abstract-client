@@ -10,6 +10,8 @@ The format is based on [Keep a Changelog](http://keepachangelog.com/).
 
 ### Changed
 
+- 注文取引中の決済承認エンドポイントを新決済サービスへ変更
+
 ### Deprecated
 
 ### Removed
