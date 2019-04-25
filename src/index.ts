@@ -3,7 +3,6 @@
  * API Service Library for Javascript
  */
 import * as cinerino from '@cinerino/api-abstract-client';
-import * as factory from './factory';
 
 import { AccountService } from './service/account';
 import { ActionService } from './service/action';
@@ -13,7 +12,7 @@ import { PersonService } from './service/person';
 import { ProgramMembershipService } from './service/programMembership';
 import { PlaceOrderTransactionService } from './service/transaction/placeOrder';
 
-export import factory = factory;
+export import factory = cinerino.factory;
 export import transporters = cinerino.transporters;
 export import auth = cinerino.auth;
 
