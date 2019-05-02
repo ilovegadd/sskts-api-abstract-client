@@ -44,6 +44,10 @@ export namespace service {
     export class OwnershipInfo extends OwnershipInfoService { }
     export import person = cinerino.service.person;
     /**
+     * 決済サービス
+     */
+    export class Payment extends cinerino.service.Payment { }
+    /**
      * ユーザーサービス
      */
     export class Person extends PersonService { }
