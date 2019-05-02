@@ -155,20 +155,6 @@ describe('placeOrder transaction client.service', () => {
         assert.deepEqual(result, data);
     });
 
-    it('メール通知結果が期待通り', async () => {
-        const data = {};
-        const myMock = fetchMock.sandbox().mock('*', data);
-        sandbox.mock(transactions).expects('fetch').once().resolves(await myMock());
-
-        const result = await transactions.sendEmailNotification({
-            id: 'transactionId',
-            emailMessageAttributes: <any>{}
-        });
-
-        assert.deepEqual(result, data);
-        sandbox.verify();
-    });
-
     it('ポイントインセンティブ承認アクションの結果が期待通り', async () => {
         const data = {};
         const myMock = fetchMock.sandbox().mock('*', data);

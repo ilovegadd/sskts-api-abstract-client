@@ -136,68 +136,6 @@ export class PlaceOrderTransactionService extends Service {
     }
 
     /**
-     * クレジットカードのオーソリを取得する
-     */
-    // tslint:disable-next-line:no-single-line-block-comment
-    /* istanbul ignore next */
-    public async authorizeCreditCardPayment(params: {
-        object: factory.action.authorize.paymentMethod.creditCard.IObject;
-        purpose: factory.action.authorize.paymentMethod.any.IPurpose;
-    }): Promise<factory.action.authorize.paymentMethod.creditCard.IAction> {
-        return this.fetch({
-            uri: `/payment/${factory.paymentMethodType.CreditCard}/authorize`,
-            method: 'POST',
-            expectedStatusCodes: [CREATED],
-            body: params
-        })
-            .then(async (response) => response.json());
-    }
-
-    /**
-     * 口座決済のオーソリを取得する
-     */
-    // tslint:disable-next-line:no-single-line-block-comment
-    /* istanbul ignore next */
-    public async authorizeAccountPayment<T extends factory.accountType>(params: {
-        object: factory.action.authorize.paymentMethod.account.IObject<T>;
-        purpose: factory.action.authorize.paymentMethod.any.IPurpose;
-    }): Promise<factory.action.authorize.paymentMethod.account.IAction<T>> {
-        return this.fetch({
-            uri: `/payment/${factory.paymentMethodType.Account}/authorize`,
-            method: 'POST',
-            expectedStatusCodes: [CREATED],
-            body: params
-        })
-            .then(async (response) => response.json());
-    }
-
-    /**
-     * 決済承認取消
-     */
-    // tslint:disable-next-line:no-single-line-block-comment
-    /* istanbul ignore next */
-    public async voidPayment(params: {
-        /**
-         * アクションID
-         */
-        id: string;
-        object: {
-            /**
-             * 決済方法
-             */
-            typeOf: factory.paymentMethodType;
-        };
-        purpose: factory.action.authorize.paymentMethod.any.IPurpose;
-    }): Promise<void> {
-        await this.fetch({
-            uri: `/payment/${params.object.typeOf}/authorize/${params.id}/void`,
-            method: 'PUT',
-            expectedStatusCodes: [NO_CONTENT],
-            body: params
-        });
-    }
-
-    /**
      * ムビチケ決済承認
      */
     public async createMvtkAuthorization(params: {
@@ -331,30 +269,7 @@ export class PlaceOrderTransactionService extends Service {
             uri: `/transactions/${this.typeOf}/${params.id}/confirm`,
             method: 'POST',
             expectedStatusCodes: [CREATED],
-            body: {
-                ...params.options
-            }
-        }).then(async (response) => response.json());
-    }
-
-    /**
-     * 確定した取引に関して、購入者にメール通知を送信する
-     */
-    public async sendEmailNotification(params: {
-        /**
-         * 取引ID
-         */
-        id: string;
-        /**
-         * Eメールメッセージ属性
-         */
-        emailMessageAttributes: factory.creativeWork.message.email.IAttributes;
-    }): Promise<factory.task.ITask<factory.taskName.SendEmailMessage>> {
-        return this.fetch({
-            uri: `/transactions/${this.typeOf}/${params.id}/tasks/sendEmailNotification`,
-            method: 'POST',
-            expectedStatusCodes: [CREATED],
-            body: params.emailMessageAttributes
+            body: params.options
         }).then(async (response) => response.json());
     }
 
