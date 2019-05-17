@@ -256,11 +256,25 @@ export class PlaceOrderTransactionService extends Service {
              */
             sendEmailMessage?: boolean;
             /**
+             * 注文配送メール
+             */
+            email?: {
+                /**
+                 * 注文配送メールテンプレート
+                 * メールをカスタマイズしたい場合、PUGテンプレートを指定
+                 * 挿入変数として`order`を使用できます
+                 * @see https://pugjs.org/api/getting-started.html
+                 * @example example/sendOrder.pug
+                 */
+                template?: string;
+                /**
+                 * 注文配送メール送信者
+                 */
+                sender?: { email?: string };
+            };
+            /**
              * 注文配送メールテンプレート
-             * メールをカスタマイズしたい場合、PUGテンプレートを指定
-             * 挿入変数として`order`を使用できます
-             * @see https://pugjs.org/api/getting-started.html
-             * @example example/sendOrder.pug
+             * @deprecated Use options.email.template
              */
             emailTemplate?: string;
         };
